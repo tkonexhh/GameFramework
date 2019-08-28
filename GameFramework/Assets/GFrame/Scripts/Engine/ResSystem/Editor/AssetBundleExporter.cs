@@ -9,24 +9,25 @@ namespace GFrame
 
     public class AssetBundleExporter
     {
-        [MenuItem("Assets/GFrame/Asset/构建AB")]
+        static string outPath = FilePath.streamingAssetsPath + "AB";
+
+        [MenuItem("Assets/GFrame/Asset/构建AB_Current")]
         public static void BuildAllAssetBundles()
         {
-            // AB包输出路径
-            string outPath = FilePath.streamingAssetsPath + "Res";
-            CheckDirAndCreate(outPath);
-            BuildPipeline.BuildAssetBundles(outPath, 0, EditorUserBuildSettings.activeBuildTarget);
-
-            // 刚创建的文件夹和目录能马上再Project视窗中出现
-            AssetDatabase.Refresh();
+            Log.i("Start Build All AssetBundles.");
+            AssetBundleBuilder.BuildAB(outPath + "/" + EditorUserBuildSettings.activeBuildTarget.ToString(), EditorUserBuildSettings.activeBuildTarget);
         }
 
-        public static void CheckDirAndCreate(string dirPath)
+        [MenuItem("Assets/GFrame/Asset/构建AB_IOS")]
+        public static void BuildAllAssetBundlesIOS()
         {
-            if (!Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
+            AssetBundleBuilder.BuildAB(outPath + "/IOS", BuildTarget.iOS);
+        }
+
+        [MenuItem("Assets/GFrame/Asset/构建AB_Android")]
+        public static void BuildAllAssetBundlesAndroid()
+        {
+            AssetBundleBuilder.BuildAB(outPath + "/Android", BuildTarget.Android);
         }
     }
 }
