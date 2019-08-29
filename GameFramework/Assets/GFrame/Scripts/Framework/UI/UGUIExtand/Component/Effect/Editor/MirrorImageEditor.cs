@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-namespace GFrame
+using UnityEngine;
+
+namespace GFrame.UnityEditor
 {
-
-
 
     [CustomEditor(typeof(MirrorImage))]
     public class MirrorImageEditor : Editor

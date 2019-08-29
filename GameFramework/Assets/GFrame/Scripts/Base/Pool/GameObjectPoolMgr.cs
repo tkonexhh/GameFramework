@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GFrame
 {
-
+    [TMonoSingletonAttribute("[Tools]/GameObjectPoolMgr")]
     public class GameObjectPoolMgr : TMonoSingleton<GameObjectPoolMgr>
     {
 

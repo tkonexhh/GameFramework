@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace GFrame
 {
-    [CreateAssetMenu(menuName = "GFrame/Create AppConfigObject ")]
+    //[CreateAssetMenu(menuName = "GFrame/Config/Create AppConfig", fileName = "AppConfig")]
     public class AppConfig : ScriptableObject
     {
         [SerializeField] LogLevel m_LogLevel;
         [SerializeField] LogLevel m_FileLogLevel;
-
 
 
         #region 初始化过程
@@ -53,7 +53,3 @@ namespace GFrame
         }
     }
 }
-
-
-
-

@@ -9,8 +9,7 @@ namespace GFrame
     {
         private static string m_PersistentDataPath;
         private static string m_StreamingAssetsPath;
-
-
+        private static string m_PersistentDataPath4Recorder;
 
         //外部目录
         public static string persistentDataPath
@@ -49,6 +48,21 @@ namespace GFrame
                 }
 
                 return m_StreamingAssetsPath;
+            }
+        }
+
+        public static string persistentDataPath4Recorder
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_PersistentDataPath4Recorder))
+                {
+                    m_PersistentDataPath4Recorder = persistentDataPath + "save/";
+                    Debug.LogError(m_PersistentDataPath4Recorder);
+                    IO.CheckDirAndCreate(m_PersistentDataPath4Recorder);
+                }
+
+                return m_PersistentDataPath4Recorder;
             }
         }
     }
