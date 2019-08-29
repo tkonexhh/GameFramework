@@ -19,6 +19,7 @@ namespace GFrame
 
             if (Input.GetKeyDown(KeyCode.W))
             {
+                Debug.LogError(1111 + PlayerInfoMgr.data.ToString());
                 PlayerInfoMgr.Save();
             }
         }

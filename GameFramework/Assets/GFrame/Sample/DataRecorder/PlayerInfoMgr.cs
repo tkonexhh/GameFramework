@@ -9,6 +9,7 @@ namespace GFrame
     {
         public static DataDirtyRecorder dataDirtyRecorder = new DataDirtyRecorder();
 
+
         public PlayerInfoMgr()
         {
             SetFileNameKey("PlayerInfo");

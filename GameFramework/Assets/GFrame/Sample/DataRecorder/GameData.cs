@@ -14,7 +14,7 @@ namespace GFrame
         }
         public override void InitWithEmptyData()
         {
-            s = 10;
+
         }
 
         public override void OnDataLoadFinish()

@@ -58,7 +58,6 @@ namespace GFrame
                 if (string.IsNullOrEmpty(m_PersistentDataPath4Recorder))
                 {
                     m_PersistentDataPath4Recorder = persistentDataPath + "save/";
-                    Debug.LogError(m_PersistentDataPath4Recorder);
                     IO.CheckDirAndCreate(m_PersistentDataPath4Recorder);
                 }
 

@@ -29,19 +29,31 @@ namespace GFrame
 
         public void SetDataDirty()
         {
-            if (m_Recorder == null) return;
+            if (m_Recorder == null)
+            {
+                Log.e("Has No DataDirtyRecorder");
+                return;
+            }
             m_Recorder.SetIsDirty(true);
         }
 
         public bool GetIsDataDirty()
         {
-            if (m_Recorder == null) return false;
+            if (m_Recorder == null)
+            {
+                Log.e("Has No DataDirtyRecorder");
+                return false;
+            }
             return m_Recorder.GetIsDirty();
         }
 
         public void ResetDataDirty()
         {
-            if (m_Recorder == null) return;
+            if (m_Recorder == null)
+            {
+                Log.e("Has No DataDirtyRecorder");
+                return;
+            }
             m_Recorder.SetIsDirty(false);
         }
     }

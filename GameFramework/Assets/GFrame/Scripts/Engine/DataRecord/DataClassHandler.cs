@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 namespace GFrame
 {
@@ -68,15 +69,41 @@ namespace GFrame
             if (m_Data != null)
                 return;
 
+            if (IO.IsFileExist(dataFilePath))
+            {
+                m_Data = SerializeHelper.DeserializeJson<T>(dataFilePath, ENCRY);
+            }
+
+            if (m_Data == null)
+            {
+                m_Data = new T();
+                m_Data.InitWithEmptyData();
+                m_Data.SetDataDirty();
+            }
+
+            if (m_Data != null)
+            {
+                m_Data.OnDataLoadFinish();
+                return;
+            }
+
             m_Data = new T();
+            m_Data.InitWithEmptyData();
+            m_Data.SetDataDirty();
+            m_Data.OnDataLoadFinish();
+
         }
 
         public static void Save()
         {
             if (m_Data == null)
                 return;
+            //实例方法和未公开的属性不会被转化
+            if (m_Data.GetIsDataDirty())
+            {
+                SerializeHelper.SerializeJson(dataFilePath, m_Data, ENCRY);
+            }
 
-            SerializeHelper.SerializeJson(dataFilePath, m_Data, ENCRY);
         }
     }
 }
