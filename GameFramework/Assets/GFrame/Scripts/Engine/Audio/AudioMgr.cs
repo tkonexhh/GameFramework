@@ -14,6 +14,12 @@ namespace GFrame
         private const string MUSIC_SAVE_KEY = "musicEnable";
         private bool m_IsSoundEnable = true;
         private bool m_IsMusicEnable = true;
+        [Range(0, 1)]
+        private float m_SoundVolume = 1;
+        [Range(0, 1)]
+        private float m_MusicVolume = 1;
+        private AudioUnit m_MainUnit;
+        protected Dictionary<string, AudioUnit> m_SoundMap = new Dictionary<string, AudioUnit>();
 
         public bool IsSoundEnable
         {
@@ -47,15 +53,20 @@ namespace GFrame
         {
             m_IsSoundEnable = PlayerPrefs.GetInt(SOUND_SAVE_KEY, 1) == 1;
             m_IsMusicEnable = PlayerPrefs.GetInt(MUSIC_SAVE_KEY, 1) == 1;
+
+            m_MainUnit = AudioUnit.Allocate();
         }
-        public void PlaySound()
+        public void PlaySound(AudioClip clip, bool loop = false)
         {
-
+            AudioUnit audioUnit = AudioUnit.Allocate();
+            audioUnit.SetAudio(gameObject, clip, loop, m_IsSoundEnable);
+            audioUnit.SetVolume(m_SoundVolume);
         }
 
-        public void PlayBg()
+        public void PlayBg(AudioClip clip, bool loop = true)
         {
-
+            m_MainUnit.SetAudio(gameObject, clip, loop, m_IsMusicEnable);
+            m_MainUnit.SetVolume(m_MusicVolume);
         }
     }
 }

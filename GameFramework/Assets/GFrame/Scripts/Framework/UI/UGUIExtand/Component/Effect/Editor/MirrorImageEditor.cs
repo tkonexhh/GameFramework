@@ -14,7 +14,7 @@ namespace GFrame.UnityEditor
             base.OnInspectorGUI();
             MirrorImage mirror = target as MirrorImage;
             EditorGUILayout.Space();
-            if (GUILayout.Button("SetNativeSize"))
+            if (GUILayout.Button("Set Native Size"))
             {
                 mirror.SetNativeSize();
             }

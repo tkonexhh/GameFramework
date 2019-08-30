@@ -5,18 +5,24 @@ using GFrame;
 
 public class AudioDemo : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    AudioClip m_MainClip;
+
+    [SerializeField]
+    AudioClip m_SoundClip;
     void Start()
     {
-
+        //AudioMgr.S.PlayBg(m_MainClip);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            AudioMgr.S.PlaySound();
+            AudioMgr.S.PlaySound(m_MainClip);
         }
+
+
     }
 }

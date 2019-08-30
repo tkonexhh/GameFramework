@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GFrame
 {
 
-    public class GameObjectPool : IPool<GameObject>
+    public class GameObjectPool : IPool<GameObject>, IPoolType
     {
         private Transform m_Root;
         private string m_PoolName;
@@ -101,6 +101,11 @@ namespace GFrame
                 GameObject obj = m_CacheStack.Pop();
                 GameObject.Destroy(obj);
             }
+        }
+
+        public void Recycle2Cache()
+        {
+
         }
 
     }

@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-
-public class EngineEventID
+namespace GFrame
 {
+    public enum EngineEventID
+    {
 
+    }
 }

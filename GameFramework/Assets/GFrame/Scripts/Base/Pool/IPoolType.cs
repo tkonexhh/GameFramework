@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GFrame
 {
-    public class ICacheType
+    public interface IPoolType
     {
-
+        void Recycle2Cache();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace GFrame
+namespace GFrame.UnityEditor
 {
 
     public class AssetBundleExporter
