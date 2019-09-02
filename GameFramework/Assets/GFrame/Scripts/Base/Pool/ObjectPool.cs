@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GFrame
 {
 
-    public class ObjectPool<T> : TSingleton<ObjectPool<T>>, IPool<T> where T : new()
+    public class ObjectPool<T> : TSingleton<ObjectPool<T>>, IPool<T> where T : IPoolAble, new()
     {
 
         private int m_MaxCount;
@@ -64,9 +64,12 @@ namespace GFrame
             {
                 if (m_CacheStack.Count >= m_MaxCount)
                 {
+                    t.OnCacheReset();
                     return false;
                 }
             }
+
+            t.OnCacheReset();
             m_CacheStack.Push(t);
             return true;
         }

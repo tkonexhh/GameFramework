@@ -19,7 +19,15 @@ public class ObjectPoolDemo : MonoBehaviour
     }
 }
 
-public class TestObject
+public class TestObject : IPoolAble, IPoolType
 {
+    public void OnCacheReset()
+    {
 
+    }
+
+    public void Recycle2Cache()
+    {
+
+    }
 }

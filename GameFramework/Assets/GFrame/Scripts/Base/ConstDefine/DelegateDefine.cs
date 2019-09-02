@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace GFrame
 {
-
-    public interface IPoolAble
-    {
-        void OnCacheReset();//回收的时候调用
-    }
+    public delegate void Run();
+    public delegate void Run<T>(T v);
 }
 
 

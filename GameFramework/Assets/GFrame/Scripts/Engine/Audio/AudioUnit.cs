@@ -6,7 +6,7 @@ using System;
 namespace GFrame
 {
 
-    public class AudioUnit : IPoolType
+    public class AudioUnit : IPoolType, IPoolAble
     {
         private int m_ID = -1;
         private AudioSource m_AudioSource;
@@ -93,6 +93,11 @@ namespace GFrame
                     m_AudioSource = null;
                 }
             }
+        }
+
+        public void OnCacheReset()
+        {
+
         }
     }
 }

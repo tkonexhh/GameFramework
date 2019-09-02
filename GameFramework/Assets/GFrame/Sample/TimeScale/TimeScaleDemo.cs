@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GFrame
+namespace GFrame.Sample
 {
 
-    public interface IPoolAble
+    public class TimeScaleDemo : MonoBehaviour
     {
-        void OnCacheReset();//回收的时候调用
+       
     }
 }
 

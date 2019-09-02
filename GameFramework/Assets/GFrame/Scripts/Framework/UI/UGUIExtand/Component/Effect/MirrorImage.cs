@@ -105,10 +105,10 @@ namespace GFrame
                 return;
             }
 
-            var output = ObjectPool<List<UIVertex>>.S.Allocate();
-            vh.GetUIVertexStream(output);
+            var output = ObjectPool<MyUIVertex>.S.Allocate();
+            vh.GetUIVertexStream(output.uiVertex);
 
-            int count = output.Count;
+            int count = output.uiVertex.Count;
 
             if (graphic is Image)
             {
@@ -117,7 +117,7 @@ namespace GFrame
                 switch (type)
                 {
                     case Image.Type.Simple:
-                        DrawSimple(output, count);
+                        DrawSimple(output.uiVertex, count);
                         break;
                     case Image.Type.Sliced:
 
@@ -132,13 +132,13 @@ namespace GFrame
             }
             else
             {
-                DrawSimple(output, count);
+                DrawSimple(output.uiVertex, count);
             }
 
             vh.Clear();
-            vh.AddUIVertexTriangleStream(output);
+            vh.AddUIVertexTriangleStream(output.uiVertex);
 
-            ObjectPool<List<UIVertex>>.S.Recycle(output);
+            ObjectPool<MyUIVertex>.S.Recycle(output);
         }
 
         /// <summary>
@@ -224,6 +224,26 @@ namespace GFrame
 
                 verts.Add(vertex);
             }
+        }
+
+        public class MyUIVertex : IPoolAble, IPoolType
+        {
+            List<UIVertex> m_UIVertex = new List<UIVertex>();
+            public List<UIVertex> uiVertex
+            {
+                get { return m_UIVertex; }
+            }
+
+            public void OnCacheReset()
+            {
+
+            }
+
+            public void Recycle2Cache()
+            {
+
+            }
+
         }
 
 
