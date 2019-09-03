@@ -7,7 +7,7 @@ namespace GFrame
 
     public class TimeScaleHelper
     {
-        private static float m_ScaleDefault = 1.0f;
+        private const float m_ScaleDefault = 1.0f;
         public static void SetTimerScale(float scale)
         {
             Time.timeScale = scale;
@@ -17,10 +17,16 @@ namespace GFrame
         public static void ShootPause(float time)
         {
             SetTimerScale(0);
-            Timer.S.Post2Scale((int i) => { SetTimerScale(m_ScaleDefault); }, time);
+            Timer.S.Post2Really((int i) =>
+            {
+                SetTimerScale(m_ScaleDefault);
+            }, time);
         }
 
+        public static void FadePause(float fadeInTime, float fadeOutTime, float stayTime, float targetScale = 0)
+        {
 
+        }
     }
 }
 
