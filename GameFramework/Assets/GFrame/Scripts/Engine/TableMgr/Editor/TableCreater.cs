@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using OfficeOpenXml;
 
 namespace GFrame.UnityEditor
 {
@@ -19,6 +20,8 @@ namespace GFrame.UnityEditor
 
         private const int START_WIDTH = 1;
         private const int START_HEIGHT = 4;
+        private string m_InputWidth;
+        private string m_InputHeight;
 
         static int m_Width = START_WIDTH;
         static int m_Height = START_HEIGHT;
@@ -28,8 +31,13 @@ namespace GFrame.UnityEditor
         int[] m_SelectIndex;
         int[] m_SelectType;
 
+        string[] m_TypeOption = new string[] { "A", "N" };
+        string[] m_TypeChoices = new string[] { "int", "int[]", "sting", "string[]" };
+
+
         private void Awake()
         {
+            m_TableName = "Test";
             m_values = new string[m_Width, m_Height];
             m_SelectIndex = new int[m_Width];
             m_SelectType = new int[m_Width];
@@ -48,6 +56,15 @@ namespace GFrame.UnityEditor
             }
 
 
+            EditorGUILayout.BeginHorizontal();
+
+            m_InputWidth = EditorGUILayout.TextField(m_InputWidth, GUILayout.Width(100));
+            m_InputHeight = EditorGUILayout.TextField(m_InputHeight, GUILayout.Width(100));
+            if (GUILayout.Button("设置长宽", GUILayout.Width(80)))
+            {
+                Reset(int.Parse(m_InputWidth), int.Parse(m_InputHeight));
+            }
+            EditorGUILayout.EndHorizontal();
 
             //return;
             EditorGUILayout.BeginScrollView(new Vector2(50, 50));
@@ -69,11 +86,11 @@ namespace GFrame.UnityEditor
                     {
                         if (y == 1)
                         {
-                            m_SelectIndex[x - 1] = EditorGUILayout.Popup(m_SelectIndex[x - 1], new string[] { "A", "N" }, GUILayout.Width(width));
+                            m_SelectIndex[x - 1] = EditorGUILayout.Popup(m_SelectIndex[x - 1], m_TypeOption, GUILayout.Width(width));
                         }
                         else if (y == 2)
                         {
-                            m_SelectType[x - 1] = EditorGUILayout.Popup(m_SelectType[x - 1], new string[] { "int", "sting" }, GUILayout.Width(width));
+                            m_SelectType[x - 1] = EditorGUILayout.Popup(m_SelectType[x - 1], m_TypeChoices, GUILayout.Width(width));
                         }
                         else
                         {
@@ -156,13 +173,52 @@ namespace GFrame.UnityEditor
                     m_values[x, y] = oldValues[x, y];
                 }
             }
-
-
         }
 
         void CreateXls()
         {
+            if (string.IsNullOrEmpty(m_TableName))
+            {
+                Debug.LogError("文件名为空");
+                return;
+            }
 
+            string path = Path.Combine(FilePath.streamingAssetsPath, m_TableName + ".xlsx");
+            Debug.LogError(path);
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+                file = new FileInfo(path);
+            }
+
+            using (ExcelPackage package = new ExcelPackage(file))
+            {
+                //在excel空文件添加新sheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("sheet1");
+
+                for (int x = 0; x < m_Width; x++)
+                {
+                    for (int y = 0; y < m_Height; y++)
+                    {
+
+                        if (y == 1)
+                        {
+                            worksheet.Cells[y + 1, x + 1].Value = m_TypeOption[m_SelectIndex[x]];
+                        }
+                        else if (y == 2)
+                        {
+                            worksheet.Cells[y + 1, x + 1].Value = m_TypeChoices[m_SelectType[x]];
+                        }
+                        else
+                        {
+                            worksheet.Cells[y + 1, x + 1].Value = m_values[x, y];
+                        }
+                    }
+                }
+
+                package.Save();
+            }
         }
 
         void ReadTable()
@@ -186,10 +242,10 @@ namespace GFrame.UnityEditor
             return "";
         }
 
-        void Reset()
+        void Reset(int width = START_WIDTH, int height = START_HEIGHT)
         {
-            m_Width = START_WIDTH;
-            m_Height = START_HEIGHT;
+            m_Width = width;
+            m_Height = Mathf.Max(START_HEIGHT, height);
             m_SelectIndex = new int[m_Width];
             m_SelectType = new int[m_Width];
             m_values = new string[m_Width, m_Height];
