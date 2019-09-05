@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace GFrame
 {
@@ -41,6 +42,19 @@ namespace GFrame
 #endif
                 return value;
             }
+        }
+
+
+        private static bool IsLinuxSystem()
+        {
+            PlatformID platformID = System.Environment.OSVersion.Platform;
+
+            if (platformID == PlatformID.MacOSX || platformID == PlatformID.Unix)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

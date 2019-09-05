@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class BatchModifyFontWindow : EditorWindow
 {
 
-    [MenuItem("Window/BatchModifyFontWindow")]
+    [MenuItem("Custom/Window/BatchModifyFontWindow")]
     private static void ShowWindow()
     {
         EditorWindow.GetWindow<BatchModifyFontWindow>(true, "批量修改字体", true);
@@ -71,8 +71,7 @@ public class BatchModifyFontWindow : EditorWindow
         if (m_OldFont == null || m_NewFont == null)
         {
             Debug.LogError("Font is Null");
-            //return;
-            //EditorWindow.ShowNotification(new GUIContent("This is a Notification"));
+            return;
         }
 
         string[] guids = AssetDatabase.FindAssets("t:Prefab", new string[] { m_TargetPath });
@@ -85,7 +84,6 @@ public class BatchModifyFontWindow : EditorWindow
             //Debug.LogError(go);
             List<Text> lstTxts = new List<Text>();
             GetLabels(lstTxts, go.transform);
-            //Text[] texts = GetLabels();//go.GetComponentsInChildren<Text>();
             for (int j = 0; j < lstTxts.Count; j++)
             {
                 Text text = lstTxts[j];
@@ -106,20 +104,19 @@ public class BatchModifyFontWindow : EditorWindow
                     {
                         text.font = m_NewFont;
                         hasModifyFont = true;
-                        EditorUtility.SetDirty(text);
+                        //EditorUtility.SetDirty(text);
                     }
                 }
 
-
-                // if (hasModifyFont)
-                // {
-                //     EditorUtility.SetDirty(go);
-                // }
+                if (hasModifyFont)
+                {
+                    EditorUtility.SetDirty(go);
+                }
             }
 
-            AssetDatabase.Refresh();
-            EditorUtility.ClearProgressBar();
         }
+        AssetDatabase.Refresh();
+        EditorUtility.ClearProgressBar();
 
     }
 

@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
-public class PlayerPrefTools
+namespace GFrame.UnityEditor
 {
-    [MenuItem("PlayerPref Tools/Clear Saved Data")]
-	static public void ClearSavedData()
+    public class PlayerPrefTools
     {
-        PlayerPrefs.DeleteAll();
+        [MenuItem("Custom/PlayerData Tools/Clear All Saved Data")]
+        static public void ClearSavedData()
+        {
+            PlayerPrefs.DeleteAll();
+            DirectoryInfo forder = new DirectoryInfo(FilePath.persistentDataPath4Recorder);
+            forder.Delete(true);
+        }
+
+
     }
 }
