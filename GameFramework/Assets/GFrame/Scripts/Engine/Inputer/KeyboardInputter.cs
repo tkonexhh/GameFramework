@@ -26,14 +26,27 @@ namespace GFrame
         {
             AddKeyCodeMonitor(KeyBoardInputType.Shortcuts, code, null, null, end);
         }
-        public void RegisterKeyCodeQueue(KeyCode[] code, Run begin, Run process, Run end)//连招
+        public void RegisterKeyCodeQueue(KeyCode[] code, Run end)//连招
         {
-            AddKeyCodeMonitor(KeyBoardInputType.Sequeue, code, begin, process, end);
+            AddKeyCodeMonitor(KeyBoardInputType.Sequeue, code, null, null, end);
         }
 
         private void AddKeyCodeMonitor(KeyBoardInputType type, KeyCode[] code, Run begin, Run process, Run end)
         {
-            KeyCodeMonitor monitor = new KeyCodeMonitor(type, code, begin, process, end);
+            KeyCodeMonitor monitor = null;
+            if (type == KeyBoardInputType.Click)
+            {
+                monitor = new KeyCodeMonitor_Click(code, begin, process, end);
+            }
+            else if (type == KeyBoardInputType.Shortcuts)
+            {
+                monitor = new KeyCodeMonitor_Shortcut(code, end);
+            }
+            else if (type == KeyBoardInputType.Sequeue)
+            {
+                monitor = new KeyCodeMonitor_Sequeue(code, end);
+            }
+
             if (m_MonitorList == null)
             {
                 m_MonitorList = new List<KeyCodeMonitor>();
@@ -71,85 +84,56 @@ namespace GFrame
             Sequeue,
         }
 
-        private class KeyCodeMonitor
+        private class KeyCodeMonitor_Click : KeyCodeMonitor
         {
-            private KeyBoardInputType m_InputType;
-            private Run m_BeginDelegate;
-            private Run m_PrecessingDelegate;
-            private Run m_EndDelegate;
-            private bool m_IsPrecessing = false;
-
-            private KeyCode[] m_Codes;
-
-
-            // public KeyCodeMonitor(KeyCode code, Run begin, Run process, Run end)
-            // {
-            //     m_InputType = KeyBoardInputType.Click;
-            //     m_Codes = new KeyCode[1];
-            //     m_Codes[0] = code;
-            // }
-
-            public KeyCodeMonitor(KeyBoardInputType type, KeyCode[] code, Run begin, Run process, Run end)
+            public KeyCodeMonitor_Click(KeyCode[] code, Run begin, Run process, Run end) : base(KeyBoardInputType.Shortcuts, code, begin, process, end)
             {
-                m_IsPrecessing = false;
-                m_InputType = type;
-                m_Codes = code;
-                m_BeginDelegate = begin;
-                m_PrecessingDelegate = process;
-                m_EndDelegate = end;
             }
 
-            /*
-            & = Alternate
-             ^ = Control
-            % = Command/Windows key
-            # = Shift 
-             */
-            public void OnLateUpdate()
+            public override void OnLateUpdate()
             {
-                if (m_InputType == KeyBoardInputType.Click)
+                if (Input.GetKey(m_Codes[0]))
                 {
-                    if (Input.GetKey(m_Codes[0]))
+                    if (!m_IsPrecessing)
                     {
-                        if (!m_IsPrecessing)
+                        m_IsPrecessing = true;
+                        if (m_BeginDelegate != null)
                         {
-                            m_IsPrecessing = true;
-                            if (m_BeginDelegate != null)
-                            {
-                                m_BeginDelegate();
-                            }
-                        }
-                        else
-                        {
-                            if (m_PrecessingDelegate != null)
-                            {
-                                m_PrecessingDelegate();
-                            }
+                            m_BeginDelegate();
                         }
                     }
                     else
                     {
-                        if (m_IsPrecessing)
+                        if (m_PrecessingDelegate != null)
                         {
-                            m_IsPrecessing = false;
-                            if (m_EndDelegate != null)
-                            {
-                                m_EndDelegate();
-                            }
+                            m_PrecessingDelegate();
                         }
                     }
                 }
-                else if (m_InputType == KeyBoardInputType.Shortcuts)
-                {
-                    IterationClick(0);
-                }
                 else
                 {
-                    //处理连击相关
+                    if (m_IsPrecessing)
+                    {
+                        m_IsPrecessing = false;
+                        if (m_EndDelegate != null)
+                        {
+                            m_EndDelegate();
+                        }
+                    }
                 }
+            }
+        }
 
+        private class KeyCodeMonitor_Shortcut : KeyCodeMonitor
+        {
+            public KeyCodeMonitor_Shortcut(KeyCode[] code, Run end) : base(KeyBoardInputType.Shortcuts, code, null, null, end)
+            {
             }
 
+            public override void OnLateUpdate()
+            {
+                IterationClick(0);
+            }
 
             private void IterationClick(int index)
             {
@@ -179,8 +163,80 @@ namespace GFrame
                     }
                 }
             }
+        }
 
+        private class KeyCodeMonitor_Sequeue : KeyCodeMonitor
+        {
+            private List<KeyCode> m_InputKeyCodes;
+            private int m_Frame;
+            private int MAX_FRAME = 50;
+            public KeyCodeMonitor_Sequeue(KeyCode[] code, Run end) : base(KeyBoardInputType.Sequeue, code, null, null, end)
+            {
 
+                m_InputKeyCodes = new List<KeyCode>();
+                m_Frame = 0;
+
+            }
+
+            public override void OnLateUpdate()
+            {
+                if (Input.anyKeyDown)
+                {
+                    if (m_InputKeyCodes.Count < m_Codes.Length)
+                    {
+                        if (Input.GetKeyDown(m_Codes[m_InputKeyCodes.Count]))
+                        {
+                            m_Frame = 0;
+                            m_InputKeyCodes.Add(m_Codes[m_InputKeyCodes.Count]);
+                            if (m_InputKeyCodes.Count == m_Codes.Length)
+                            {
+                                ResetSequeue();
+                                if (m_EndDelegate != null)
+                                {
+                                    m_EndDelegate();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                m_Frame++;
+                if (m_Frame >= MAX_FRAME)
+                {
+                    ResetSequeue();
+                    m_IsPrecessing = false;
+                }
+            }
+
+            private void ResetSequeue()
+            {
+                m_Frame = 0;
+                m_InputKeyCodes.Clear();
+            }
+        }
+
+        private class KeyCodeMonitor
+        {
+            private KeyBoardInputType m_InputType;
+            protected Run m_BeginDelegate;
+            protected Run m_PrecessingDelegate;
+            protected Run m_EndDelegate;
+            protected bool m_IsPrecessing = false;
+            protected KeyCode[] m_Codes;
+
+            public KeyCodeMonitor(KeyBoardInputType type, KeyCode[] code, Run begin, Run process, Run end)
+            {
+                m_IsPrecessing = false;
+                m_InputType = type;
+                m_Codes = code;
+                m_BeginDelegate = begin;
+                m_PrecessingDelegate = process;
+                m_EndDelegate = end;
+            }
+
+            public virtual void OnLateUpdate()
+            {
+            }
         }
         #endregion
     }

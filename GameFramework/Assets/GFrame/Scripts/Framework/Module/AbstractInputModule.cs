@@ -19,7 +19,7 @@ namespace GFrame
 
         }
 
-        protected override void OnComUpdate(float dt)
+        protected override void OnComLateUpdate(float dt)
         {
             m_KeyBoardInputer.OnLateUpdate();
         }

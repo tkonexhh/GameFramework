@@ -9,8 +9,9 @@ namespace GFrame.Sample
     {
         protected override void RegisterKeyboard()
         {
-            m_KeyBoardInputer.RegisterKeyCodeMonitor(KeyCode.F1, OnClickF1, OnPressF1, OnPressF1);
-            m_KeyBoardInputer.RegisterShortcuts(new KeyCode[] { KeyCode.Q, KeyCode.W }, OnPressF1);
+            m_KeyBoardInputer.RegisterKeyCodeMonitor(KeyCode.F1, OnClickF1, OnPressF1, OnEndF1);
+            m_KeyBoardInputer.RegisterShortcuts(new KeyCode[] { KeyCode.Q, KeyCode.W }, OnEndF1);
+            m_KeyBoardInputer.RegisterKeyCodeQueue(new KeyCode[] { KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R }, OnPressF1);
         }
 
         private void OnClickF1()
@@ -26,25 +27,6 @@ namespace GFrame.Sample
         private void OnEndF1()
         {
             Log.e("OnEndF1");
-        }
-
-
-        public int[] TwoSum(int[] nums, int target)
-        {
-
-            for (int i = 0; i < nums.Length; i++)
-            {
-                for (int j = i + 1; j < nums.Length; j++)
-                {
-
-                    if (nums[i] + nums[j] == target)
-                    {
-                        return new int[] { i, j };
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }

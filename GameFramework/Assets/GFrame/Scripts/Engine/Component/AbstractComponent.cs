@@ -28,11 +28,11 @@ namespace GFrame
         }
         public void OnUpdate(float dt)
         {
-
+            OnComUpdate(dt);
         }
         public void OnLateUpdate(float dt)
         {
-            OnComUpdate(dt);
+            OnComLateUpdate(dt);
         }
         public void OnDisable()
         {
@@ -51,6 +51,11 @@ namespace GFrame
         }
 
         protected virtual void OnComUpdate(float dt)
+        {
+
+        }
+
+        protected virtual void OnComLateUpdate(float dt)
         {
 
         }
