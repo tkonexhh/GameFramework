@@ -62,7 +62,8 @@ namespace GFrame.UnityEditor
             m_InputHeight = EditorGUILayout.TextField(m_InputHeight, GUILayout.Width(100));
             if (GUILayout.Button("设置长宽", GUILayout.Width(80)))
             {
-                Reset(int.Parse(m_InputWidth), int.Parse(m_InputHeight));
+                RefeshData(int.Parse(m_InputWidth), int.Parse(m_InputHeight));
+                // /Reset(int.Parse(m_InputWidth), int.Parse(m_InputHeight));
             }
             EditorGUILayout.EndHorizontal();
 
@@ -134,46 +135,49 @@ namespace GFrame.UnityEditor
 
         private void AddColumn()
         {
-
-            var oldValues = m_values;
-            m_Width++;
-            m_values = new string[m_Width, m_Height];
-            for (int x = 0; x < m_Width - 1; x++)
-            {
-                for (int y = 0; y < m_Height; y++)
-                {
-                    m_values[x, y] = oldValues[x, y];
-                }
-            }
-
-            var oldValues_select = m_SelectIndex;
-            m_SelectIndex = new int[m_Width];
-            for (int x = 0; x < m_Width - 1; x++)
-            {
-                m_SelectIndex[x] = oldValues_select[x];
-            }
-
-            oldValues_select = m_SelectType;
-            m_SelectType = new int[m_Width];
-            for (int x = 0; x < m_Width - 1; x++)
-            {
-                m_SelectType[x] = oldValues_select[x];
-            }
+            RefeshData(m_Width + 1, m_Height);
         }
 
         private void AddRow()
         {
+            RefeshData(m_Width, m_Height + 1);
+        }
+
+        private void RefeshData(int targetWidth, int targetHeight)
+        {
             var oldValues = m_values;
-            m_Height++;
+            var oldValues_select = m_SelectIndex;
+            var oldValues_type = m_SelectType;
+            int oldWidth = m_Width;
+            int oldHeight = m_Height;
+            m_Width = targetWidth;
+            m_Height = targetHeight;
             m_values = new string[m_Width, m_Height];
-            for (int x = 0; x < m_Width; x++)
+            for (int x = 0; x < Mathf.Min(m_Width, oldWidth); x++)
             {
-                for (int y = 0; y < m_Height - 1; y++)
+                for (int y = 0; y < Mathf.Min(m_Height, oldHeight); y++)
                 {
                     m_values[x, y] = oldValues[x, y];
                 }
             }
+
+            if (oldWidth != m_Width)
+            {
+                m_SelectIndex = new int[m_Width];
+                for (int x = 0; x < Mathf.Min(m_Width, oldWidth); x++)
+                {
+                    m_SelectIndex[x] = oldValues_select[x];
+                }
+
+                m_SelectType = new int[m_Width];
+                for (int x = 0; x < Mathf.Min(m_Width, oldWidth); x++)
+                {
+                    m_SelectType[x] = oldValues_type[x];
+                }
+            }
+
         }
+
 
         void CreateXls()
         {
