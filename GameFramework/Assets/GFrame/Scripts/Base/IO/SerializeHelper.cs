@@ -109,6 +109,29 @@ namespace GFrame
             Log.w("DeserializeJson Failed!");
             return default(T);//返回T的默认值。
         }
+
+
+        public static bool SerializeBinary(string path, object obj)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                Log.w("#SerializeBinary Without Valid Path");
+                return false;
+            }
+
+            if (obj == null)
+            {
+                Log.w("#SerializeBinary obj is Null");
+                return false;
+            }
+
+            using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                bf.Serialize(fileStream, obj);
+                return true;
+            }
+        }
     }
 }
 

@@ -1,0 +1,78 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+namespace GFrame
+{
+
+    public class AbstractRes : Refcounter, IRes, IPoolAble
+    {
+        protected string m_Name;
+        protected UnityEngine.Object m_Asset;
+        private event Action<bool, IRes> m_ResListener;
+        public string name
+        {
+            get { return m_Name; }
+        }
+
+        public UnityEngine.Object asset
+        {
+            get { return m_Asset; }
+            set { m_Asset = value; }
+        }
+
+
+        public void RegisterResListener(Action<bool, IRes> listener)
+        {
+            if (listener == null)
+            {
+                return;
+            }
+
+            m_ResListener += listener;
+        }
+        public void UnRegisterResListener(Action<bool, IRes> listener)
+        {
+            if (listener == null)
+            {
+                return;
+            }
+            if (m_ResListener == null)
+            {
+                return;
+            }
+            m_ResListener -= listener;
+        }
+
+
+        public bool LoadSync()//同步加载
+        {
+            return false;
+        }
+        public void LoadAsync()//异步加载
+        {
+
+        }
+
+        public bool ReleaseRes()
+        {
+            return false;
+        }
+
+
+        public virtual void Recycle2Cache()
+        {
+
+        }
+
+        public virtual void OnCacheReset()
+        {
+
+        }
+    }
+}
+
+
+
+
