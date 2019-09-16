@@ -12,9 +12,33 @@ namespace GFrame
         private List<IRes> m_ResList = new List<IRes>();
 
 
+        public int totalResCount
+        {
+            get { return m_ResList.Count; }
+        }
+
+
         public override void OnSingletonInit()
         {
 
+        }
+
+
+        public void InitResMgr()
+        {
+            Log.i("#Init[ResMgr]");
+            ReloadABTable();
+        }
+
+        private void ReloadABTable()
+        {
+            AssetDataTable.S.Reset();
+            List<string> outResult = new List<string>();
+
+            //FileMgr.S.GetFileInInner(ProjectPathConfig.abRelativePath, outResult);
+
+
+            //FilePath.GetFileInFolder(FilePath.persistentDataPath4Recorder);
         }
     }
 }

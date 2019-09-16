@@ -5,11 +5,10 @@ using UnityEngine;
 
 namespace GFrame
 {
-    //[CreateAssetMenu(menuName = "GFrame/Config/Create AppConfig", fileName = "AppConfig")]
     public class AppConfig : ScriptableObject
     {
-        [SerializeField] LogLevel m_LogLevel;
-        [SerializeField] LogLevel m_FileLogLevel;
+        [SerializeField] LogLevel m_LogLevel = LogLevel.Max;
+        [SerializeField] LogLevel m_FileLogLevel = LogLevel.Error;
 
 
         #region 初始化过程
@@ -17,7 +16,7 @@ namespace GFrame
 
         private static AppConfig LoadInstance()
         {
-            var obj = Resources.Load(ProjectPathConfig.AppConfigPath) as Object;
+            var obj = Resources.Load(ProjectPathConfig.appConfigPath) as Object;
 
             if (obj == null)
             {

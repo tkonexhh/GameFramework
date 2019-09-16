@@ -32,16 +32,6 @@ namespace GFrame
 
                 if (instance == null)
                 {
-                    // System.Reflection.MemberInfo info = typeof(T);
-                    // var attributes = info.GetCustomAttributes(true);
-                    // for (int i = 0; i < attributes.Length; i++)
-                    // {
-                    //     var defineAttri = attributes[i] as TMonoSingletonAttribute;
-                    //     if (defineAttri == null)
-                    //         continue;
-
-                    //         instance=create
-                    // }
                     string instanceName = typeof(T).Name;
                     GameObject instanceGo = GameObject.Find(instanceName);
                     if (instanceGo == null)

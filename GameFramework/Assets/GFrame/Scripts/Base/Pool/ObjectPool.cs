@@ -10,7 +10,7 @@ namespace GFrame
 
         private int m_MaxCount;
         private Stack<T> m_CacheStack;
-        private int m_CreateCount;
+
 
 
         public void Init(int maxCount, int initCount)
@@ -58,8 +58,11 @@ namespace GFrame
         {
             if (t == null)
                 return false;
+
             if (m_CacheStack == null)
+            {
                 m_CacheStack = new Stack<T>();
+            }
             else if (m_MaxCount > 0)
             {
                 if (m_CacheStack.Count >= m_MaxCount)

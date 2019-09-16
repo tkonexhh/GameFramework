@@ -15,6 +15,7 @@ namespace GFrame
     public abstract class TSingleton<T> : ISingleton where T : TSingleton<T>, new()
     {
         protected static T instance = null;
+        protected static object s_Lock = new object();
 
         public static T S
         {
@@ -34,8 +35,11 @@ namespace GFrame
         {
             if (instance == null)
             {
-                instance = new T();
-                instance.OnSingletonInit();
+                lock (s_Lock)
+                {
+                    instance = new T();
+                    instance.OnSingletonInit();
+                }
             }
 
             return instance;

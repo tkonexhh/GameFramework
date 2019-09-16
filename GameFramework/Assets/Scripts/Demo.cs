@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using GFrame;
 
 public class Demo : MonoBehaviour
 {
