@@ -12,7 +12,7 @@ namespace GFrame
         public class SerializeData
         {
             private string m_Key;
-            private ABUnit[] m_ABUnitArray;
+            private ABUnit m_ABUnit;
             private AssetData[] m_AssetDataArray;
             private long m_BuildTime;
 
@@ -22,10 +22,10 @@ namespace GFrame
                 set { m_Key = value; }
             }
 
-            public ABUnit[] abUnitArray
+            public ABUnit abUnit
             {
-                get { return m_ABUnitArray; }
-                set { m_ABUnitArray = value; }
+                get { return m_ABUnit; }
+                set { m_ABUnit = value; }
             }
 
             public AssetData[] assetDataArray
@@ -44,7 +44,9 @@ namespace GFrame
         private string m_Key;
         private string m_Path;
         private long m_BuildTime;
-        private List<ABUnit> m_ABUnitLst;
+
+        private ABUnit m_ABUnit;
+        //private List<ABUnit> m_ABUnitLst;
         private Dictionary<string, AssetData> m_AssetDataMap;
 
         public string key
@@ -68,7 +70,7 @@ namespace GFrame
 
         public void Reset()
         {
-            if (m_ABUnitLst != null) m_ABUnitLst.Clear();
+            //if (m_ABUnitLst != null) m_ABUnitLst.Clear();
             if (m_AssetDataMap != null) m_AssetDataMap.Clear();
         }
 
@@ -91,9 +93,9 @@ namespace GFrame
             SerializeData data = new SerializeData();
             data.key = m_Key;
             data.buildTime = m_BuildTime;
-            if (m_ABUnitLst != null)
+            if (m_ABUnit != null)
             {
-                data.abUnitArray = m_ABUnitLst.ToArray();
+                data.abUnit = m_ABUnit;
             }
 
             if (m_AssetDataMap != null)
@@ -110,27 +112,28 @@ namespace GFrame
             return data;
         }
 
-        public int AddAssetBundle(string name, string[] depends, string md5, int fileSize, long buildTime)
+        public bool AddAssetBundle(string name, string[] depends, string md5, int fileSize, long buildTime)
         {
             if (string.IsNullOrEmpty(name))
             {
-                return -1;
+                return false;
             }
-            if (m_ABUnitLst == null)
+            if (m_ABUnit == null)
             {
-                m_ABUnitLst = new List<ABUnit>();
+                m_ABUnit = new ABUnit(name, depends, md5, fileSize, buildTime);
             }
 
             AssetData config = GetAssetData(name);
             if (config != null)
             {
-                return config.assetBundleIndex;
+                Debug.LogError("#Already add AssetData");
+                return false;
             }
 
-            m_ABUnitLst.Add(new ABUnit(name, depends, md5, fileSize, buildTime));
-            int index = m_ABUnitLst.Count - 1;
-            AddAssetData(new AssetData(name, eResType.kABAsset, index));
-            return index;
+            // m_ABUnitLst.Add(new ABUnit(name, depends, md5, fileSize, buildTime));
+            //int index = 1;//m_ABUnitLst.Count - 1;
+            AddAssetData(new AssetData(name, eResType.kABAsset));
+            return true;
         }
 
         private AssetData GetAssetData(string name)
@@ -176,9 +179,9 @@ namespace GFrame
         {
             AssetData data = GetAssetData(name);
             if (data == null) return null;
-            if (m_ABUnitLst == null) return null;
+            if (m_ABUnit == null) return null;
 
-            return m_ABUnitLst[data.assetBundleIndex];
+            return m_ABUnit;//m_ABUnitLst[data.assetBundleIndex];
         }
     }
 }

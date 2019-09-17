@@ -10,22 +10,21 @@ namespace GFrame
     {
         private string m_AssetName;
         private short m_ResType;
-        private int m_Index;
-        private int m_AssetBundleIndex;
+        //private int m_Index;
 
         public string assetName
         {
             get { return m_AssetName; }
         }
-        public int assetBundleIndex
-        {
-            get { return m_AssetBundleIndex; }
-        }
-        public AssetData(string name, short resType, int index)
+        // public int assetBundleIndex
+        // {
+        //     get { return m_Index; }
+        // }
+        public AssetData(string name, short resType)//, int index)
         {
             m_AssetName = name;
             m_ResType = resType;
-            m_Index = index;
+            //m_Index = index;
         }
 
     }

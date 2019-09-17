@@ -41,12 +41,12 @@ namespace GFrame
         }
 
         #endregion
-        public int AddAssetBundle(string name, string[] depends, string md5, int fileSize, long buildTime, out AssetDataPackage package)
+        public bool AddAssetBundle(string name, string[] depends, string md5, int fileSize, long buildTime, out AssetDataPackage package)
         {
             package = null;
             if (string.IsNullOrEmpty(name))
             {
-                return -1;
+                return false;
             }
 
             string key = null;
@@ -54,7 +54,7 @@ namespace GFrame
             GetPackageKeyFromABName(name, out key, out path);
             if (string.IsNullOrEmpty(key))
             {
-                return -1;
+                return false;
             }
 
             package = GetAssetDataPackage(key);

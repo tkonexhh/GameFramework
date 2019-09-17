@@ -56,7 +56,7 @@ namespace GFrame.UnityEditor
         private static void ProcessAssetBundleRes(AssetDataTable table, string[] abNames)
         {
             AssetDataPackage package = null;
-            int abIndex = -1;
+            //int abIndex = -1;
             AssetDatabase.RemoveUnusedAssetBundleNames();
             if (abNames == null)
             {
@@ -78,8 +78,8 @@ namespace GFrame.UnityEditor
                     }
                     string md5 = GetMD5HashFromFile(abPath);
                     long buildTime = System.DateTime.Now.Ticks;
-                    abIndex = table.AddAssetBundle(abNames[i], depends, md5, (int)info.Length, buildTime, out package);
-                    if (abIndex < 0)
+                    bool successAdd = table.AddAssetBundle(abNames[i], depends, md5, (int)info.Length, buildTime, out package);
+                    if (!successAdd)
                     {
                         continue;
                     }
@@ -89,11 +89,11 @@ namespace GFrame.UnityEditor
                     {
                         if (cell.EndsWith(".unity"))
                         {
-                            package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABScene, abIndex));
+                            package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABScene));//, -1));
                         }
                         else
                         {
-                            package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABAsset, abIndex));
+                            package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABAsset));//, -1));
                         }
                     }
                 }
