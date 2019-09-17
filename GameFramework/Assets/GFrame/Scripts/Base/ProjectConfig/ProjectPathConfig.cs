@@ -24,6 +24,7 @@ namespace GFrame
         #region 
         [SerializeField] private string m_AppConfigPath = "Config/AppConfig";
         [SerializeField] private string m_ABRelativePath = "Assets/";
+        [SerializeField] private string m_ABTableFileName = "asset_bindle_config.bin";
         #endregion
 
 
@@ -41,6 +42,11 @@ namespace GFrame
             {
                 return S.m_ABRelativePath;
             }
+        }
+
+        public static string abTableFileName
+        {
+            get { return S.m_ABTableFileName; }
         }
 
     }

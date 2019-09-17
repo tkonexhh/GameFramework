@@ -10,7 +10,7 @@ namespace GFrame
         private void Start()
         {
             AppConfig.S.InitAppConfig();
-
+            ResMgr.S.InitResMgr();
 
             StartApp();
         }

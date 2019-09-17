@@ -90,9 +90,9 @@ namespace GFrame.UnityEditor
             if (tag)
             {
                 string dirName = Path.GetDirectoryName(path);
-                Debug.LogError(dirName);
+                //Debug.LogError(dirName);
                 string assetBundleName = EditorUtils.AssetPath2ReltivePath(dirName).ToLower();
-                Debug.LogError(assetBundleName);
+                //Debug.LogError(assetBundleName);
 
                 if (path.Contains("FolderMode"))
                 {

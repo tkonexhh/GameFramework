@@ -132,6 +132,20 @@ namespace GFrame
                 return true;
             }
         }
+
+        public static object DeserializeBinary(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+            using (FileStream fileStream = new FileStream(path, FileMode.Open))
+            {
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                return bf.Deserialize(fileStream);
+            }
+
+        }
     }
 }
 

@@ -58,6 +58,14 @@ namespace GFrame
             m_Path = path;
             m_BuildTime = buildtime;
         }
+
+        public AssetDataPackage(SerializeData data, string path)
+        {
+            m_Key = data.key;
+            m_Path = path;
+            m_BuildTime = data.buildTime;
+        }
+
         public void Reset()
         {
             if (m_ABUnitLst != null) m_ABUnitLst.Clear();
@@ -67,7 +75,7 @@ namespace GFrame
         public void Save(string path)
         {
             SerializeData data = GetSerializeData();
-            string outPath = string.Format("{0}{1}", path, "asset_bindle_config.bin");
+            string outPath = string.Format("{0}{1}", path, ProjectPathConfig.abTableFileName);
             if (SerializeHelper.SerializeBinary(outPath, data))
             {
                 Log.i("#Success Save AssetDataTable:" + outPath);

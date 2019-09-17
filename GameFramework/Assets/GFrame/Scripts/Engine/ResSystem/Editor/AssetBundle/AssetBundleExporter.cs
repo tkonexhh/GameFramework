@@ -11,16 +11,12 @@ namespace GFrame.UnityEditor
 
     public class AssetBundleExporter
     {
-        static string outPath = FilePath.streamingAssetsPath + "AB";
-        static string outFolderPath = outPath + "/";
-        //static string outFolderResPath = outFolderPath + "/Res";
 
         [MenuItem("Assets/GFrame/Asset/构建AB_Current")]
         public static void BuildAllAssetBundles()
         {
             Log.i("#Start Build All AssetBundles.");
-            //AssetBundleBuilder.BuildAB(outPath + "/" + EditorUserBuildSettings.activeBuildTarget.ToString(), EditorUserBuildSettings.activeBuildTarget);
-            AssetBundleBuilder.BuildAB(outFolderPath, EditorUserBuildSettings.activeBuildTarget);
+            AssetBundleBuilder.BuildAB(FilePath.streamingAssetsPath4AB, EditorUserBuildSettings.activeBuildTarget);
             BuildDataTable();
         }
 
@@ -38,21 +34,21 @@ namespace GFrame.UnityEditor
 
         #region 构建 AssetDataTable
         //[MenuItem("Assets/GFrame/Asset/生成Asset清单")]
-        public static void BuildDataTable()
+        private static void BuildDataTable()
         {
             Log.i("Start BuildDataTable");
             AssetDataTable table = new AssetDataTable();
             ProcessAssetBundleRes(table, null);
-            table.Save(outFolderPath);
+            table.Save(FilePath.streamingAssetsPath4AB);
         }
 
         [MenuItem("Assets/GFrame/Asset/清理无效AB")]
-        public static void RemoveINvalidAssetBundle()
+        public static void RemoveInvalidAssetBundle()
         {
             AssetDataTable table = new AssetDataTable();
             ProcessAssetBundleRes(table, null);
             Log.i("#Start Remove Invalid AssetBundle");
-            RemoveInvalidAssetBundleInner(outFolderPath, table);
+            RemoveInvalidAssetBundleInner(FilePath.streamingAssetsPath4AB, table);
             Log.i("#Success Remove Invalid AssetBundle.");
         }
 
@@ -72,7 +68,7 @@ namespace GFrame.UnityEditor
                 for (int i = 0; i < abNames.Length; ++i)
                 {
                     //输出路径
-                    string abPath = Path.Combine(outFolderPath, abNames[i]);
+                    string abPath = Path.Combine(FilePath.streamingAssetsPath4AB, abNames[i]);
 
                     string[] depends = AssetDatabase.GetAssetBundleDependencies(abNames[i], false);
                     FileInfo info = new FileInfo(abPath);
@@ -189,7 +185,7 @@ namespace GFrame.UnityEditor
 
         private static string AssetBundlePath2ABName(string path)
         {
-            return path.Replace(outFolderPath, "");//(outFolderPath + path).Replace("//", "/");
+            return path.Replace(FilePath.streamingAssetsPath4AB, "");//(outFolderPath + path).Replace("//", "/");
         }
 
     }

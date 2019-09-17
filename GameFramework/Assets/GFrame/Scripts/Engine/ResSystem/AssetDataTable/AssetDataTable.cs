@@ -108,6 +108,39 @@ namespace GFrame
             }
             return unit;
         }
+
+        public void LoadPackageFromFile(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
+            object data = SerializeHelper.DeserializeBinary(filePath);
+
+            if (data == null)
+            {
+                Log.w("#Failed Deserialize");
+                return;
+            }
+
+            AssetDataPackage.SerializeData sd = data as AssetDataPackage.SerializeData;
+            if (sd == null)
+            {
+                Log.e("#Failed Load AssetDataTable:" + filePath);
+                return;
+            }
+            AssetDataPackage package = BuildAssetDataPackageBySerializeData(sd, filePath);
+            string key = package.key;
+
+            m_AllAssetDataPackage.Add(package);
+        }
+
+
+        private AssetDataPackage BuildAssetDataPackageBySerializeData(AssetDataPackage.SerializeData data, string path)
+        {
+            return new AssetDataPackage(data, path);
+        }
     }
 }
 

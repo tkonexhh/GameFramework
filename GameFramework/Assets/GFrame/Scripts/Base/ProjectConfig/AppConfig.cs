@@ -46,7 +46,7 @@ namespace GFrame
         public void InitAppConfig()
         {
             LogMgr.S.fileLogLevel = m_FileLogLevel;
-            Log.i("Init[AppConfig]");
+            Log.i("#Init[AppConfig]");
             LogMgr.S.logLevel = m_LogLevel;
 
         }

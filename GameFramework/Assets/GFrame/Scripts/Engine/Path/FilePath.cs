@@ -11,6 +11,7 @@ namespace GFrame
         private static string m_ProjectConfigPath;
         private static string m_PersistentDataPath;
         private static string m_StreamingAssetsPath;
+        private static string m_StreamingAssetsPath4AB;
         private static string m_PersistentDataPath4Recorder;
 
         public static string projectConfigPath
@@ -67,6 +68,18 @@ namespace GFrame
             }
         }
 
+        public static string streamingAssetsPath4AB
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_StreamingAssetsPath4AB))
+                {
+                    m_StreamingAssetsPath4AB = streamingAssetsPath + "AB/";
+                }
+                return m_StreamingAssetsPath4AB;
+            }
+        }
+
         public static string persistentDataPath4Recorder
         {
             get
@@ -81,30 +94,6 @@ namespace GFrame
             }
         }
 
-
-
-
-        public static void GetFileInFolder(string dirName, string fileName, List<string> outResult)
-        {
-            if (outResult == null)
-            {
-                return;
-            }
-
-            DirectoryInfo directory = new DirectoryInfo(dirName);
-            //if(directory.Parent!=null)
-
-            FileInfo[] files = directory.GetFiles();
-            string fname = string.Empty;
-            for (int i = 0; i < files.Length; i++)
-            {
-                fname = files[i].Name;
-                if (fname == fileName)
-                {
-                    outResult.Add(files[i].FullName);
-                }
-            }
-        }
     }
 
 }

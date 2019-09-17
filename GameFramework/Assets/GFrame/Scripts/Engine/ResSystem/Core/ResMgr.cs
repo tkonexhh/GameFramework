@@ -35,10 +35,13 @@ namespace GFrame
             AssetDataTable.S.Reset();
             List<string> outResult = new List<string>();
 
-            //FileMgr.S.GetFileInInner(ProjectPathConfig.abRelativePath, outResult);
+            FileMgr.S.GetFileInInner(ProjectPathConfig.abTableFileName, outResult);
+            for (int i = 0; i < outResult.Count; ++i)
+            {
+                AssetDataTable.S.LoadPackageFromFile(outResult[i]);
+            }
 
-
-            //FilePath.GetFileInFolder(FilePath.persistentDataPath4Recorder);
+            // FilePath.GetFileInFolder(FilePath.persistentDataPath);
         }
     }
 }
