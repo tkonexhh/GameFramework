@@ -142,6 +142,7 @@ namespace GFrame
                 return false;
             }
 
+            //Debug.LogError("AddAssetBundle:" + name);
             AddAssetData(new AssetData(name, eResType.kAssetBundle));
             return true;
         }
@@ -192,7 +193,6 @@ namespace GFrame
         public string GetAssetBundleNameByAssetName(string assetName)
         {
             assetName = assetName.Trim().ToLower();
-            Debug.LogError("GetAssetBundleNameByAssetName:" + assetName);
             if (m_AssetDataMap.ContainsKey(assetName))
             {
                 return m_ABUnit.name;

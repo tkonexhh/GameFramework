@@ -19,16 +19,17 @@ namespace GFrame
             get { return m_ID; }
         }
 
-        public void SetAudio(GameObject gameObject, AudioClip name, bool loop, bool enable)
+        public void SetAudio(GameObject gameObject, AudioClip clip, bool loop, bool enable)
         {
-            // if (string.IsNullOrEmpty(name))
-            // {
-            //     return;
-            // }
+            if (clip == null)
+            {
+                return;
+            }
             m_Loop = loop;
-            m_AudioSource = gameObject.AddComponent<AudioSource>();
+            if (m_AudioSource == null)
+                m_AudioSource = gameObject.AddComponent<AudioSource>();
 
-            m_AudioClip = name;
+            m_AudioClip = clip;
             m_AudioSource.clip = m_AudioClip;
             m_AudioSource.loop = loop;
             m_AudioSource.Play();

@@ -49,6 +49,13 @@ namespace GFrame
             get { return S.m_ABTableFileName; }
         }
 
+
+        public static string AssetBundleName2Url(string name)
+        {
+            string dependURL = FilePath.streamingAssetsPath4AB + name;
+            return dependURL;
+        }
+
     }
 }
 

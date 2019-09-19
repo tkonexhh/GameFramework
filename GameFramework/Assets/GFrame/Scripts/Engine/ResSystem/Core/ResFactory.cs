@@ -46,8 +46,15 @@ namespace GFrame
             public IRes CreateRes(string name)
             {
                 AssetData data = AssetDataTable.S.GetAssetData(name);
-                Debug.LogError("CreateRes:" + data.assetName);
-                return AssetRes.Allocate(name);
+                switch (data.assetType)
+                {
+                    case eResType.kAssetBundle:
+                        return AssetBundleRes.Allocate(name);
+                    case eResType.kABAsset:
+                        return AssetRes.Allocate(name);
+                    default:
+                        return null;
+                }
             }
         }
 

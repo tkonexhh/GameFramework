@@ -32,7 +32,6 @@ namespace GFrame
         protected void InitAssetBundleName()
         {
             AssetData asset = AssetDataTable.S.GetAssetData(m_Name);
-            Debug.LogError("InitAssetBundleName:" + asset.assetName);
             if (asset == null)
             {
                 Log.e("#Not Find AssetData For Asset:" + m_Name);
@@ -40,7 +39,6 @@ namespace GFrame
             }
 
             string assetBundleName = AssetDataTable.S.GetAssetBundleNameByAssetName(asset.assetName);
-            Debug.LogError("InitAssetBundleName:" + assetBundleName);
             if (string.IsNullOrEmpty(assetBundleName))
             {
                 Log.e("#Not Find AssetBundle In Table:" + asset.assetName);
@@ -57,17 +55,20 @@ namespace GFrame
                 return false;
             }
 
-            AssetBundleRes abRes = ResMgr.S.GetRes<AssetBundleRes>(m_AssetBundleName);
+            AssetBundleRes abRes = ResMgr.S.GetRes(m_AssetBundleName) as AssetBundleRes;
+            //AssetBundleRes abRes = ResMgr.S.GetRes<AssetBundleRes>(m_AssetBundleName);
 
             if (abRes == null || abRes.assetBundle == null)
             {
                 Log.e("#Failed to Load Asset,Not Find AB :" + m_AssetBundleName);
+                return false;
             }
 
             Object asset = abRes.assetBundle.LoadAsset(m_Name);
             if (asset == null)
             {
                 Log.e("#Failed To Load Assset:" + m_Name);
+                return false;
             }
             m_Asset = asset;
             return true;

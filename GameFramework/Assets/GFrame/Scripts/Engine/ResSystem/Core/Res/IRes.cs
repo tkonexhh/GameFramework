@@ -22,7 +22,7 @@ namespace GFrame
     {
         public const short kAssetBundle = 0;
         public const short kABAsset = 1;
-        public const short kABScene = 2;
+        // public const short kABScene = 2;
         // public const short kInternal = 3;
         // public const short kNetImageRes = 4;
         // public const short kHotUpdateRes = 5;

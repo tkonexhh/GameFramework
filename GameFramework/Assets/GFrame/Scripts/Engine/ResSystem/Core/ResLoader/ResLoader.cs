@@ -26,15 +26,15 @@ namespace GFrame
             return loader;
         }
 
-        private void LoadSync()
-        {
+        // private void LoadSync()
+        // {
 
-        }
+        // }
 
         public UnityEngine.Object LoadSync(string name)
         {
             Add2Load(name);
-            LoadSync();
+            //LoadSync();
 
             IRes res = ResMgr.S.GetRes(name);
             if (res == null)

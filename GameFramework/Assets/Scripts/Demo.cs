@@ -15,7 +15,6 @@ public class Demo : MonoBehaviour
         {
             var loader = ResLoader.Allocate("Demo");
             var s = loader.LoadSync("bg_main");
-            Debug.LogError(s);
             AudioMgr.S.PlayBg(s as AudioClip);
         }, 2.0f);
 

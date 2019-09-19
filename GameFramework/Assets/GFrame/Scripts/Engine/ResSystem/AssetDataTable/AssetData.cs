@@ -17,7 +17,7 @@ namespace GFrame
             get { return m_AssetName; }
         }
 
-        public short resType
+        public short assetType
         {
             get { return m_ResType; }
         }

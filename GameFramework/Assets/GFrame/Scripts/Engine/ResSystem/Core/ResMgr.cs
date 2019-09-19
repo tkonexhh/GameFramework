@@ -59,7 +59,6 @@ namespace GFrame
                 m_ResMap.Add(name, res);
                 m_ResList.Add(res);
             }
-            Debug.LogError("GetRes:" + name + "-Res:" + res);
             return res;
         }
 

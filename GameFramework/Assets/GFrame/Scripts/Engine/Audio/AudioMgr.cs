@@ -53,7 +53,6 @@ namespace GFrame
         {
             m_IsSoundEnable = PlayerPrefs.GetInt(SOUND_SAVE_KEY, 1) == 1;
             m_IsMusicEnable = PlayerPrefs.GetInt(MUSIC_SAVE_KEY, 1) == 1;
-
             m_MainUnit = AudioUnit.Allocate();
         }
         public void PlaySound(AudioClip clip, bool loop = false)
@@ -61,6 +60,7 @@ namespace GFrame
             AudioUnit audioUnit = AudioUnit.Allocate();
             audioUnit.SetAudio(gameObject, clip, loop, m_IsSoundEnable);
             audioUnit.SetVolume(m_SoundVolume);
+
         }
 
         public void PlayBg(AudioClip clip, bool loop = true)

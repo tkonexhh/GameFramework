@@ -13,9 +13,8 @@ namespace GFrame
             if (res != null)
             {
                 res.name = name;
-                //res.InitAssetBundleName();
+                res.InitAssetBundleName();
             }
-            Debug.LogError("AssetBundleRes Allocate:" + res.name);
             return res;
         }
 
@@ -25,6 +24,7 @@ namespace GFrame
             {
                 return (AssetBundle)m_Asset;
             }
+            set { m_Asset = value; }
         }
 
 
@@ -39,7 +39,9 @@ namespace GFrame
 
         private void InitAssetBundleName()
         {
-
+            string url = ProjectPathConfig.AssetBundleName2Url(m_Name);
+            AssetBundleCreateRequest abcR = AssetBundle.LoadFromFileAsync(url);
+            assetBundle = abcR.assetBundle;
         }
 
 

@@ -78,7 +78,6 @@ namespace GFrame.UnityEditor
                     }
                     string md5 = GetMD5HashFromFile(abPath);
                     long buildTime = System.DateTime.Now.Ticks;
-                    Debug.LogError("ProcessAssetBundleRes:" + abNames[i]);
                     bool successAdd = table.AddAssetBundle(abNames[i], depends, md5, (int)info.Length, buildTime, out package);
                     if (!successAdd)
                     {
