@@ -8,19 +8,17 @@ namespace GFrame
 
     public class AssetDataTable : TSingleton<AssetDataTable>
     {
-        private List<AssetDataPackage> m_ActiveAssetDataPackages = new List<AssetDataPackage>();
         private List<AssetDataPackage> m_AllAssetDataPackage = new List<AssetDataPackage>();
+        private Dictionary<string, AssetDataPackage> m_AllAssetDataMap = new Dictionary<string, AssetDataPackage>();
 
-        public List<AssetDataPackage> allAssetDataPackage
+
+        [Serializable]
+        public class SerializeData
         {
-            get { return m_AllAssetDataPackage; }
+            public AssetDataPackage.SerializeData[] datas;
         }
 
         #region Public Func
-        public void SwitchLanguage(string key)
-        {
-
-        }
 
         public void Reset()
         {
@@ -28,15 +26,27 @@ namespace GFrame
             {
                 m_AllAssetDataPackage[i].Reset();
             }
-            m_ActiveAssetDataPackages.Clear();
+            //m_ActiveAssetDataPackages.Clear();
             m_AllAssetDataPackage.Clear();
         }
 
         public void Save(string path)
         {
+            SerializeData data = new SerializeData();
+            data.datas = new AssetDataPackage.SerializeData[m_AllAssetDataPackage.Count];
             for (int i = 0; i < m_AllAssetDataPackage.Count; i++)
             {
-                m_AllAssetDataPackage[i].Save(path);
+                data.datas[i] = m_AllAssetDataPackage[i].Save(path);
+            }
+            string outPath = string.Format("{0}{1}", path, ProjectPathConfig.abTableFileName);
+
+            if (SerializeHelper.SerializeBinary(outPath, data))
+            {
+                Log.i("#Success Save AssetDataTable:" + outPath);
+            }
+            else
+            {
+                Log.e("#Failed Save AssetDataTable:" + outPath);
             }
         }
 
@@ -71,14 +81,14 @@ namespace GFrame
 
         private void GetPackageKeyFromABName(string name, out string key, out string path)
         {
-            int index = name.IndexOf('/');
+            int index = name.LastIndexOf('/');
             if (index < 0)
             {
                 key = name;
                 path = key;
                 return;
             }
-            key = name.Substring(0, index);
+            key = name.Substring(index + 1, name.Length - 1 - index);
             path = key;
             // string keyResult = null;
             // string pathResult = key;
@@ -88,14 +98,17 @@ namespace GFrame
 
         private AssetDataPackage GetAssetDataPackage(string key)
         {
-            for (int i = m_AllAssetDataPackage.Count - 1; i >= 0; --i)
-            {
-                if (m_AllAssetDataPackage[i].key.Equals(key))
-                {
-                    return m_AllAssetDataPackage[i];
-                }
-            }
-            return null;
+            // for (int i = m_AllAssetDataPackage.Count - 1; i >= 0; --i)
+            // {
+            //     if (m_AllAssetDataPackage[i].key.Equals(key))
+            //     {
+            //         return m_AllAssetDataPackage[i];
+            //     }
+            // }
+            // return null;
+            AssetDataPackage package;
+            m_AllAssetDataMap.TryGetValue(key, out package);
+            return package;
         }
 
         public ABUnit GetABUnit(string path)
@@ -107,6 +120,34 @@ namespace GFrame
                 if (unit != null) break;
             }
             return unit;
+        }
+
+        public AssetData GetAssetData(string name)
+        {
+            for (int i = m_AllAssetDataPackage.Count - 1; i >= 0; --i)
+            {
+                AssetData data = m_AllAssetDataPackage[i].GetAssetData(name);
+                if (data == null)
+                {
+                    continue;
+                }
+                //Debug.LogError("GetAssetData:" + data);
+                return data;
+            }
+            return null;
+        }
+
+        public string GetAssetBundleNameByAssetName(string assetName)
+        {
+            for (int i = m_AllAssetDataPackage.Count - 1; i >= 0; --i)
+            {
+                string name = m_AllAssetDataPackage[i].GetAssetBundleNameByAssetName(assetName);
+                if (!string.IsNullOrEmpty(name))
+                {
+                    return name;
+                }
+            }
+            return null;
         }
 
         public void LoadPackageFromFile(string filePath)
@@ -124,18 +165,23 @@ namespace GFrame
                 return;
             }
 
-            AssetDataPackage.SerializeData sd = data as AssetDataPackage.SerializeData;
+            SerializeData sd = data as SerializeData;
+
             if (sd == null)
             {
                 Log.e("#Failed Load AssetDataTable:" + filePath);
                 return;
             }
-            AssetDataPackage package = BuildAssetDataPackageBySerializeData(sd, filePath);
-            string key = package.key;
 
-            m_AllAssetDataPackage.Add(package);
+            for (int i = 0; i < sd.datas.Length; i++)
+            {
+                AssetDataPackage package = BuildAssetDataPackageBySerializeData(sd.datas[i], filePath);
+                string key = package.key;
+                m_AllAssetDataMap.Add(key, package);
+                m_AllAssetDataPackage.Add(package);
+            }
+
         }
-
 
         private AssetDataPackage BuildAssetDataPackageBySerializeData(AssetDataPackage.SerializeData data, string path)
         {

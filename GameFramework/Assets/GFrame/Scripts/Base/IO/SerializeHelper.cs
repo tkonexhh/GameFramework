@@ -144,7 +144,6 @@ namespace GFrame
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 return bf.Deserialize(fileStream);
             }
-
         }
     }
 }

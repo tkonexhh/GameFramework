@@ -16,6 +16,11 @@ namespace GFrame
         {
             get { return m_AssetName; }
         }
+
+        public short resType
+        {
+            get { return m_ResType; }
+        }
         // public int assetBundleIndex
         // {
         //     get { return m_Index; }

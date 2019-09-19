@@ -36,7 +36,7 @@ namespace GFrame.UnityEditor
         //[MenuItem("Assets/GFrame/Asset/生成Asset清单")]
         private static void BuildDataTable()
         {
-            Log.i("Start BuildDataTable");
+            Log.i("#Start BuildDataTable");
             AssetDataTable table = new AssetDataTable();
             ProcessAssetBundleRes(table, null);
             table.Save(FilePath.streamingAssetsPath4AB);
@@ -78,6 +78,7 @@ namespace GFrame.UnityEditor
                     }
                     string md5 = GetMD5HashFromFile(abPath);
                     long buildTime = System.DateTime.Now.Ticks;
+                    Debug.LogError("ProcessAssetBundleRes:" + abNames[i]);
                     bool successAdd = table.AddAssetBundle(abNames[i], depends, md5, (int)info.Length, buildTime, out package);
                     if (!successAdd)
                     {
@@ -87,11 +88,11 @@ namespace GFrame.UnityEditor
                     string[] assets = AssetDatabase.GetAssetPathsFromAssetBundle(abNames[i]);
                     foreach (var cell in assets)
                     {
-                        if (cell.EndsWith(".unity"))
-                        {
-                            package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABScene));//, -1));
-                        }
-                        else
+                        // if (cell.EndsWith(".unity"))
+                        // {
+                        //     package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABScene));//, -1));
+                        // }
+                        // else
                         {
                             package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABAsset));//, -1));
                         }
@@ -171,7 +172,7 @@ namespace GFrame.UnityEditor
             return null;
         }
 
-        private static string AssetPath2Name(string path)
+        private static string AssetPath2Name(string path)//获取文件名字
         {
             int startIndex = path.LastIndexOf("/") + 1;
             int endIndex = path.LastIndexOf(".");

@@ -9,6 +9,10 @@ namespace GFrame
     public class ABUnit
     {
         private string m_Name;
+        public string name
+        {
+            get { return m_Name; }
+        }
         private string[] m_Depends;
         private string m_MD5;
         private int m_FileSize;

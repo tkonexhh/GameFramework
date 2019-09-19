@@ -14,12 +14,23 @@ namespace GFrame
         public string name
         {
             get { return m_Name; }
+            set { m_Name = value; }
         }
 
         public UnityEngine.Object asset
         {
             get { return m_Asset; }
             set { m_Asset = value; }
+        }
+
+        protected AbstractRes(string name)
+        {
+            m_Name = name;
+        }
+
+        protected AbstractRes()
+        {
+
         }
 
 
@@ -46,13 +57,18 @@ namespace GFrame
         }
 
 
-        public bool LoadSync()//同步加载
+        public virtual bool LoadSync()//同步加载
         {
             return false;
         }
-        public void LoadAsync()//异步加载
+        public virtual void LoadAsync()//异步加载
         {
 
+        }
+
+        public string[] GetDependResList()//获取AB的依赖项
+        {
+            return null;
         }
 
         public bool ReleaseRes()

@@ -46,7 +46,6 @@ namespace GFrame
         private long m_BuildTime;
 
         private ABUnit m_ABUnit;
-        //private List<ABUnit> m_ABUnitLst;
         private Dictionary<string, AssetData> m_AssetDataMap;
 
         public string key
@@ -66,6 +65,16 @@ namespace GFrame
             m_Key = data.key;
             m_Path = path;
             m_BuildTime = data.buildTime;
+            m_ABUnit = data.abUnit;
+            if (data.assetDataArray != null)
+            {
+                for (int i = 0; i < data.assetDataArray.Length; i++)
+                {
+                    AssetData assetData = data.assetDataArray[i];
+                    AddAssetData(assetData);
+                }
+            }
+
         }
 
         public void Reset()
@@ -74,18 +83,21 @@ namespace GFrame
             if (m_AssetDataMap != null) m_AssetDataMap.Clear();
         }
 
-        public void Save(string path)
+        public SerializeData Save(string path)
         {
             SerializeData data = GetSerializeData();
-            string outPath = string.Format("{0}{1}", path, ProjectPathConfig.abTableFileName);
-            if (SerializeHelper.SerializeBinary(outPath, data))
-            {
-                Log.i("#Success Save AssetDataTable:" + outPath);
-            }
-            else
-            {
-                Log.e("#Failed Save AssetDataTable:" + outPath);
-            }
+            // string outPath = string.Format("{0}{1}", path, ProjectPathConfig.abTableFileName);
+            // Debug.LogError("Save:" + outPath);
+            // if (SerializeHelper.SerializeBinary(outPath, data))
+            // {
+            //     Log.i("#Success Save AssetDataTable:" + outPath);
+            // }
+            // else
+            // {
+            //     Log.e("#Failed Save AssetDataTable:" + outPath);
+            // }
+
+            return data;
         }
 
         public SerializeData GetSerializeData()
@@ -130,20 +142,19 @@ namespace GFrame
                 return false;
             }
 
-            // m_ABUnitLst.Add(new ABUnit(name, depends, md5, fileSize, buildTime));
-            //int index = 1;//m_ABUnitLst.Count - 1;
-            AddAssetData(new AssetData(name, eResType.kABAsset));
+            AddAssetData(new AssetData(name, eResType.kAssetBundle));
             return true;
         }
 
-        private AssetData GetAssetData(string name)
+        public AssetData GetAssetData(string name)
         {
             if (m_AssetDataMap == null)
             {
                 m_AssetDataMap = new Dictionary<string, AssetData>();
             }
+
             string key = name.ToLower();
-            AssetData assetData;
+            AssetData assetData = null;
             m_AssetDataMap.TryGetValue(key, out assetData);
             return assetData;
         }
@@ -155,13 +166,7 @@ namespace GFrame
                 m_AssetDataMap = new Dictionary<string, AssetData>();
             }
 
-            string key = assetData.assetName.ToLower();
-
-            //TODO ?????
-            if (key.EndsWith(" "))
-            {
-                Log.e("#Asset Name Is InValid:" + key);
-            }
+            string key = assetData.assetName.Trim().ToLower();
 
             if (m_AssetDataMap.ContainsKey(key))
             {
@@ -182,6 +187,17 @@ namespace GFrame
             if (m_ABUnit == null) return null;
 
             return m_ABUnit;//m_ABUnitLst[data.assetBundleIndex];
+        }
+
+        public string GetAssetBundleNameByAssetName(string assetName)
+        {
+            assetName = assetName.Trim().ToLower();
+            Debug.LogError("GetAssetBundleNameByAssetName:" + assetName);
+            if (m_AssetDataMap.ContainsKey(assetName))
+            {
+                return m_ABUnit.name;
+            }
+            return null;
         }
     }
 }
