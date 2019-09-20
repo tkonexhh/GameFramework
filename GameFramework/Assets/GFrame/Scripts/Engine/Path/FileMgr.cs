@@ -13,9 +13,14 @@ namespace GFrame
 
         }
 
-        public void GetFileInInner(string fileName, List<string> result)
+        public static string GetFullPath(string fileName)
         {
-            GetFileInFolder(FilePath.streamingAssetsPath4AB, fileName, result);
+            if (!IO.IsFileExist(fileName))
+            {
+                return null;
+            }
+            FileInfo file = new FileInfo(fileName);
+            return file.FullName;
         }
 
         public static void GetFileInFolder(string dirName, string fileName, List<string> outResult)
@@ -24,7 +29,6 @@ namespace GFrame
             {
                 return;
             }
-
 
             DirectoryInfo directory = new DirectoryInfo(dirName);
             //if(directory.Parent!=null)
@@ -40,22 +44,6 @@ namespace GFrame
                 }
             }
 
-        }
-
-        public Stream OpenReadStream(string absFilePath)
-        {
-            if (string.IsNullOrEmpty(absFilePath))
-            {
-                return null;
-            }
-
-            FileInfo fileInfo = new FileInfo(absFilePath);
-            if (!fileInfo.Exists)
-            {
-                return null;
-            }
-
-            return fileInfo.OpenRead();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace GFrame.UnityEditor
         [MenuItem("Assets/GFrame/Config/Build AppConfig")]
         public static void BuildAppConfig()
         {
-            BaseConfigEditor<AppConfig>.BuildConfig(CONFIG_NAME);
+            BaseConfigEditor<AppConfig>.BuildConfig(FilePath.projectConfigPath, CONFIG_NAME);
         }
     }
 }

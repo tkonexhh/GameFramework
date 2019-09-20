@@ -39,8 +39,8 @@ namespace GFrame
 
         private void InitAssetBundleName()
         {
-            string url = ProjectPathConfig.AssetBundleName2Url(m_Name);
-            AssetBundleCreateRequest abcR = AssetBundle.LoadFromFileAsync(url);
+            string path = ProjectPathConfig.AssetBundleName2FullPath(m_Name);
+            AssetBundleCreateRequest abcR = AssetBundle.LoadFromFileAsync(path);
             assetBundle = abcR.assetBundle;
         }
 

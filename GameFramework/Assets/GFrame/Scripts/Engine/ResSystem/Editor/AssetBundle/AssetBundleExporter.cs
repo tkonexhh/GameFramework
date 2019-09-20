@@ -39,7 +39,7 @@ namespace GFrame.UnityEditor
             Log.i("#Start BuildDataTable");
             AssetDataTable table = new AssetDataTable();
             ProcessAssetBundleRes(table, null);
-            table.Save(FilePath.streamingAssetsPath4AB);
+            table.Save();
         }
 
         [MenuItem("Assets/GFrame/Asset/清理无效AB")]
@@ -93,7 +93,7 @@ namespace GFrame.UnityEditor
                         // }
                         // else
                         {
-                            package.AddAssetData(new AssetData(AssetPath2Name(cell), eResType.kABAsset));//, -1));
+                            package.AddAssetData(new AssetData(PathHelper.AssetPath2Name(cell), eResType.kABAsset));//, -1));
                         }
                     }
                 }
@@ -122,7 +122,6 @@ namespace GFrame.UnityEditor
                     {
                         continue;
                     }
-                    Debug.LogError(p);
                     if (table.GetABUnit(p) == null)
                     {
                         File.Delete(files[i]);
@@ -171,17 +170,6 @@ namespace GFrame.UnityEditor
             return null;
         }
 
-        private static string AssetPath2Name(string path)//获取文件名字
-        {
-            int startIndex = path.LastIndexOf("/") + 1;
-            int endIndex = path.LastIndexOf(".");
-            if (endIndex > 0)
-            {
-                int length = endIndex - startIndex;
-                return path.Substring(startIndex, length).ToLower();
-            }
-            return path.Substring(startIndex).ToLower();
-        }
 
         private static string AssetBundlePath2ABName(string path)
         {

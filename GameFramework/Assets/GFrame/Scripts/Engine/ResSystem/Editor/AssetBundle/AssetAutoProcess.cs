@@ -13,6 +13,7 @@ namespace GFrame.UnityEditor
         {
             ProcessImportedAssets(importedAsset);
             ProcessMovedAssets(movedAssets);
+            processDeletedAssets(deletedAssets);
         }
 
         /**
@@ -30,6 +31,7 @@ namespace GFrame.UnityEditor
                 if (CheckIsRes4AssetBundle(assets[i]))
                 {
                     ProcessAssetBundleTag(assets[i], true);
+                    ProcessForderAsset(assets[i], true);
                 }
             }
         }
@@ -44,18 +46,35 @@ namespace GFrame.UnityEditor
                 if (CheckIsRes4AssetBundle(assets[i]))
                 {
                     ProcessAssetBundleTag(assets[i], true);
+                    ProcessForderAsset(assets[i], true);
                 }
-                else //if (CheckIsRes4Resources(assets[i]))
+                else if (CheckIsRes4Resources(assets[i]))
                 {
                     ProcessAssetBundleTag(assets[i], false);
+                    ProcessForderAsset(assets[i], false);
                 }
+            }
+        }
+
+        private static void processDeletedAssets(string[] assets)
+        {
+            if (assets == null || assets.Length == 0)
+                return;
+
+            for (int i = 0; i < assets.Length; ++i)
+            {
+                if (CheckIsRes4AssetBundle(assets[i]))
+                {
+                    ProcessForderAsset(assets[i], false);
+                }
+
             }
         }
 
 
         private static bool CheckIsRes4AssetBundle(string path)
         {
-            if (path.StartsWith("Assets/Res/"))
+            if (path.StartsWith(ProjectPathConfig.assetRelativePath))
             {
                 return true;
             }
@@ -107,6 +126,19 @@ namespace GFrame.UnityEditor
             {
                 importer.assetBundleName = string.Empty;
             }
+        }
+
+        private static void ProcessForderAsset(string path, bool isAdd)
+        {
+            if (isAdd)
+            {
+                FolderDataTable.S.AddFolderData(path);
+            }
+            else
+            {
+                FolderDataTable.S.RemoveFolderData(path);
+            }
+
         }
     }
 }

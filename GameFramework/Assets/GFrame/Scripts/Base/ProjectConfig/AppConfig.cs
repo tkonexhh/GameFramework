@@ -9,6 +9,7 @@ namespace GFrame
     {
         [SerializeField] LogLevel m_LogLevel = LogLevel.Max;
         [SerializeField] LogLevel m_FileLogLevel = LogLevel.Error;
+        [SerializeField] LoadResMode m_LoadResMode = LoadResMode.AssetBundle;
 
 
         #region 初始化过程

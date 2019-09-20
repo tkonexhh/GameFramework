@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66192994664e749feb2fe7d2d5a44dea, type: 3}
-  m_Name: ProjectPathConfig
+  m_Script: {fileID: 11500000, guid: 351fb6703c80d4ccfae7171e2b6a38da, type: 3}
+  m_Name: AssetProcessWindow
   m_EditorClassIdentifier: 
-  m_AppConfigPath: Config/AppConfig
-  m_AssetRelativePath: Assets/Res/
-  m_ABTableFileName: ABTableConfig.bin
-  m_RESTableFileName: ResTableConfig.bin
-  m_ExternalToolsPath: /../../Tools/
+  s: 0

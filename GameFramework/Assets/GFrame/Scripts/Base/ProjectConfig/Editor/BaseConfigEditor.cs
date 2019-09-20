@@ -8,11 +8,11 @@ namespace GFrame.UnityEditor
 
     public class BaseConfigEditor<T> where T : UnityEngine.ScriptableObject
     {
-        public static void BuildConfig(string name)
+        public static void BuildConfig(string foleder, string name)
         {
             T config = default(T);
-            string path = FilePath.projectConfigPath + name;
-            IO.CheckDirAndCreate(FilePath.projectConfigPath);
+            string path = foleder + name;
+            IO.CheckDirAndCreate(foleder);
             config = AssetDatabase.LoadAssetAtPath<T>(path);
             if (config == null)
             {
@@ -23,6 +23,8 @@ namespace GFrame.UnityEditor
             EditorUtility.SetDirty(config);
             AssetDatabase.SaveAssets();
         }
+
+
     }
 }
 

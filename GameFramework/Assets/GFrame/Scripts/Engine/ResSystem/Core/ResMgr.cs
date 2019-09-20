@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace GFrame
 {
+    public enum LoadResMode
+    {
+        AssetBundle,
+        Res,
+        Mix,
+    }
 
     public class ResMgr : TMonoSingleton<ResMgr>
     {
@@ -33,15 +39,15 @@ namespace GFrame
         private void ReloadABTable()
         {
             AssetDataTable.S.Reset();
-            List<string> outResult = new List<string>();
 
-            FileMgr.S.GetFileInInner(ProjectPathConfig.abTableFileName, outResult);
-            for (int i = 0; i < outResult.Count; ++i)
-            {
-                AssetDataTable.S.LoadPackageFromFile(outResult[i]);
-
-            }
-
+            AssetDataTable.S.LoadPackageFromFile(FileMgr.GetFullPath(ProjectPathConfig.abTableFilePath));
+            //List<string> outResult = new List<string>();
+            // FileMgr.GetFileInFolder(FilePath.streamingAssetsPath4AB, ProjectPathConfig.abTableFileName, outResult);
+            // for (int i = 0; i < outResult.Count; ++i)
+            // {
+            //     Debug.LogError(outResult[i]);
+            //     AssetDataTable.S.LoadPackageFromFile(FileMgr.GetFullPath(ProjectPathConfig.abTableFilePath));
+            // }
             // FilePath.GetFileInFolder(FilePath.persistentDataPath);
         }
 
@@ -62,16 +68,16 @@ namespace GFrame
             return res;
         }
 
-        public T GetRes<T>(string name) where T : IRes
-        {
-            IRes res = null;
-            if (m_ResMap.TryGetValue(name, out res))
-            {
-                return (T)res;
-            }
+        // public T GetRes<T>(string name) where T : IRes
+        // {
+        //     IRes res = null;
+        //     if (m_ResMap.TryGetValue(name, out res))
+        //     {
+        //         return (T)res;
+        //     }
 
-            return default(T);
-        }
+        //     return default(T);
+        // }
     }
 }
 

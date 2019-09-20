@@ -19,8 +19,20 @@ namespace GFrame
                 return name.Substring(0, endIndex);
             }
 
-
             return name;
+        }
+
+        //根据路径获取文件名字
+        public static string AssetPath2Name(string path)
+        {
+            int startIndex = path.LastIndexOf("/") + 1;
+            int endIndex = path.LastIndexOf(".");
+            if (endIndex > 0)
+            {
+                int length = endIndex - startIndex;
+                return path.Substring(startIndex, length).ToLower();
+            }
+            return path.Substring(startIndex).ToLower();
         }
     }
 }

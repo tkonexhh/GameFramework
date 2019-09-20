@@ -13,7 +13,7 @@ namespace GFrame.UnityEditor
         [MenuItem("Assets/GFrame/Config/Build ProjectPathConfig")]
         public static void BuildProjectPathConfig()
         {
-            BaseConfigEditor<ProjectPathConfig>.BuildConfig(CONFIG_NAME);
+            BaseConfigEditor<ProjectPathConfig>.BuildConfig(FilePath.projectConfigPath, CONFIG_NAME);
         }
     }
 }

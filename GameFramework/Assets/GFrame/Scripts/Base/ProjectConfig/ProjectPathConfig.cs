@@ -23,8 +23,10 @@ namespace GFrame
 
         #region 
         [SerializeField] private string m_AppConfigPath = "Config/AppConfig";
-        [SerializeField] private string m_ABRelativePath = "Assets/";
-        [SerializeField] private string m_ABTableFileName = "asset_bindle_config.bin";
+        [SerializeField] private string m_AssetRelativePath = "Assets/Res/";
+        [SerializeField] private string m_ABTableFileName = "ABTableConfig.bin";
+        [SerializeField] private string m_RESTableFileName = "ResTableConfig.bin";
+        [SerializeField] private string m_ExternalToolsPath = "/../../Tools/";
         #endregion
 
 
@@ -36,21 +38,39 @@ namespace GFrame
             }
         }
 
-        public static string abRelativePath
+        public static string assetRelativePath
         {
             get
             {
-                return S.m_ABRelativePath;
+                return S.m_AssetRelativePath;
             }
         }
 
-        public static string abTableFileName
+        public static string abTableFilePath
         {
-            get { return S.m_ABTableFileName; }
+            get { return string.Format("{0}{1}", FilePath.streamingAssetsPath4AB, S.m_ABTableFileName); }
         }
 
 
-        public static string AssetBundleName2Url(string name)
+        public static string resTableFilePath
+        {
+
+            get
+            {
+                return string.Format("{0}{1}", FilePath.streamingAssetsPath, S.m_RESTableFileName);
+            }
+        }
+
+        public static string externalToolsPath
+        {
+            get
+            {
+                return Application.dataPath + S.m_ExternalToolsPath;
+            }
+        }
+
+
+        public static string AssetBundleName2FullPath(string name)
         {
             string dependURL = FilePath.streamingAssetsPath4AB + name;
             return dependURL;

@@ -27,6 +27,14 @@ namespace GFrame
             }
         }
 
+        public static string projectToolPath
+        {
+            get
+            {
+                return "Assets/Resources/Tool/";
+            }
+        }
+
         //外部目录
         public static string persistentDataPath
         {
