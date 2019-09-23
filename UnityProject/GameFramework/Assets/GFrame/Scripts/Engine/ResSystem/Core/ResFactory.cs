@@ -59,11 +59,15 @@ namespace GFrame
         }
 
         private static AssetResCreatorWrap s_AssetResCreatorWrap;
+        private static List<IResCreatorWrap> s_ResCreatorLst;
 
         static ResFactory()
         {
             Log.i("#Init[ResFactory]");
+
             s_AssetResCreatorWrap = new AssetResCreatorWrap();
+            s_ResCreatorLst = new List<IResCreatorWrap>();
+            // /s_LocalResCreatorWrap = new ResCreatorWrap();
         }
 
         public static IRes Create(string name)

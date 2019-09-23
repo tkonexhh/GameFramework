@@ -26,7 +26,7 @@ namespace GFrame
         [SerializeField] private string m_AssetRelativePath = "Assets/Res/";
         [SerializeField] private string m_ABTableFileName = "ABTableConfig.bin";
         [SerializeField] private string m_RESTableFileName = "ResTableConfig.bin";
-        [SerializeField] private string m_ExternalToolsPath = "/../../Tools/";
+        [SerializeField] private string m_ExternalToolsPath = "/../../../Tools/";
         #endregion
 
 

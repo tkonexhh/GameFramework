@@ -10,9 +10,11 @@ namespace GFrame
     {
         private static string m_ProjectConfigPath;
         private static string m_PersistentDataPath;
+        private static string m_PersistentDataPath4Recorder;
         private static string m_StreamingAssetsPath;
         private static string m_StreamingAssetsPath4AB;
-        private static string m_PersistentDataPath4Recorder;
+        private static string m_StreamingAssetsPath4Config;
+
 
         public static string projectConfigPath
         {
@@ -85,6 +87,19 @@ namespace GFrame
                     m_StreamingAssetsPath4AB = streamingAssetsPath + "AB/";
                 }
                 return m_StreamingAssetsPath4AB;
+            }
+        }
+
+        public static string streamingAssetsPath4Config
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_StreamingAssetsPath4Config))
+                {
+                    m_StreamingAssetsPath4AB = streamingAssetsPath + "Config/";
+                }
+
+                return m_StreamingAssetsPath4Config;
             }
         }
 

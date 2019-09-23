@@ -96,7 +96,7 @@ public class BatchModifyFontWindow : EditorWindow
                 {
                     fontName = "Missing";
                 }
-                Debug.LogError(fontName);
+                //Debug.LogError(fontName);
                 if ((fontName == "Missing") || (text.font.name == m_OldFont.name))
                 {
                     Debug.LogError("Change-->" + go);
