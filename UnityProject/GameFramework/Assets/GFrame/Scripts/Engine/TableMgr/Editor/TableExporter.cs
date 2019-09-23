@@ -11,7 +11,7 @@ namespace GFrame.UnityEditor
 
     public class TableExporter
     {
-        [MenuItem("Assets/GFrame/Table/Build TXT")]
+        //[MenuItem("Assets/GFrame/Table/Build TXT")]
         public static void BuildTxt()
         {
 
@@ -20,35 +20,42 @@ namespace GFrame.UnityEditor
         [MenuItem("Assets/GFrame/Table/Build JSON")]
         static void ExcelToJson()
         {
-            string dataFolderPath = Application.dataPath + "/Document";
+            string dataFolderPath = ProjectPathConfig.externalTablePath;
             string outJsonPath = FilePath.streamingAssetsPath4Config;
-            if (!IO.IsDirExist(dataFolderPath))
+            IO.CheckDirAndCreate(dataFolderPath);
+
+            string[] allTableFiles = Directory.GetFiles(dataFolderPath, "*.xlsx", SearchOption.AllDirectories);
+            if (allTableFiles == null || allTableFiles.Length <= 0)
             {
-                Debug.LogError("请建立" + dataFolderPath + " 文件夹，并且把csv文件放入此文件夹内");
+                Debug.LogError("#No Table Found in" + dataFolderPath);
                 return;
             }
-
-
-            string[] allCSVFiles = Directory.GetFiles(dataFolderPath, "*.csv");
-            if (allCSVFiles == null || allCSVFiles.Length <= 0)
-            {
-                Debug.LogError("" + dataFolderPath + " 文件夹没有csv文件,请放入csv文件到此文件夹内");
-                return;
-            }
-
             IO.CheckDirAndCreate(outJsonPath);
 
-            for (int i = 0; i < allCSVFiles.Length; i++)
+            for (int i = 0; i < allTableFiles.Length; i++)
             {
-                string dictName = new DirectoryInfo(Path.GetDirectoryName(allCSVFiles[i])).Name;
-                string fileName = Path.GetFileNameWithoutExtension(allCSVFiles[i]);
+                if (PathHelper.Path2Name(allTableFiles[i]).StartsWith("~"))
+                {
+                    continue;
+                }
 
-                string jsonData = readExcelData(allCSVFiles[i]);
-                outJsonContentToFile(jsonData, outJsonPath + "/" + dictName + "/" + fileName + ".json");
+                string dictName = new DirectoryInfo(Path.GetDirectoryName(allTableFiles[i])).Name;
+                string fileName = Path.GetFileNameWithoutExtension(allTableFiles[i]);
+
+                //构造Excel工具类
+                ExcelUtility excel = new ExcelUtility(allTableFiles[i]);
+                //判断编码类型
+                Encoding encoding = Encoding.GetEncoding("utf-8");
+                //判断输出类型
+                string output = outJsonPath + fileName + ".json";
+                excel.ConvertToJson(output, encoding);
+
+                //string jsonData = ReadExcelData(allTableFiles[i]);
+                //OutJsonContentToFile(jsonData, outJsonPath + "/" + dictName + "/" + fileName + ".json");
             }
         }
 
-        static void outJsonContentToFile(string jsonData, string jsonFilePath)
+        static void OutJsonContentToFile(string jsonData, string jsonFilePath)
         {
             string directName = Path.GetDirectoryName(jsonFilePath);
             if (!Directory.Exists(directName))
@@ -63,13 +70,15 @@ namespace GFrame.UnityEditor
 #endif
         }
 
-        static string readExcelData(string fileName)
+        static string ReadExcelData(string fileName)
         {
             if (!File.Exists(fileName))
             {
                 return null;
             }
             string fileContent = File.ReadAllText(fileName, UnicodeEncoding.Default);
+            Debug.LogError(fileContent);
+            return null;
             string[] fileLineContent = fileContent.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
             string class_name = Path.GetFileNameWithoutExtension(fileName);
             if (fileLineContent != null)

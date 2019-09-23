@@ -38,7 +38,7 @@ namespace GFrame
                 return false;
             }
 
-            Debug.LogError(jsonValue);
+            //Debug.LogError(jsonValue);
 
             FileInfo fileInfo = new FileInfo(path);
             if (fileInfo.Exists)

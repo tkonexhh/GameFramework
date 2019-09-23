@@ -27,6 +27,7 @@ namespace GFrame
         [SerializeField] private string m_ABTableFileName = "ABTableConfig.bin";
         [SerializeField] private string m_RESTableFileName = "ResTableConfig.bin";
         [SerializeField] private string m_ExternalToolsPath = "/../../../Tools/";
+        [SerializeField] private string m_ExternalTablePath = "/../../../Tables/";
         #endregion
 
 
@@ -66,6 +67,14 @@ namespace GFrame
             get
             {
                 return Application.dataPath + S.m_ExternalToolsPath;
+            }
+        }
+
+        public static string externalTablePath
+        {
+            get
+            {
+                return Application.dataPath + S.m_ExternalTablePath;
             }
         }
 

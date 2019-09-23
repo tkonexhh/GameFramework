@@ -96,7 +96,7 @@ namespace GFrame
             {
                 if (string.IsNullOrEmpty(m_StreamingAssetsPath4Config))
                 {
-                    m_StreamingAssetsPath4AB = streamingAssetsPath + "Config/";
+                    m_StreamingAssetsPath4Config = streamingAssetsPath + "Config/";
                 }
 
                 return m_StreamingAssetsPath4Config;

@@ -20,7 +20,7 @@ namespace GFrame
             }
             public string name
             {
-                get { return PathHelper.AssetPath2Name(m_Path); }
+                get { return PathHelper.Path2Name(m_Path); }
             }
         }
         private string m_Path;

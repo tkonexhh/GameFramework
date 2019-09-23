@@ -23,7 +23,7 @@ namespace GFrame
         }
 
         //根据路径获取文件名字
-        public static string AssetPath2Name(string path)
+        public static string Path2Name(string path)
         {
             int startIndex = path.LastIndexOf("/") + 1;
             int endIndex = path.LastIndexOf(".");

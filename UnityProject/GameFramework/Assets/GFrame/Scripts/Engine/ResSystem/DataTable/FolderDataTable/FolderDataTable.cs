@@ -29,7 +29,7 @@ namespace GFrame
         public void AddFolderData(string path)
         {
             Load();
-            string assetKey = PathHelper.AssetPath2Name(path);
+            string assetKey = PathHelper.Path2Name(path);
             FolderData data = null;
             if (m_FolderDataMap.TryGetValue(assetKey, out data))
             {
@@ -46,7 +46,7 @@ namespace GFrame
         public void RemoveFolderData(string path)
         {
             Load();
-            string assetKey = PathHelper.AssetPath2Name(path);
+            string assetKey = PathHelper.Path2Name(path);
             FolderData data = null;
             if (!m_FolderDataMap.TryGetValue(assetKey, out data))
             {

@@ -93,7 +93,7 @@ namespace GFrame.UnityEditor
                         // }
                         // else
                         {
-                            package.AddAssetData(new AssetData(PathHelper.AssetPath2Name(cell), eResType.kABAsset));//, -1));
+                            package.AddAssetData(new AssetData(PathHelper.Path2Name(cell), eResType.kABAsset));//, -1));
                         }
                     }
                 }
