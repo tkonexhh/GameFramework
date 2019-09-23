@@ -7,6 +7,42 @@ namespace GFrame
 
     public class PathHelper
     {
+        // 上一级目录
+        public static string GetParentDir(string dir, int floor = 1)
+        {
+            string subDir = dir;
+
+            for (int i = 0; i < floor; ++i)
+            {
+                int last = subDir.LastIndexOf('/');
+                subDir = subDir.Substring(0, last);
+            }
+
+            return subDir;
+        }
+
+        public static string GetParentDirName(string dir, int floor = 1)
+        {
+            string subDir = dir;
+            string tempStr = null;
+            for (int i = 0; i < floor; ++i)
+            {
+                int last = subDir.LastIndexOf('/');
+                if (i == floor - 1)
+                {
+                    tempStr = subDir.Substring(0, last);
+                    int last_before = tempStr.LastIndexOf('/');
+                    int length = last - last_before - 1;
+                    subDir = subDir.Substring(last_before + 1, length);
+                }
+                else
+                {
+                    subDir = subDir.Substring(0, last);
+                }
+            }
+            return subDir;
+        }
+
         ///无后缀的文件名
         public static string FileNameWithoutExtend(string name)
         {

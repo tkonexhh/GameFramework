@@ -120,7 +120,6 @@ namespace GFrame
                 table.Add(row);
             }
 
-            //生成Json字符串
             SerializeHelper.SerializeJson(JsonPath, table, false);
         }
 
@@ -243,6 +242,60 @@ namespace GFrame
                     property.SetValue(target, Convert.ChangeType(propertyValue, property.PropertyType), null);
                 }
             }
+        }
+
+        public void WriteDataFile(string fileName)
+        {
+            //string fileName = PathHelper.Path2Name(path);
+            fileName = fileName.Substring(0, 1).ToUpper() + fileName.Substring(1);
+            DataTable mSheet = mResultSet.Tables[0];
+            int rowCount = mSheet.Rows.Count;
+            int colCount = mSheet.Columns.Count;
+            /*———————————生成CS的Class类脚本————————————*/
+            StringBuilder code = new StringBuilder();                //创建代码串
+                                                                     //添加常见且必须的引用字符串
+            code.Append("using UnityEngine; \n");
+            code.Append("using System.Collections; \n");
+            code.Append("using GFrame; \n");
+            code.Append("namespace GameWish.Game \n");
+            code.Append("{ \n");
+
+            //产生类，所有可执行代码均在此类中运行
+            code.Append("public partial class TD" + fileName + " { \n\t");
+            for (int i = 0; i < colCount; i++)
+            {
+                Debug.LogError(mSheet.Rows[2][i].ToString());
+                code.Append("public string ");
+                code.Append(mSheet.Rows[3][i] + " { get; set; } " + "   //" + mSheet.Rows[0][i] + "\n\t");
+                if (mSheet.Rows[2][i].ToString() == "int")
+                {
+                    code.Append("public int _" + mSheet.Rows[3][i] + " (){\n\t\t");
+                    code.Append("int value = int.Parse(" + mSheet.Rows[3][i] + ");\n\t\t");
+                    code.Append("return value;\n\t");
+                    code.Append("}\n\t");
+                }
+                else if (mSheet.Rows[2][i].ToString() == "float")
+                {
+                    code.Append("  public float _" + mSheet.Rows[3][i] + " (){\n\t\t");
+                    code.Append("float value = float.Parse(" + mSheet.Rows[3][i] + ");\n\t\t");
+                    code.Append("return value;\n\t");
+                    code.Append("}\n\t");
+                }
+                else if (mSheet.Rows[2][i].ToString() == "string")
+                {
+                    code.Append("  public string _" + mSheet.Rows[3][i] + " (){\n\t\t");
+                    code.Append("string value = " + mSheet.Rows[3][i] + ";\n\t\t");
+                    code.Append("return value;\n\t");
+                    code.Append("}\n\t");
+                }
+            }
+            code.Append("}\n\t");
+            code.Append("}");
+            string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Generate/";
+            IO.CheckDirAndCreate(CSharpFilePath);
+
+            IO.WriteFile(CSharpFilePath + "/TD" + fileName + ".cs", code.ToString());
+            Log.i("成功生成c#的Class文件" + fileName + ".cs" + "在目录:" + CSharpFilePath + " 中");
         }
     }
 }

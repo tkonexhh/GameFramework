@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 
 namespace GFrame
 {
@@ -51,18 +52,13 @@ namespace GFrame
         }
 
 
-        // 上一级目录
-        public static string GetParentDir(string dir, int floor = 1)
+        public static void WriteFile(string path, string content)
         {
-            string subDir = dir;
-
-            for (int i = 0; i < floor; ++i)
-            {
-                int last = subDir.LastIndexOf('/');
-                subDir = subDir.Substring(0, last);
-            }
-
-            return subDir;
+            FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+            sw.Write(content);
+            sw.Close();
+            fs.Close();
         }
 
         #endregion

@@ -16,4 +16,5 @@ MonoBehaviour:
   m_AssetRelativePath: Assets/Res/
   m_ABTableFileName: ABTableConfig.bin
   m_RESTableFileName: ResTableConfig.bin
-  m_ExternalToolsPath: /../../Tools/
+  m_ExternalToolsPath: /../../../Tools/
+  m_ExternalTablePath: 

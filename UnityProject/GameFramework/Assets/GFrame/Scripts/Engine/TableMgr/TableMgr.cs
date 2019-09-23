@@ -5,9 +5,9 @@ using UnityEngine;
 namespace GFrame
 {
 
-    public class TableMgr
+    public class TableMgr : TSingleton<TableMgr>
     {
-       
+
     }
 }
 

@@ -23,11 +23,12 @@ namespace GFrame
 
         #region 
         [SerializeField] private string m_AppConfigPath = "Config/AppConfig";
-        [SerializeField] private string m_AssetRelativePath = "Assets/Res/";
+        [SerializeField] private string m_AssetRelativePath = "/Res/";
         [SerializeField] private string m_ABTableFileName = "ABTableConfig.bin";
         [SerializeField] private string m_RESTableFileName = "ResTableConfig.bin";
         [SerializeField] private string m_ExternalToolsPath = "/../../../Tools/";
         [SerializeField] private string m_ExternalTablePath = "/../../../Tables/";
+        [SerializeField] private string m_TableScriptOutPutPath = "/Scripts/Game/Table";
         #endregion
 
 
@@ -43,7 +44,7 @@ namespace GFrame
         {
             get
             {
-                return S.m_AssetRelativePath;
+                return Application.dataPath + S.m_AssetRelativePath;
             }
         }
 
@@ -75,6 +76,14 @@ namespace GFrame
             get
             {
                 return Application.dataPath + S.m_ExternalTablePath;
+            }
+        }
+
+        public static string tableScriptOutPutPath
+        {
+            get
+            {
+                return Application.dataPath + S.m_TableScriptOutPutPath;
             }
         }
 

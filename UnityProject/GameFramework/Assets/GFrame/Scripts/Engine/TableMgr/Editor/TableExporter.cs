@@ -16,6 +16,31 @@ namespace GFrame.UnityEditor
         {
 
         }
+        [MenuItem("Assets/GFrame/Table/Build C#")]
+        public static void BuildCCode()
+        {
+            string dataFolderPath = ProjectPathConfig.externalTablePath;
+
+            string[] allTableFiles = Directory.GetFiles(dataFolderPath, "*.xlsx", SearchOption.AllDirectories);
+            if (allTableFiles == null || allTableFiles.Length <= 0)
+            {
+                Debug.LogError("#No Table Found in" + dataFolderPath);
+                return;
+            }
+            for (int i = 0; i < allTableFiles.Length; i++)
+            {
+                EditorUtility.DisplayProgressBar("Hold on", "Processing", (float)(i + 1) / allTableFiles.Length);
+                if (PathHelper.Path2Name(allTableFiles[i]).StartsWith("~"))
+                {
+                    continue;
+                }
+                ExcelUtility excel = new ExcelUtility(allTableFiles[i]);
+                excel.WriteDataFile(PathHelper.Path2Name(allTableFiles[i]));
+            }
+            AssetDatabase.Refresh();
+            EditorUtility.ClearProgressBar();
+
+        }
 
         [MenuItem("Assets/GFrame/Table/Build JSON")]
         static void ExcelToJson()
@@ -34,6 +59,7 @@ namespace GFrame.UnityEditor
 
             for (int i = 0; i < allTableFiles.Length; i++)
             {
+                EditorUtility.DisplayProgressBar("Hold on", "Processing", (float)(i + 1) / allTableFiles.Length);
                 if (PathHelper.Path2Name(allTableFiles[i]).StartsWith("~"))
                 {
                     continue;
@@ -50,24 +76,10 @@ namespace GFrame.UnityEditor
                 string output = outJsonPath + fileName + ".json";
                 excel.ConvertToJson(output, encoding);
 
-                //string jsonData = ReadExcelData(allTableFiles[i]);
-                //OutJsonContentToFile(jsonData, outJsonPath + "/" + dictName + "/" + fileName + ".json");
-            }
-        }
+                EditorUtility.ClearProgressBar();
+                AssetDatabase.Refresh();
 
-        static void OutJsonContentToFile(string jsonData, string jsonFilePath)
-        {
-            string directName = Path.GetDirectoryName(jsonFilePath);
-            if (!Directory.Exists(directName))
-            {
-                Directory.CreateDirectory(directName);
             }
-            File.WriteAllText(jsonFilePath, jsonData, Encoding.UTF8);
-            Debug.Log("成功输出Json文件  :" + jsonFilePath);
-            //在Editor模式下重新导入文件数据，刷新。
-#if UNITY_EDITOR
-            AssetDatabase.Refresh();
-#endif
         }
 
         static string ReadExcelData(string fileName)
@@ -78,7 +90,7 @@ namespace GFrame.UnityEditor
             }
             string fileContent = File.ReadAllText(fileName, UnicodeEncoding.Default);
             Debug.LogError(fileContent);
-            return null;
+
             string[] fileLineContent = fileContent.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
             string class_name = Path.GetFileNameWithoutExtension(fileName);
             if (fileLineContent != null)
@@ -192,6 +204,11 @@ namespace GFrame.UnityEditor
             }
             return null;
         }
+
+
+
+
+
     }
 }
 

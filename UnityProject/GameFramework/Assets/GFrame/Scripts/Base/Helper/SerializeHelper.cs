@@ -9,20 +9,13 @@ namespace GFrame
 
     public class SerializeHelper
     {
-        public static bool SerializeJson(string path, object obj, bool encry)
+        public static string GetJson(object obj, bool encry)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                Log.w("SerializeJson Without Valid Path.");
-                return false;
-            }
-
             if (obj == null)
             {
-                Log.w("SerializeJson obj is Null.");
-                return false;
+                Log.w("#SerializeJson obj is Null.");
+                return null;
             }
-
             string jsonValue = null;
             try
             {
@@ -35,11 +28,18 @@ namespace GFrame
             catch (Exception e)
             {
                 Log.e(e);
+                return null;
+            }
+            return jsonValue;
+        }
+
+        public static bool SaveJson(string path, string jsonValue)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                Log.w("#SerializeJson Without Valid Path.");
                 return false;
             }
-
-            //Debug.LogError(jsonValue);
-
             FileInfo fileInfo = new FileInfo(path);
             if (fileInfo.Exists)
             {
@@ -52,6 +52,17 @@ namespace GFrame
                 fs.Write(writeDataArray, 0, writeDataArray.Length);
                 fs.Flush();
             }
+            return true;
+        }
+
+        public static bool SerializeJson(string path, object obj, bool encry)
+        {
+            string jsonValue = GetJson(obj, encry);
+            if (string.IsNullOrEmpty(jsonValue))
+            {
+                return false;
+            }
+            SaveJson(path, jsonValue);
 
             return true;
         }
