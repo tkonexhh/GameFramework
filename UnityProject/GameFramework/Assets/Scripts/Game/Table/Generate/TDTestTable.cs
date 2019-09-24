@@ -34,19 +34,22 @@ namespace Main.Game
 				return null;
 			}
 		}
-	public static void Parse()
+		public static void Parse()
 		{
 			m_DataCache.Clear();
-		m_DataList.Clear();
-		List<Dictionary<string, string>> allDataList = SerializeHelper.DeserializeJson<List<Dictionary<string, string>>>(FilePath.streamingAssetsPath4Config + "Test.json", false);int count = allDataList.Count;
-		for (int i = 0; i < count; i++)
-		{
-			Dictionary<string, string> dataMap = allDataList[i];
-		TDTest data = new TDTest();
-		data.BindData(dataMap);
-		m_DataList.Add(data);
-		m_DataCache.Add(data.A, data);
-		}
-		}
+			m_DataList.Clear();
+			List<Dictionary<string, string>> allDataList = SerializeHelper.DeserializeJson<List<Dictionary<string, string>>>(FilePath.streamingAssetsPath4Config + "Test.json", false);
+			int count = allDataList.Count;
+			for (int i = 0; i < count; i++)
+			{
+				Dictionary<string, string> dataMap = allDataList[i];
+				TDTest data = new TDTest();
+				data.BindData(dataMap);
+				data.Init();
+				OnRowAdd(data);
+				m_DataList.Add(data);
+				m_DataCache.Add(data.A, data);
+			}
 		}
 	}
+}

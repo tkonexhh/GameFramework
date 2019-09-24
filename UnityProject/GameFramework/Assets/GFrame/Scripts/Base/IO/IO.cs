@@ -52,8 +52,17 @@ namespace GFrame
         }
 
 
-        public static void WriteFile(string path, string content)
+        public static void WriteFile(string path, string content, bool isOverWrite)
         {
+            if (!isOverWrite)
+            {
+                if (IsFileExist(path))
+                {
+                    return;
+                }
+            }
+
+
             DelFile(path);
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);

@@ -378,7 +378,7 @@ namespace GFrame
             IO.CheckDirAndCreate(CSharpFilePath);
 
             string fullFileName = className + ".cs";
-            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString());
+            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString(), true);
             attrLst.Clear();
             attrLst = null;
             code = null;
@@ -397,50 +397,51 @@ namespace GFrame
             code.Append("using System.Collections; \n");
             code.Append("using GFrame; \n");
             code.Append("namespace Main.Game\n{\n");
-            code.Append("\tpublic partial class " + tableClassName + "\n\t");
-            code.Append("{\n\t\t");
-            code.Append("private static Dictionary<" + keyType + ", " + className + "> m_DataCache = new Dictionary<" + keyType + ", " + className + ">();\n\t\t");
-            code.Append("private static List<" + className + "> m_DataList = new List<" + className + ">();\n\t\t");
-            code.Append("public static int count\n\t\t");
-            code.Append("{\n\t\t\t");
-            code.Append("get\n\t\t\t");
-            code.Append("{\n\t\t\t\t");
-            code.Append("return m_DataCache.Count;\n\t\t\t");
-            code.Append("}\n\t\t");
-            code.Append("}\n\t\t");
+            code.Append("\tpublic partial class " + tableClassName + "\n");
+            code.Append("\t{\n");
+            code.Append("\t\tprivate static Dictionary<" + keyType + ", " + className + "> m_DataCache = new Dictionary<" + keyType + ", " + className + ">();\n");
+            code.Append("\t\tprivate static List<" + className + "> m_DataList = new List<" + className + ">();\n");
+            code.Append("\t\tpublic static int count\n");
+            code.Append("\t\t{\n");
+            code.Append("\t\t\tget\n");
+            code.Append("\t\t\t{\n");
+            code.Append("\t\t\t\treturn m_DataCache.Count;\n");
+            code.Append("\t\t\t}\n");
+            code.Append("\t\t}\n");
 
-            code.Append("public static List<" + className + "> dataList\n\t\t");
-            code.Append("{\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn m_DataList;\n\t\t\t}\n\t\t}\n\t\t");
+            code.Append("\t\tpublic static List<" + className + "> dataList\n");
+            code.Append("\t\t{\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn m_DataList;\n\t\t\t}\n\t\t}\n\t\t");
 
             code.Append("public static " + className + " GetData(" + keyType + " key)\n\t\t{\n\t\t\t");
-            code.Append("if (m_DataCache.ContainsKey(key))\n\t\t\t{\n\t\t\t\t");
-            code.Append("return m_DataCache[key];\n\t\t\t}\n\t\t\t");
-            code.Append("else\n\t\t\t{\n\t\t\t\t");
-            code.Append("Log.w(string.Format(\"Can't find key {0} in " + className + "\", key));\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t");
+            code.Append("if (m_DataCache.ContainsKey(key))\n\t\t\t{\n");
+            code.Append("\t\t\t\treturn m_DataCache[key];\n\t\t\t}\n");
+            code.Append("\t\t\telse\n");
+            code.Append("\t\t\t{\n");
+            code.Append("\t\t\t\tLog.w(string.Format(\"Can't find key {0} in " + className + "\", key));\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n");
 
-            code.Append("public static void Parse()\n\t\t{\n\t\t\t");
-            code.Append("m_DataCache.Clear();\n\t\t");
-            code.Append("m_DataList.Clear();\n\t\t");
-            code.Append("List<Dictionary<string, string>> allDataList = SerializeHelper.DeserializeJson<List<Dictionary<string, string>>>(FilePath.streamingAssetsPath4Config + \"" + fileName + ".json" + "\", false);");
-            code.Append("int count = allDataList.Count;\n\t\t");
-            code.Append("for (int i = 0; i < count; i++)\n\t\t{\n\t\t\t");
-            code.Append("Dictionary<string, string> dataMap = allDataList[i];\n\t\t");
-            code.Append(className + " data = new " + className + "();\n\t\t");
-            code.Append("data.BindData(dataMap);\n\t\t");
-            code.Append("m_DataList.Add(data);\n\t\t");
-            code.Append("m_DataCache.Add(data." + keyName + ", data);\n\t\t");
-            code.Append("}\n\t\t");
-            code.Append("}\n\t\t");
-
-
-            code.Append("}\n\t");
+            code.Append("\t\tpublic static void Parse()\n\t\t{\n");
+            code.Append("\t\t\tm_DataCache.Clear();\n");
+            code.Append("\t\t\tm_DataList.Clear();\n");
+            code.Append("\t\t\tList<Dictionary<string, string>> allDataList = SerializeHelper.DeserializeJson<List<Dictionary<string, string>>>(FilePath.streamingAssetsPath4Config + \"" + fileName + ".json" + "\", false);\n\t\t\t");
+            code.Append("int count = allDataList.Count;\n");
+            code.Append("\t\t\tfor (int i = 0; i < count; i++)\n\t\t\t{\n");
+            code.Append("\t\t\t\tDictionary<string, string> dataMap = allDataList[i];\n\t\t\t\t");
+            code.Append(className + " data = new " + className + "();\n");
+            code.Append("\t\t\t\tdata.BindData(dataMap);\n");
+            code.Append("\t\t\t\tdata.Init();\n");
+            code.Append("\t\t\t\tOnRowAdd(data);\n");
+            code.Append("\t\t\t\tm_DataList.Add(data);\n");
+            code.Append("\t\t\t\tm_DataCache.Add(data." + keyName + ", data);\n");
+            code.Append("\t\t\t}\n");
+            code.Append("\t\t}\n");
+            code.Append("\t}\n");
             code.Append("}");
 
             string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Generate/" + externPath + "/";
             IO.CheckDirAndCreate(CSharpFilePath);
 
             string fullFileName = tableClassName + ".cs";
-            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString());
+            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString(), true);
             //Log.i("#成功生成c#的Class文件" + fullFileName + "在目录:" + CSharpFilePath + " 中");
 
         }
@@ -455,14 +456,19 @@ namespace GFrame
             code.Append("using System.Collections; \n");
             code.Append("using GFrame; \n");
             code.Append("namespace Main.Game\n{\n");
-
+            code.Append("\tpublic partial class TDTest\n");
+            code.Append("\t{\n");
+            code.Append("\t\tpublic void Init()\n");
+            code.Append("\t\t{\n");
+            code.Append("\t\t}\n");
+            code.Append("\t}\n");
             code.Append("}");
 
 
             string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Extend/" + externPath + "/";
             IO.CheckDirAndCreate(CSharpFilePath);
             string fullFileName = className + ".cs";
-            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString());
+            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString(), false);
         }
 
         private void CreateTDDataTableExtend(string fileName, string externPath, DataTable mSheet, int rowCount, int colCount)
@@ -476,13 +482,19 @@ namespace GFrame
             code.Append("using System.Collections; \n");
             code.Append("using GFrame; \n");
             code.Append("namespace Main.Game\n{\n");
-
+            code.Append("\tpublic partial class TDTestTable\n");
+            code.Append("\t{\n");
+            code.Append("\t\tstatic void OnRowAdd(TDTest tdData)\n");
+            code.Append("\t\t{\n");
+            code.Append("\t\t}\n");
+            code.Append("\t}\n");
             code.Append("}");
 
             string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Extend/" + externPath + "/";
             IO.CheckDirAndCreate(CSharpFilePath);
+
             string fullFileName = tableClassName + ".cs";
-            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString());
+            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString(), false);
         }
 
         #endregion
