@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GFrame;
 
-namespace GFrame.Sample
+namespace Main.Game
 {
     public class ModuleMgr : AbstractActor
     {
@@ -10,33 +11,10 @@ namespace GFrame.Sample
         private void Start()
         {
             AddComponent<InputModule>();
+            AddComponent<TableModule>();
         }
 
-        // private void Start()
-        // {
 
-        //     MyModuleMgr.S.Init();
-        // }
-
-        // public class MyModuleMgr : AbstractActor
-        // {
-        //     public static MyModuleMgr m_MyModuleMgr;
-        //     public static MyModuleMgr S
-        //     {
-        //         get
-        //         {
-        //             if (m_MyModuleMgr == null)
-        //             {
-        //                 m_MyModuleMgr = new MyModuleMgr();
-        //             }
-        //             return m_MyModuleMgr;
-        //         }
-        //     }
-        //     public void Init()
-        //     {
-        //         m_MyModuleMgr.AddComponent<InputModule>();
-        //     }
-        // }
     }
 
 

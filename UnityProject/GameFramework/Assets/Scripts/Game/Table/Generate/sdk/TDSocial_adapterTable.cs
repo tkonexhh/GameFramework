@@ -2,7 +2,7 @@
 using System.Collections.Generic; 
 using System.Collections; 
 using GFrame; 
-namespace Main.Game 
+namespace Main.Game
 {
 	public partial class TDSocial_adapterTable
 	{
@@ -34,5 +34,19 @@ namespace Main.Game
 				return null;
 			}
 		}
+	public static void Parse()
+		{
+			m_DataCache.Clear();
+		m_DataList.Clear();
+		List<Dictionary<string, string>> allDataList = SerializeHelper.DeserializeJson<List<Dictionary<string, string>>>(FilePath.streamingAssetsPath4Config + "Social_adapter.json", false);int count = allDataList.Count;
+		for (int i = 0; i < count; i++)
+		{
+			Dictionary<string, string> dataMap = allDataList[i];
+		TDSocial_adapter data = new TDSocial_adapter();
+		data.BindData(dataMap);
+		m_DataList.Add(data);
+		m_DataCache.Add(data.Id, data);
+		}
+		}
+		}
 	}
-}

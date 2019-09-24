@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GFrame;
 
-namespace GFrame.Sample
+namespace Main.Game
 {
 
     public class InputModule : AbstractInputModule

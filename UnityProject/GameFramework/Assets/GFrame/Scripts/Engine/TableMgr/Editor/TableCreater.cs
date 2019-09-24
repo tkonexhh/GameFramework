@@ -32,7 +32,7 @@ namespace GFrame.UnityEditor
         int[] m_SelectType;
 
         string[] m_TypeOption = new string[] { "A", "N" };
-        string[] m_TypeChoices = new string[] { "int", "int[]", "float", "sting", "string[]" };
+        static string[] m_TypeChoices = new string[] { "int", "int[]", "float", "float[]", "sting", "string[]", "bool" };
 
 
         private void Awake()
@@ -43,8 +43,6 @@ namespace GFrame.UnityEditor
             m_SelectType = new int[m_Width];
         }
 
-
-        GUIStyle st = new GUIStyle(EditorStyles.popup);
         void OnGUI()
         {
 
@@ -54,7 +52,6 @@ namespace GFrame.UnityEditor
             {
                 ReadTable();
             }
-
 
             EditorGUILayout.BeginHorizontal();
 
