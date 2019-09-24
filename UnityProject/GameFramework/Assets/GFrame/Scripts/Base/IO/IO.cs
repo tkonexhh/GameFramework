@@ -54,6 +54,7 @@ namespace GFrame
 
         public static void WriteFile(string path, string content)
         {
+            DelFile(path);
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             sw.Write(content);

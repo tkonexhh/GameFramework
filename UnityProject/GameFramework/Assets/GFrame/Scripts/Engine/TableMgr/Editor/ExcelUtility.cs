@@ -93,7 +93,7 @@ namespace GFrame
             DataTable mSheet = mResultSet.Tables[0];
 
             //判断数据表内是否存在数据
-            if (mSheet.Rows.Count < 4)
+            if (mSheet.Rows.Count <= 4)
                 return;
 
             //读取数据表行数和列数
@@ -101,19 +101,22 @@ namespace GFrame
             int colCount = mSheet.Columns.Count;
 
             //准备一个列表存储整个表的数据
-            List<Dictionary<string, object>> table = new List<Dictionary<string, object>>();
+            List<Dictionary<string, string>> table = new List<Dictionary<string, string>>();
 
             //读取数据
             for (int i = 4; i < rowCount; i++)
             {
-                //准备一个字典存储每一行的数据
-                Dictionary<string, object> row = new Dictionary<string, object>();
+                Dictionary<string, string> row = new Dictionary<string, string>();
                 for (int j = 0; j < colCount; j++)
                 {
+                    if (mSheet.Rows[2][j].ToString() == "N")
+                    {
+                        continue;
+                    }
                     //读取第4行数据作为表头字段
                     string field = mSheet.Rows[3][j].ToString();
                     //Key-Value对应
-                    row[field] = mSheet.Rows[i][j];
+                    row[field] = mSheet.Rows[i][j].ToString();
                 }
 
                 //添加到表数据中
@@ -244,27 +247,47 @@ namespace GFrame
             }
         }
 
-        public void WriteDataFile(string fileName)
+        public void WriteDataFile(string filePath)
         {
+            string fileName = PathHelper.Path2Name(filePath);
+            string samePath = PathHelper.GetSamePart(filePath, ProjectPathConfig.externalTablePath);
+            string externPath = PathHelper.GetParentDir(filePath.Substring(samePath.Length));
             //string fileName = PathHelper.Path2Name(path);
             fileName = fileName.Substring(0, 1).ToUpper() + fileName.Substring(1);
             DataTable mSheet = mResultSet.Tables[0];
             int rowCount = mSheet.Rows.Count;
             int colCount = mSheet.Columns.Count;
-            /*———————————生成CS的Class类脚本————————————*/
-            StringBuilder code = new StringBuilder();                //创建代码串
-                                                                     //添加常见且必须的引用字符串
+            if (mSheet.Rows.Count <= 4)
+                return;
+            CreateTDData(fileName, externPath, mSheet, rowCount, colCount);
+            CreateTDDataTable(fileName, externPath, mSheet, rowCount, colCount);
+        }
+
+        #region 生成TDData的Class类脚本
+        private void CreateTDData(string fileName, string externPath, DataTable mSheet, int rowCount, int colCount)
+        {
+            string className = "TD" + fileName;
+            StringBuilder code = new StringBuilder();
             code.Append("using UnityEngine; \n");
+            code.Append("using System.Collections.Generic; \n");
             code.Append("using System.Collections; \n");
             code.Append("using GFrame; \n");
-            code.Append("namespace GameWish.Game \n");
+            code.Append("namespace Main.Game \n");
             code.Append("{ \n");
 
             //产生类，所有可执行代码均在此类中运行
-            code.Append("public partial class TD" + fileName + " { \n\t");
+            code.Append("\tpublic partial class " + className + " \n\t");
+            code.Append("{\n");
             for (int i = 0; i < colCount; i++)
             {
-                Debug.LogError(mSheet.Rows[2][i].ToString());
+                if (mSheet.Rows[1][i].ToString() == "N")//注释
+                {
+                    continue;
+                }
+                if (string.IsNullOrEmpty(mSheet.Rows[1][i].ToString()))
+                {
+                    break;
+                }
                 code.Append("public string ");
                 code.Append(mSheet.Rows[3][i] + " { get; set; } " + "   //" + mSheet.Rows[0][i] + "\n\t");
                 if (mSheet.Rows[2][i].ToString() == "int")
@@ -289,13 +312,60 @@ namespace GFrame
                     code.Append("}\n\t");
                 }
             }
-            code.Append("}\n\t");
+            code.Append("\t}\n");
             code.Append("}");
-            string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Generate/";
+            string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Generate/" + externPath + "/";
             IO.CheckDirAndCreate(CSharpFilePath);
 
-            IO.WriteFile(CSharpFilePath + "/TD" + fileName + ".cs", code.ToString());
-            Log.i("成功生成c#的Class文件" + fileName + ".cs" + "在目录:" + CSharpFilePath + " 中");
+            string fullFileName = className + ".cs";
+            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString());
+            //Log.i("#成功生成c#的Class文件" + className + ".cs" + "在目录:" + CSharpFilePath + " 中");
         }
+
+        private void CreateTDDataTable(string fileName, string externPath, DataTable mSheet, int rowCount, int colCount)
+        {
+            string className = "TD" + fileName;
+            string tableClassName = className + "Table";
+            string keyType = mSheet.Rows[2][0].ToString();
+            StringBuilder code = new StringBuilder();
+            code.Append("using UnityEngine; \n");
+            code.Append("using System.Collections.Generic; \n");
+            code.Append("using System.Collections; \n");
+            code.Append("using GFrame; \n");
+            code.Append("namespace Main.Game \n");
+            code.Append("{\n");
+            code.Append("\tpublic partial class " + tableClassName + "\n\t");
+            code.Append("{\n\t\t");
+            code.Append("private static Dictionary<" + keyType + ", " + className + "> m_DataCache = new Dictionary<" + keyType + ", " + className + ">();\n\t\t");
+            code.Append("private static List<" + className + "> m_DataList = new List<" + className + ">();\n\t\t");
+            code.Append("public static int count\n\t\t");
+            code.Append("{\n\t\t\t");
+            code.Append("get\n\t\t\t");
+            code.Append("{\n\t\t\t\t");
+            code.Append("return m_DataCache.Count;\n\t\t\t");
+            code.Append("}\n\t\t");
+            code.Append("}\n\t\t");
+
+            code.Append("public static List<" + className + "> dataList\n\t\t");
+            code.Append("{\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn m_DataList;\n\t\t\t}\n\t\t}\n\t\t");
+
+            code.Append("public static " + className + " GetData(" + keyType + " key)\n\t\t{\n\t\t\t");
+            code.Append("if (m_DataCache.ContainsKey(key))\n\t\t\t{\n\t\t\t\t");
+            code.Append("return m_DataCache[key];\n\t\t\t}\n\t\t\t");
+            code.Append("else\n\t\t\t{\n\t\t\t\t");
+            code.Append("Log.w(string.Format(\"Can't find key {0} in " + className + "\", key));\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t");
+
+            code.Append("}\n");
+            code.Append("}");
+
+            string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Generate/" + externPath + "/";
+            IO.CheckDirAndCreate(CSharpFilePath);
+
+            string fullFileName = tableClassName + ".cs";
+            IO.WriteFile(CSharpFilePath + fullFileName, code.ToString());
+            //Log.i("#成功生成c#的Class文件" + fullFileName + "在目录:" + CSharpFilePath + " 中");
+        }
+
+        #endregion
     }
 }

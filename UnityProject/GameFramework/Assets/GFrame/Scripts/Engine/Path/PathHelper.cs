@@ -70,6 +70,27 @@ namespace GFrame
             }
             return path.Substring(startIndex).ToLower();
         }
+
+        public static string GetSamePart(string a, string b)
+        {
+            string[] a1 = a.Split('/');
+            string[] b1 = b.Split('/');
+            string c = "";
+            for (int i = 0; i < a1.Length; i++)
+            {
+                for (int j = 0; j < b1.Length; j++)
+                {
+                    //Debug.LogError(a1[i] + b1[j]);
+                    if (string.Equals(a1[i], b1[j]))
+                    {
+                        c = c + a1[i] + "/";
+                        break;
+                    }
+                }
+            }
+
+            return c;
+        }
     }
 }
 

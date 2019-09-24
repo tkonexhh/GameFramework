@@ -35,7 +35,7 @@ namespace GFrame.UnityEditor
                     continue;
                 }
                 ExcelUtility excel = new ExcelUtility(allTableFiles[i]);
-                excel.WriteDataFile(PathHelper.Path2Name(allTableFiles[i]));
+                excel.WriteDataFile(allTableFiles[i]);
             }
             AssetDatabase.Refresh();
             EditorUtility.ClearProgressBar();
@@ -76,10 +76,9 @@ namespace GFrame.UnityEditor
                 string output = outJsonPath + fileName + ".json";
                 excel.ConvertToJson(output, encoding);
 
-                EditorUtility.ClearProgressBar();
-                AssetDatabase.Refresh();
-
             }
+            EditorUtility.ClearProgressBar();
+            AssetDatabase.Refresh();
         }
 
         static string ReadExcelData(string fileName)
