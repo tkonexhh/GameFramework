@@ -10,15 +10,15 @@ namespace Main.Game
     {
         public override void InitPreloadTableData()
         {
-            TDSignTable.Parse();
-            TDAsdtTable.Parse();
-            TDFlopTable.Parse();
-            TDGuideTable.Parse();
-            TDWheelTable.Parse();
-            TDRewardTable.Parse();
+            // TDSignTable.Parse();
+            // TDAsdtTable.Parse();
+            // TDFlopTable.Parse();
+            // TDGuideTable.Parse();
+            // TDWheelTable.Parse();
+            // TDRewardTable.Parse();
 
-            var sign = TDSignTable.dataList[0];
-            Debug.LogError(sign.Id + sign.Num + sign.Type);
+            // var sign = TDSignTable.dataList[0];
+            // Debug.LogError(sign.Id + sign.Num + sign.Type);
         }
     }
 }

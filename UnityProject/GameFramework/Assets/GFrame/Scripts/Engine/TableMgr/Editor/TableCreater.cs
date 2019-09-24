@@ -32,7 +32,7 @@ namespace GFrame.UnityEditor
         int[] m_SelectType;
 
         string[] m_TypeOption = new string[] { "A", "N" };
-        static string[] m_TypeChoices = new string[] { "int", "int[]", "float", "float[]", "sting", "string[]", "bool" };
+        static string[] m_TypeChoices = new string[] { "int", "float", "sting", "bool", "List<int>", "List<float>", "List<string>" };
 
 
         private void Awake()
@@ -184,7 +184,7 @@ namespace GFrame.UnityEditor
                 return;
             }
 
-            string path = Path.Combine(FilePath.streamingAssetsPath, m_TableName + ".xlsx");
+            string path = Path.Combine(ProjectPathConfig.externalTablePath, m_TableName + ".xlsx");
             Debug.LogError(path);
             FileInfo file = new FileInfo(path);
             if (file.Exists)

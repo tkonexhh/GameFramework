@@ -273,8 +273,13 @@ namespace GFrame
         {
             string fileName = PathHelper.Path2Name(filePath);
             string samePath = PathHelper.GetSamePart(filePath, ProjectPathConfig.externalTablePath);
-            string externPath = PathHelper.GetParentDir(filePath.Substring(samePath.Length));
-            //string fileName = PathHelper.Path2Name(path);
+            string externPath = "";// PathHelper.GetParentDir(filePath.Substring(samePath.Length)); ;
+            if (!string.Equals(samePath, ProjectPathConfig.externalTablePath))
+            {
+                externPath = PathHelper.GetParentDir(filePath.Substring(samePath.Length));
+            }
+
+
             fileName = fileName.Substring(0, 1).ToUpper() + fileName.Substring(1);
             DataTable mSheet = mResultSet.Tables[0];
             int rowCount = mSheet.Rows.Count;
