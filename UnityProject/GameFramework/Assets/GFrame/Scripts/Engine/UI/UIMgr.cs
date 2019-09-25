@@ -8,6 +8,13 @@ namespace GFrame
     public class UIMgr : TMonoSingleton<UIMgr>
     {
         private UIRoot m_UIRoot;
+        public UIRoot uiRoot
+        {
+            get
+            {
+                return m_UIRoot;
+            }
+        }
         public override void OnSingletonInit()
         {
             if (m_UIRoot == null)
@@ -27,6 +34,8 @@ namespace GFrame
 
         private UIRoot LoadUIRoot()
         {
+            ResLoader loader = ResLoader.Allocate("UIMgr");
+            loader.Add2Load("Resources/UI/UIRoot");
             return null;
         }
     }

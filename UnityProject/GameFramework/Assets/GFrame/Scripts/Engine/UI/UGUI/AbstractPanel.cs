@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GFrame
 {
     [RequireComponent(typeof(Canvas))]
-    public class AbstractPanel
+    public class AbstractPanel : MonoBehaviour
     {
 
     }

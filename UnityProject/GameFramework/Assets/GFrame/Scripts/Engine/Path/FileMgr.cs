@@ -49,7 +49,6 @@ namespace GFrame
 
         public string GetFileInInner(string fileName)
         {
-            Debug.LogError("GetFileInInner:" + fileName);
             if (Platform.IsAndroid && !Platform.IsEditor)
             {
                 return fileName;

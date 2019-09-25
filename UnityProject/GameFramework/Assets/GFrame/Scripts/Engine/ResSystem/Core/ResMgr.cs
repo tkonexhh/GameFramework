@@ -41,7 +41,6 @@ namespace GFrame
         {
             FolderDataTable.S.Reset();
             bool IsFileExist = IO.IsFileExist(FileMgr.S.GetFileInInner(ProjectPathConfig.resTableFilePath));
-            Debug.LogError("IsFileExist:" + FileMgr.S.GetFileInInner(ProjectPathConfig.resTableFilePath));
             FolderDataTable.S.LoadPackageFromeFile(FileMgr.S.GetFileInInner(ProjectPathConfig.resTableFilePath));
         }
 
