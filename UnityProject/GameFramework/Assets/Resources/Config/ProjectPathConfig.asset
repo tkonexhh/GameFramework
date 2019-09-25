@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: ProjectPathConfig
   m_EditorClassIdentifier: 
   m_AppConfigPath: Config/AppConfig
-  m_AssetRelativePath: Assets/Res/
+  m_AbAssetRelativePath: Res/AB/
+  m_FileAssetRelativePath: Res/Resources/
   m_ABTableFileName: ABTableConfig.bin
   m_RESTableFileName: ResTableConfig.bin
   m_ExternalToolsPath: /../../../Tools/
-  m_ExternalTablePath: 
+  m_ExternalTablePath: /../../../Tables/
+  m_TableScriptOutPutPath: /Scripts/Game/Table

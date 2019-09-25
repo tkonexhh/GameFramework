@@ -10,7 +10,7 @@ namespace Main.Game
     {
         public override void InitPreloadTableData()
         {
-            TDTestTable.Parse();
+            //TDTestTable.Parse();
             // TDSignTable.Parse();
             // TDAsdtTable.Parse();
             // TDFlopTable.Parse();

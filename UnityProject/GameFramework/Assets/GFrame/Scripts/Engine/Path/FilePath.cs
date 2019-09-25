@@ -58,6 +58,7 @@ namespace GFrame
             {
                 if (string.IsNullOrEmpty(m_StreamingAssetsPath))
                 {
+
                     m_StreamingAssetsPath = Application.streamingAssetsPath + "/";
                     // #if UNITY_IPHONE && !UNITY_EDITOR
                     //                     m_StreamingAssetsPath = Application.streamingAssetsPath + "/";

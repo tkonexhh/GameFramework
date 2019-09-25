@@ -32,7 +32,7 @@ namespace GFrame.UnityEditor
         int[] m_SelectType;
 
         string[] m_TypeOption = new string[] { "A", "N" };
-        static string[] m_TypeChoices = new string[] { "int", "float", "sting", "bool", "List<int>", "List<float>", "List<string>" };
+        static string[] m_TypeChoices = new string[] { "int", "float", "string", "bool", "List<int>", "List<float>", "List<string>" };
 
 
         private void Awake()

@@ -6,7 +6,7 @@ namespace Main.Game
 {
 	public partial class TDTestTable
 	{
-		private static Dictionary<int, TDTest> m_DataCache = new Dictionary<int, TDTest>();
+		private static Dictionary<string, TDTest> m_DataCache = new Dictionary<string, TDTest>();
 		private static List<TDTest> m_DataList = new List<TDTest>();
 		public static int count
 		{
@@ -22,7 +22,7 @@ namespace Main.Game
 				return m_DataList;
 			}
 		}
-		public static TDTest GetData(int key)
+		public static TDTest GetData(string key)
 		{
 			if (m_DataCache.ContainsKey(key))
 			{

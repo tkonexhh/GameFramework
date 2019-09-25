@@ -13,7 +13,7 @@ namespace GFrame.UnityEditor
         {
             ProcessImportedAssets(importedAsset);
             ProcessMovedAssets(movedAssets);
-            processDeletedAssets(deletedAssets);
+            //processDeletedAssets(deletedAssets);
         }
 
         /**
@@ -31,7 +31,7 @@ namespace GFrame.UnityEditor
                 if (CheckIsRes4AssetBundle(assets[i]))
                 {
                     ProcessAssetBundleTag(assets[i], true);
-                    ProcessForderAsset(assets[i], true);
+                    //ProcessForderAsset(assets[i], true);
                 }
             }
         }
@@ -46,35 +46,35 @@ namespace GFrame.UnityEditor
                 if (CheckIsRes4AssetBundle(assets[i]))
                 {
                     ProcessAssetBundleTag(assets[i], true);
-                    ProcessForderAsset(assets[i], true);
+                    //ProcessForderAsset(assets[i], true);
                 }
                 else if (CheckIsRes4Resources(assets[i]))
                 {
                     ProcessAssetBundleTag(assets[i], false);
-                    ProcessForderAsset(assets[i], false);
+                    //ProcessForderAsset(assets[i], false);
                 }
             }
         }
 
-        private static void processDeletedAssets(string[] assets)
-        {
-            if (assets == null || assets.Length == 0)
-                return;
+        // private static void processDeletedAssets(string[] assets)
+        // {
+        //     if (assets == null || assets.Length == 0)
+        //         return;
 
-            for (int i = 0; i < assets.Length; ++i)
-            {
-                if (CheckIsRes4AssetBundle(assets[i]))
-                {
-                    ProcessForderAsset(assets[i], false);
-                }
+        //     for (int i = 0; i < assets.Length; ++i)
+        //     {
+        //         if (CheckIsRes4AssetBundle(assets[i]))
+        //         {
+        //             ProcessForderAsset(assets[i], false);
+        //         }
 
-            }
-        }
+        //     }
+        // }
 
 
         private static bool CheckIsRes4AssetBundle(string path)
         {
-            if (path.StartsWith(ProjectPathConfig.assetRelativePath))
+            if (path.StartsWith(ProjectPathConfig.abAssetRelativePath))
             {
                 return true;
             }
@@ -83,7 +83,7 @@ namespace GFrame.UnityEditor
 
         private static bool CheckIsRes4Resources(string path)
         {
-            if (path.StartsWith("Assets/Resources/"))
+            if (path.StartsWith("Assets/Resources/") || path.StartsWith(ProjectPathConfig.FileAssetRelativePath))
             {
                 return true;
             }
@@ -128,17 +128,17 @@ namespace GFrame.UnityEditor
             }
         }
 
-        private static void ProcessForderAsset(string path, bool isAdd)
-        {
-            if (isAdd)
-            {
-                FolderDataTable.S.AddFolderData(path);
-            }
-            else
-            {
-                FolderDataTable.S.RemoveFolderData(path);
-            }
+        // private static void ProcessForderAsset(string path, bool isAdd)
+        // {
+        //     if (isAdd)
+        //     {
+        //         FolderDataTable.S.AddFolderData(path);
+        //     }
+        //     else
+        //     {
+        //         FolderDataTable.S.RemoveFolderData(path);
+        //     }
 
-        }
+        // }
     }
 }

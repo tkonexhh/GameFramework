@@ -15,26 +15,26 @@ namespace GFrame
             IRes CreateRes(string name);
         }
 
-        class ResCreatorWrap : IResCreatorWrap
-        {
-            private string m_Key;
-            private ResCreator m_Creator;
+        // class ResCreatorWrap : IResCreatorWrap
+        // {
+        //     private string m_Key;
+        //     private ResCreator m_Creator;
 
-            public ResCreatorWrap(string key, ResCreator creator)
-            {
-                m_Key = key;
-                m_Creator = creator;
-            }
+        //     public ResCreatorWrap(string key, ResCreator creator)
+        //     {
+        //         m_Key = key;
+        //         m_Creator = creator;
+        //     }
 
-            public bool CheckResType(string name)
-            {
-                return name.StartsWith(m_Key);
-            }
-            public IRes CreateRes(string name)
-            {
-                return m_Creator(name);
-            }
-        }
+        //     public bool CheckResType(string name)
+        //     {
+        //         return name.StartsWith(m_Key);
+        //     }
+        //     public IRes CreateRes(string name)
+        //     {
+        //         return m_Creator(name);
+        //     }
+        // }
 
         class AssetResCreatorWrap : IResCreatorWrap
         {
@@ -58,15 +58,29 @@ namespace GFrame
             }
         }
 
+        class LocalAssetResCreatorWrap : IResCreatorWrap
+        {
+            public bool CheckResType(string name)
+            {
+                FolderData data = FolderDataTable.S.GetAssetData(name);
+                return data != null;
+            }
+            public IRes CreateRes(string name)
+            {
+                //FolderData data = FolderDataTable.S.GetAssetData(name);
+                return LocalRes.Allocate(name);
+            }
+        }
+
+
         private static AssetResCreatorWrap s_AssetResCreatorWrap;
-        private static List<IResCreatorWrap> s_ResCreatorLst;
+        private static LocalAssetResCreatorWrap s_LocalAssetResCreatorWrap;
 
         static ResFactory()
         {
             Log.i("#Init[ResFactory]");
-
             s_AssetResCreatorWrap = new AssetResCreatorWrap();
-            s_ResCreatorLst = new List<IResCreatorWrap>();
+            s_LocalAssetResCreatorWrap = new LocalAssetResCreatorWrap();
             // /s_LocalResCreatorWrap = new ResCreatorWrap();
         }
 
@@ -75,6 +89,10 @@ namespace GFrame
             if (s_AssetResCreatorWrap.CheckResType(name))
             {
                 return s_AssetResCreatorWrap.CreateRes(name);
+            }
+            else if (s_LocalAssetResCreatorWrap.CheckResType(name))
+            {
+                return s_LocalAssetResCreatorWrap.CreateRes(name);
             }
             return null;
         }

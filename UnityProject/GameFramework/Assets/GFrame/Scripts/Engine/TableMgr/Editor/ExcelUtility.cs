@@ -279,7 +279,6 @@ namespace GFrame
                 externPath = PathHelper.GetParentDir(filePath.Substring(samePath.Length));
             }
 
-
             fileName = fileName.Substring(0, 1).ToUpper() + fileName.Substring(1);
             DataTable mSheet = mResultSet.Tables[0];
             int rowCount = mSheet.Rows.Count;
@@ -328,51 +327,72 @@ namespace GFrame
                 InterKey key = new InterKey(type, attr);
                 attrLst.Add(key);
             }
-            code.Append("\n\t\t");
-            code.Append("public static Dictionary<string, int> GetFieldHeadIndex()\n\t\t{\n\t\t\t");
-            code.Append("Dictionary<string, int> ret = new Dictionary<string, int>(" + attrLst.Count + ");\n\t\t\t");
+            code.Append("\n");
+            code.Append("\t\tpublic static Dictionary<string, int> GetFieldHeadIndex()\n");
+            code.Append("\t\t{\n");
+            code.Append("\t\t\tDictionary<string, int> ret = new Dictionary<string, int>(" + attrLst.Count + ");\n");
             for (int i = 0; i < attrLst.Count; i++)
             {
-                code.Append("ret.Add(\"" + attrLst[i].attr + "\", " + i + ");\n\t\t\t");
+                code.Append("\t\t\tret.Add(\"" + attrLst[i].attr + "\", " + i + ");\n");
             }
-            code.Append("return ret;\n\t\t}\n\t");
+            code.Append("\t\t\treturn ret;\n");
+            code.Append("\t\t}\n");
 
-            code.Append("public void BindData(Dictionary<string, string> dataMap)\n\t{\n\t\t");
-            code.Append("Dictionary<string, int> headIndexMap = GetFieldHeadIndex();\n\t\t");
-            code.Append("foreach (var key in dataMap.Keys)\n{\n");
-            code.Append("int col = -1;\n\t\t");
-            code.Append("string value = dataMap[key];\n\t\t");
-            code.Append("if (headIndexMap.TryGetValue(key, out col))\n\t{\n\t\t");
-            code.Append("switch (col)\n\t{\n\t\t");
+            code.Append("\t\tpublic void BindData(Dictionary<string, string> dataMap)\n");
+            code.Append("\t\t{\n");
+            code.Append("\t\t\tDictionary<string, int> headIndexMap = GetFieldHeadIndex();\n");
+            code.Append("\t\t\tforeach (var key in dataMap.Keys)\n");
+            code.Append("\t\t\t{\n");
+            code.Append("\t\t\t\tint col = -1;\n");
+            code.Append("\t\t\t\tstring value = dataMap[key];\n");
+            code.Append("\t\t\t\tif (headIndexMap.TryGetValue(key, out col))\n");
+            code.Append("\t\t\t\t{\n");
+            code.Append("\t\t\t\t\tswitch (col)\n");
+            code.Append("\t\t\t\t\t{\n");
             for (int i = 0; i < attrLst.Count; i++)
             {
-                code.Append("case " + i + ":\n\t");
+                code.Append("\t\t\t\t\t\tcase " + i + ":\n");
 
                 if (attrLst[i].type == "int")
                 {
-                    code.Append("m_" + attrLst[i].attr + " = int.Parse(value);\n\t\t");
+                    code.Append("\t\t\t\t\t\t\tm_" + attrLst[i].attr + " = int.Parse(value);\n");
                 }
                 else if (attrLst[i].type == "float")
                 {
-                    code.Append("m_" + attrLst[i].attr + " = float.Parse(value);\n\t\t");
+                    code.Append("\t\t\t\t\t\t\tm_" + attrLst[i].attr + " = float.Parse(value);\n");
                 }
                 else if (attrLst[i].type == "string")
                 {
-                    code.Append("m_" + attrLst[i].attr + " = value;\n\t\t");
+                    code.Append("\t\t\t\t\t\t\tm_" + attrLst[i].attr + " = value;\n");
                 }
                 else if (attrLst[i].type == "bool")
                 {
-                    code.Append("m_" + attrLst[i].attr + " = value.ToLower().Equals(\"true\");\n\t\t");
+                    code.Append("\t\t\t\t\t\t\tm_" + attrLst[i].attr + " = value.ToLower().Equals(\"true\");\n");
+                }
+                else if (attrLst[i].type == "List<int>")
+                {
+                    code.Append("\t\t\t\t\t\t\tm_" + attrLst[i].attr + " =  Helper.String2ListInt(value, \",\");\n");
+                }
+                else if (attrLst[i].type == "List<float>")
+                {
+                    code.Append("\t\t\t\t\t\t\tm_" + attrLst[i].attr + " =  Helper.String2ListFloat(value, \",\");\n");
+                }
+                else if (attrLst[i].type == "List<string>")
+                {
+                    code.Append("\t\t\t\t\t\t\tm_" + attrLst[i].attr + " =  Helper.String2ListString(value, \",\");\n");
                 }
                 //code.Append(attrLst[i]+ " = ");
-                code.Append("break;\n");
+                code.Append("\t\t\t\t\t\t\tbreak;\n");
             }
 
-            code.Append("default:\n\tbreak;\n}\n}\n}\n}\n");
+            code.Append("\t\t\t\t\t\tdefault:\n");
+            code.Append("\t\t\t\t\t\t\tbreak;\n");
+            code.Append("\t\t\t\t\t}\n");
+            code.Append("\t\t\t\t}\n");
+            code.Append("\t\t\t}\n");
+            code.Append("\t\t}\n");
 
-
-
-            code.Append("}\n");
+            code.Append("\t}\n");
             code.Append("}");
             string CSharpFilePath = ProjectPathConfig.tableScriptOutPutPath + "/Generate/" + externPath + "/";
             IO.CheckDirAndCreate(CSharpFilePath);

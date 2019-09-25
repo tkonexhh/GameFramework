@@ -34,13 +34,22 @@ namespace GFrame
         {
             Log.i("#Init[ResMgr]");
             ReloadABTable();
+            ReloadResTable();
+        }
+
+        private void ReloadResTable()
+        {
+            FolderDataTable.S.Reset();
+            bool IsFileExist = IO.IsFileExist(FileMgr.S.GetFileInInner(ProjectPathConfig.resTableFilePath));
+            Debug.LogError("IsFileExist:" + FileMgr.S.GetFileInInner(ProjectPathConfig.resTableFilePath));
+            FolderDataTable.S.LoadPackageFromeFile(FileMgr.S.GetFileInInner(ProjectPathConfig.resTableFilePath));
         }
 
         private void ReloadABTable()
         {
-            AssetDataTable.S.Reset();
 
-            AssetDataTable.S.LoadPackageFromFile(FileMgr.GetFullPath(ProjectPathConfig.abTableFilePath));
+            AssetDataTable.S.Reset();
+            AssetDataTable.S.LoadPackageFromFile(FileMgr.S.GetFileInInner(ProjectPathConfig.abTableFilePath));
             //List<string> outResult = new List<string>();
             // FileMgr.GetFileInFolder(FilePath.streamingAssetsPath4AB, ProjectPathConfig.abTableFileName, outResult);
             // for (int i = 0; i < outResult.Count; ++i)

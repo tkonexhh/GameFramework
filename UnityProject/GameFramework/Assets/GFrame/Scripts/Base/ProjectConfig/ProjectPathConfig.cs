@@ -23,7 +23,8 @@ namespace GFrame
 
         #region 
         [SerializeField] private string m_AppConfigPath = "Config/AppConfig";
-        [SerializeField] private string m_AssetRelativePath = "/Res/";
+        [SerializeField] private string m_AbAssetRelativePath = "Res/AB/";
+        [SerializeField] private string m_FileAssetRelativePath = "Res/Resources/";
         [SerializeField] private string m_ABTableFileName = "ABTableConfig.bin";
         [SerializeField] private string m_RESTableFileName = "ResTableConfig.bin";
         [SerializeField] private string m_ExternalToolsPath = "/../../../Tools/";
@@ -40,11 +41,19 @@ namespace GFrame
             }
         }
 
-        public static string assetRelativePath
+        public static string abAssetRelativePath
         {
             get
             {
-                return Application.dataPath + S.m_AssetRelativePath;
+                return "Assets/" + S.m_AbAssetRelativePath;
+            }
+        }
+
+        public static string FileAssetRelativePath
+        {
+            get
+            {
+                return "Assets/" + S.m_FileAssetRelativePath;
             }
         }
 

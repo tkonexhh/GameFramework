@@ -2,16 +2,86 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Core;
 
 namespace GFrame
 {
 
     public class FileMgr : TSingleton<FileMgr>
     {
+        //private ZipFile m_ZipFile = null;
         public override void OnSingletonInit()
         {
+            // if (Platform.IsAndroid && !Platform.IsEditor)
+            // {
+            //     if (m_ZipFile == null)
+            //     {
 
+            //         m_ZipFile = new ZipFile(File.Open(Application.dataPath, FileMode.Open, FileAccess.Read));
+            //     }
+            // }
         }
+
+        // public Stream OpenStreamInZip(string absPath)
+        // {
+        //     string tag = "!/assets/";
+        //     string androidFolder = absPath.Substring(0, absPath.IndexOf(tag));
+
+        //     int startIndex = androidFolder.Length + tag.Length;
+        //     string relativePath = absPath.Substring(startIndex, absPath.Length - startIndex);
+
+        //     ZipEntry zipEntry = m_ZipFile.GetEntry(string.Format("assets/{0}", relativePath));
+
+        //     if (zipEntry != null)
+        //     {
+        //         return m_ZipFile.GetInputStream(zipEntry);
+        //     }
+        //     else
+        //     {
+        //         Log.e(string.Format("Can't Find File {0}", absPath));
+        //     }
+
+        //     return null;
+        // }
+
+
+
+        public string GetFileInInner(string fileName)
+        {
+            Debug.LogError("GetFileInInner:" + fileName);
+            if (Platform.IsAndroid && !Platform.IsEditor)
+            {
+                return fileName;
+            }
+
+            return GetFullPath(fileName);
+        }
+
+        private string GetFileInZip(ZipFile zipFile, string fileName)
+        {
+            int totalCount = 0;
+
+            foreach (var entry in zipFile)
+            {
+                ++totalCount;
+                ICSharpCode.SharpZipLib.Zip.ZipEntry e = entry as ICSharpCode.SharpZipLib.Zip.ZipEntry;
+                if (e != null)
+                {
+                    if (e.IsFile)
+                    {
+                        Debug.LogError("ZIP:" + e.Name);
+                        if (e.Name.EndsWith(fileName))
+                        {
+                            return zipFile.Name + "/!/" + e.Name;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+
 
         public static string GetFullPath(string fileName)
         {

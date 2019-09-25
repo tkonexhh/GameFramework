@@ -18,9 +18,10 @@ namespace Main.Game
             Timer.S.Post2Scale((int i) =>
             {
                 var loader = ResLoader.Allocate("Demo");
-                var s = loader.LoadSync("bg_main");
+                var s = loader.LoadSync("bg_flop");
+                Debug.LogError(s);
                 AudioMgr.S.PlayBg(s as AudioClip);
-            }, 2.0f);
+            }, 1.0f);
 
         }
 

@@ -12,11 +12,22 @@ namespace GFrame.UnityEditor
         [MenuItem("Assets/GFrame/Asset/构建FolderData")]
         public static void BuildFolderData()
         {
-            Debug.LogError("BuildFolderData");
-            //首先删除TableConfig
-            //IO.IsFileExist();
-            //FileMgr.S.GetFileInInner
-            //DirectoryInfo directory = new DirectoryInfo(ProjectPathConfig.assetRelativePath);
+            //Debug.LogError("BuildFolderData");
+            FolderDataTable.S.Clear();
+            string targetPath = ProjectPathConfig.FileAssetRelativePath;
+            //DirectoryInfo directory = new DirectoryInfo(targetPath);
+
+            string[] files = Directory.GetFiles(targetPath, "*.*", SearchOption.AllDirectories);
+            for (int i = 0; i < files.Length; i++)
+            {
+
+                if (AssetFileFilter.IsAsset(files[i]))
+                {
+                    FolderDataTable.S.AddFolderData(files[i]);
+                }
+            }
+
+            FolderDataTable.S.Save();
         }
     }
 }

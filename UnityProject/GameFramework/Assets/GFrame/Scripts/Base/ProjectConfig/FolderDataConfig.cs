@@ -5,7 +5,6 @@ using UnityEditor;
 
 namespace GFrame
 {
-
     public class FolderDataConfig : ScriptableObject
     {
 
@@ -31,24 +30,22 @@ namespace GFrame
         #endregion
 
 
-        public void Refesh()
-        {
-            if (m_DataLst == null)
-            {
-                m_DataLst = new List<string>();
-            }
-            m_DataLst.Clear();
-            List<FolderData> dataLst = FolderDataTable.S.GetFolderDataLst();
+        // public void Refesh()
+        // {
+        //     if (m_DataLst == null)
+        //     {
+        //         m_DataLst = new List<string>();
+        //     }
+        //     m_DataLst.Clear();
+        //     List<FolderData> dataLst = FolderDataTable.S.GetFolderDataLst();
 
-            for (int i = 0; i < dataLst.Count; i++)
-            {
-
-                m_DataLst.Add(dataLst[i].assetName);
-                Debug.LogError(m_DataLst.Count);
-                EditorUtility.SetDirty(this);
-                AssetDatabase.SaveAssets();
-            }
-        }
+        //     for (int i = 0; i < dataLst.Count; i++)
+        //     {
+        //         m_DataLst.Add(dataLst[i].assetName);
+        //         // EditorUtility.SetDirty(this);
+        //         // AssetDatabase.SaveAssets();
+        //     }
+        // }
     }
 }
 
