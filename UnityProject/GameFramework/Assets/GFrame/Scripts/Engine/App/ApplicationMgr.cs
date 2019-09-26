@@ -11,7 +11,7 @@ namespace GFrame
         {
             AppConfig.S.InitAppConfig();
             ResMgr.S.InitResMgr();
-
+            UIMgr.S.Init();
             StartApp();
         }
 

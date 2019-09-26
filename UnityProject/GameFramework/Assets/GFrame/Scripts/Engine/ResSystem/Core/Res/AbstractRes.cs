@@ -20,7 +20,7 @@ namespace GFrame
         public UnityEngine.Object asset
         {
             get { return m_Asset; }
-            set { m_Asset = value; }
+            //set { m_Asset = value; }
         }
 
         protected AbstractRes(string name)

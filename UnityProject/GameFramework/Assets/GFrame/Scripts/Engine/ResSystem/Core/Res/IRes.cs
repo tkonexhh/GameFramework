@@ -38,7 +38,7 @@ namespace GFrame
         UnityEngine.Object asset
         {
             get;
-            set;
+            //set;
         }
 
 

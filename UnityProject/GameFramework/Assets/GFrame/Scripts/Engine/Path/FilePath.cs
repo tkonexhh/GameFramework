@@ -11,6 +11,7 @@ namespace GFrame
         private static string m_ProjectConfigPath;
         private static string m_PersistentDataPath;
         private static string m_PersistentDataPath4Recorder;
+        private static string m_PersistentDataPath4Cache;
         private static string m_StreamingAssetsPath;
         private static string m_StreamingAssetsPath4AB;
         private static string m_StreamingAssetsPath4Config;
@@ -115,6 +116,20 @@ namespace GFrame
                 }
 
                 return m_PersistentDataPath4Recorder;
+            }
+        }
+
+        public static string persistentDataPath4Cache
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_PersistentDataPath4Cache))
+                {
+                    m_PersistentDataPath4Recorder = persistentDataPath + "Cache/";
+                    IO.CheckDirAndCreate(m_PersistentDataPath4Recorder);
+                }
+
+                return m_PersistentDataPath4Cache;
             }
         }
 

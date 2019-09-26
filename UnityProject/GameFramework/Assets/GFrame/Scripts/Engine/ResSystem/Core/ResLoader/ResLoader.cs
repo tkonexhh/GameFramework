@@ -26,10 +26,10 @@ namespace GFrame
             return loader;
         }
 
-        // private void LoadSync()
-        // {
+        public void LoadSync()
+        {
 
-        // }
+        }
 
         public UnityEngine.Object LoadSync(string name)
         {

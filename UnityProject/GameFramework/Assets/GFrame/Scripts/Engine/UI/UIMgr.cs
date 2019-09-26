@@ -7,6 +7,8 @@ namespace GFrame
 
     public class UIMgr : TMonoSingleton<UIMgr>
     {
+        private const string UIROOTPATH = "Resources/UI/UIRoot";
+
         private UIRoot m_UIRoot;
         public UIRoot uiRoot
         {
@@ -29,14 +31,24 @@ namespace GFrame
                 if (m_UIRoot == null)
                     Log.e("Error:UIRoot Is Null.");
             }
-
         }
+
+        public void Init() { }
 
         private UIRoot LoadUIRoot()
         {
             ResLoader loader = ResLoader.Allocate("UIMgr");
-            loader.Add2Load("Resources/UI/UIRoot");
-            return null;
+            // loader.Add2Load("Resources/UI/UIRoot");
+            // loader.LoadSync();
+
+            Object uiRootObj = loader.LoadSync("Resources/UI/UIRoot");
+            if (uiRootObj == null)
+            {
+                Log.e("Failed To Load UIRoot at" + UIROOTPATH);
+                return null;
+            }
+            GameObject uiRootGo = GameObject.Instantiate(uiRootObj as GameObject);
+            return uiRootGo.GetComponent<UIRoot>();
         }
     }
 }

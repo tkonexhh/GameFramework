@@ -15,26 +15,26 @@ namespace GFrame
             IRes CreateRes(string name);
         }
 
-        // class ResCreatorWrap : IResCreatorWrap
-        // {
-        //     private string m_Key;
-        //     private ResCreator m_Creator;
+        class ResCreatorWrap : IResCreatorWrap
+        {
+            private string m_Key;
+            private ResCreator m_Creator;
 
-        //     public ResCreatorWrap(string key, ResCreator creator)
-        //     {
-        //         m_Key = key;
-        //         m_Creator = creator;
-        //     }
+            public ResCreatorWrap(string key, ResCreator creator)
+            {
+                m_Key = key;
+                m_Creator = creator;
+            }
 
-        //     public bool CheckResType(string name)
-        //     {
-        //         return name.StartsWith(m_Key);
-        //     }
-        //     public IRes CreateRes(string name)
-        //     {
-        //         return m_Creator(name);
-        //     }
-        // }
+            public bool CheckResType(string name)
+            {
+                return name.StartsWith(m_Key);
+            }
+            public IRes CreateRes(string name)
+            {
+                return m_Creator(name);
+            }
+        }
 
         class AssetResCreatorWrap : IResCreatorWrap
         {
@@ -76,12 +76,37 @@ namespace GFrame
         private static AssetResCreatorWrap s_AssetResCreatorWrap;
         private static LocalAssetResCreatorWrap s_LocalAssetResCreatorWrap;
 
+        private static List<IResCreatorWrap> s_CreatorList;
         static ResFactory()
         {
             Log.i("#Init[ResFactory]");
             s_AssetResCreatorWrap = new AssetResCreatorWrap();
             s_LocalAssetResCreatorWrap = new LocalAssetResCreatorWrap();
-            // /s_LocalResCreatorWrap = new ResCreatorWrap();
+            s_CreatorList = new List<IResCreatorWrap>();
+
+            RegisterResCreate(InternalRes.PREFIX_KEY, InternalRes.Allocate);
+        }
+
+        public static void RegisterResCreate(string key, ResCreator creator)
+        {
+            if (creator == null || string.IsNullOrEmpty(key))
+            {
+                Log.e("#Register InValid Creator.");
+                return;
+            }
+
+            RegisterResCreateWarp(new ResCreatorWrap(key, creator));
+        }
+
+        public static void RegisterResCreateWarp(IResCreatorWrap wrap)
+        {
+            if (wrap == null)
+            {
+                Log.e("Register InValid Wrap.");
+                return;
+            }
+
+            s_CreatorList.Add(wrap);
         }
 
         public static IRes Create(string name)
@@ -94,6 +119,17 @@ namespace GFrame
             {
                 return s_LocalAssetResCreatorWrap.CreateRes(name);
             }
+            else
+            {
+                for (int i = s_CreatorList.Count - 1; i >= 0; --i)
+                {
+                    if (s_CreatorList[i].CheckResType(name))
+                    {
+                        return s_CreatorList[i].CreateRes(name);
+                    }
+                }
+            }
+            Log.e("#Not Find ResCreate For Res:" + name);
             return null;
         }
     }
