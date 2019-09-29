@@ -85,6 +85,7 @@ namespace GFrame
             s_CreatorList = new List<IResCreatorWrap>();
 
             RegisterResCreate(InternalRes.PREFIX_KEY, InternalRes.Allocate);
+            RegisterResCreate(NetImgRes.PREFIX_KEY, NetImgRes.Allocate);
         }
 
         public static void RegisterResCreate(string key, ResCreator creator)

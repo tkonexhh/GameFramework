@@ -18,30 +18,41 @@ namespace GFrame
             if (res != null)
             {
                 res.name = name;
+                res.SetUrl(name.Substring(9));
             }
             return res;
+        }
+
+        public void SetUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return;
+            }
+            m_Url = url;
+            m_HashCode = string.Format("CacheImg_{0}", m_Url.GetHashCode());
         }
 
         public override bool LoadSync()//同步加载
         {
 
-            if (string.IsNullOrEmpty(m_Name))
-            {
-                return false;
-            }
-
-
-            m_Asset = asset;
-            if (m_Asset != null)
-            {
-                return true;
-            }
             return false;
         }
 
         public override void LoadAsync()//异步加载
         {
+            DownloadImage();
+        }
 
+        IEnumerator DownloadImage()
+        {
+            WWW www = new WWW(m_Url);
+            yield return www;
+
+            m_Asset = www.texture;
+            Debug.LogError(m_Asset);
+            www.Dispose();
+            www = null;
         }
 
         public override void Recycle2Cache()

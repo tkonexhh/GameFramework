@@ -18,6 +18,7 @@ namespace GFrame
             return res;
         }
 
+
         public static string Name2Path(string name)
         {
             return name.Substring(10);

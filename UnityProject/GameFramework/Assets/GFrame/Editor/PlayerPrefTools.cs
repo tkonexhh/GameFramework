@@ -10,7 +10,7 @@ namespace GFrame.UnityEditor
 {
     public class PlayerPrefTools
     {
-        [MenuItem("Custom/PlayerData Tools/Clear All Saved Data")]
+        [MenuItem("Custom/Tools/Clear All Saved Data")]
         static public void ClearSavedData()
         {
             PlayerPrefs.DeleteAll();

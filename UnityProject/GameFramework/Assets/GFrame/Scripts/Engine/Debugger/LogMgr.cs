@@ -9,7 +9,7 @@ namespace GFrame
     public class LogMgr : TSingleton<LogMgr>
     {
         public LogLevel logLevel = LogLevel.Max;
-        public LogLevel fileLogLevel = LogLevel.Max;
+        public LogLevel fileLogLevel = LogLevel.None;
         private int mainThreadID = -1;
         private FileLogOutput m_LogOutput;
         private Dictionary<LogType, LogLevel> m_LogTypeLevelDict;

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: AppConfig
   m_EditorClassIdentifier: 
   m_LogLevel: 5
-  m_FileLogLevel: 4
+  m_FileLogLevel: 0

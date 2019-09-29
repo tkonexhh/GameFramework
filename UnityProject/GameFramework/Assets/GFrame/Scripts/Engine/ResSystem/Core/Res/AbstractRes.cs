@@ -33,6 +33,12 @@ namespace GFrame
 
         }
 
+        protected override void OnZeroRef()
+        {
+            Debug.LogError("OnZeroRef:" + m_Name);
+            ReleaseRes();
+        }
+
 
         public void RegisterResListener(Action<bool, IRes> listener)
         {
@@ -73,7 +79,8 @@ namespace GFrame
 
         public bool ReleaseRes()
         {
-            return false;
+            m_ResListener = null;
+            return true;
         }
 
 

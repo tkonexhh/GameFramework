@@ -20,6 +20,8 @@ namespace GFrame
 
         public FileLogOutput()
         {
+            if (LogMgr.S.fileLogLevel == LogLevel.None)
+                return;
             System.DateTime now = System.DateTime.Now;
             string logName = string.Format("Log_{0}{1}{2}{3}{4}{5}",
                 now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
@@ -41,6 +43,7 @@ namespace GFrame
 
         void WriteLog()
         {
+
             while (m_IsRunning)
             {
                 if (m_WritingLogQueue.Count == 0)
