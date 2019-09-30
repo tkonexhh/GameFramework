@@ -14,23 +14,32 @@ namespace GFrame
     public static class ReflectionHelper
     {
 
-        public static Type GetTypeInEditor(string name)
+        public static Type GetType(string name)
         {
-            Type type = null;
-            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            //assemblies.get
+            var defaultAssembly = assemblies.First(assembly => assembly.GetName().Name == "Assembly-CSharp");
+            Type type = defaultAssembly.GetType(name);
+            if (type == null)
             {
-                Type tt = asm.GetType(name);
-                if (tt != null)
-                {
-                    type = tt;
-                    break;
-                }
+                Log.e("#Not Find Type at:" + name);
             }
+
+            // Type type = null;
+            // foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            // {
+            //     Type tt = asm.GetType(name);
+            //     if (tt != null)
+            //     {
+            //         type = tt;
+            //         break;
+            //     }
+            // }
 
             return type;
         }
 
-        public static void Invoke(this object obj, Type type, String methodName, object[] parameters = null)
+        public static void Invoke(object obj, Type type, String methodName, object[] parameters = null)
         {
             //object obj = Instance(type);
             MethodInfo method = type.GetMethod(methodName);
