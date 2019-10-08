@@ -87,10 +87,10 @@ namespace GFrame
                 return;
             }
 
-            m_Data = new T();
-            m_Data.InitWithEmptyData();
-            m_Data.SetDataDirty();
-            m_Data.OnDataLoadFinish();
+            // m_Data = new T();
+            // m_Data.InitWithEmptyData();
+            // m_Data.SetDataDirty();
+            // m_Data.OnDataLoadFinish();
 
         }
 

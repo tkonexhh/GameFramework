@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1238710117606718269}
   - component: {fileID: 4583384846406245778}
   - component: {fileID: 2186434687886947112}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5082476985979113078}
   - component: {fileID: 4368955598938249736}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ Camera:
   m_GameObject: {fileID: 6295298177237183688}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
@@ -192,7 +192,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -213,7 +213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5554873042529831231}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HideRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7295920100788866778}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PanelRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

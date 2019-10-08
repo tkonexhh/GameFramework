@@ -2,13 +2,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Qarth;
 using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using System.Globalization;
 
-namespace Qarth
+namespace GFrame
 {
     public static class EncryptUtil
     {

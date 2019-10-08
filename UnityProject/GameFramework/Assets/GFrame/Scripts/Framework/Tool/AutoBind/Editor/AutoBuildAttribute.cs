@@ -15,72 +15,39 @@ namespace GFrame
     {
         private const string NAMESPACE = EngineDefine.NAMESPACE;
         private const string EDITKEY = "AutoBindAttribute";
-        static Dictionary<string, string> dicUIType = new Dictionary<string, string>()
+        private const string EDITKEY_BIND = "AutoBindAttribute_BIND";
+        static Dictionary<string, string> dicType = new Dictionary<string, string>()
         {
-             {"Img", "Image"},
-             {"Btn", "Button"},
-             {"Txt", "Text"},
-             {"Trans", "Transform"},
-             {"Obj", "GameObject"}
-             //{"Toggle","Toggle"}
+            {"Img", "Image"},
+            {"Btn", "Button"},
+            {"Txt", "Text"},
+            {"Trans", "Transform"},
+            {"Obj", "GameObject"},
+            {"Toggle", "Toggle"}
         };
 
         #region  Bind绑定
-        [MenuItem("Custom/Tools/AutoBind/AutoBuildAttributeByBind")]
+        [MenuItem("Custom/Tools/AutoBind/根据AutoBind脚本绑定")]
         static public void AutoCreateAttributeByBind()
         {
             if (Selection.gameObjects.Length == 0)
                 return;
             GameObject selectobj = Selection.gameObjects[0];
             WriteCode(selectobj);
-            //if(selectobj)
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorPrefs.SetString(EDITKEY_BIND, selectobj.name);
         }
 
         static private void WriteCode(GameObject obj)
         {
-            string fileName = obj.transform.name + "_AutoBind.cs";
+            string fileName = obj.name + "_AutoBind.cs";
             string dicName = Application.dataPath + "/Scripts/Game/UIScripts/" + obj.name;
             IO.CheckDirAndCreate(dicName);
 
-            AutoBind[] uiBinds = obj.transform.GetComponentsInChildren<AutoBind>();
-            List<AttrInfo> attrInfos = new List<AttrInfo>();
-            foreach (AutoBind uiBind in uiBinds)
-            {
-                if (uiBind.transform.name.Contains("_"))
-                {
-                    string fieldName = uiBind.transform.name;
-                    fieldName = fieldName.Replace("(", "");
-                    fieldName = fieldName.Replace(")", "");
+            List<AttrInfo> attrInfos = GetAttrInfosInGameObjectByBind(obj);
 
-
-                    fieldName = fieldName.Replace("_", "");
-                    fieldName = fieldName[0].ToString().ToUpper() + fieldName.Substring(1);
-                    fieldName = "m_" + fieldName;
-
-                    Transform targetTrans = uiBind.transform;
-                    StringBuilder path = new StringBuilder();
-                    while (targetTrans.parent != obj.transform)
-                    {
-                        targetTrans = targetTrans.parent;
-                        path.Append(targetTrans.name + "/");
-
-                    }
-                    path.Append(uiBind.transform.name);
-
-                    AttrInfo attrInfo = new AttrInfo();
-                    if (!string.IsNullOrEmpty(uiBind.attrName))
-                        attrInfo.attrName = uiBind.attrName;
-                    else
-                    {
-                        attrInfo.attrName = uiBind.transform.name;
-                    }
-                    attrInfo.typeName = uiBind.type.ToString();
-                    attrInfo.objName = uiBind.transform.name;
-                    attrInfo.path = path.ToString();
-                    attrInfos.Add(attrInfo);
-
-                }
-            }
             string filePath = Path.Combine(dicName, fileName);
             string fileMonoPath = Path.Combine(dicName, obj.transform.name + ".cs");
             IO.WriteFile(filePath, WriteNewFile(obj.transform.name, attrInfos), true);
@@ -88,8 +55,67 @@ namespace GFrame
             {
                 IO.WriteFile(fileMonoPath, WriteEmptyMono(obj.transform.name), true);
             }
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+
+        }
+
+        [DidReloadScripts]
+        static void BindScriptsToObjByBind()
+        {
+            string objName = EditorPrefs.GetString(EDITKEY_BIND, "");
+            if (!string.IsNullOrEmpty(objName))
+            {
+                EditorPrefs.SetString(EDITKEY_BIND, "");
+
+                GameObject targetObj = GameObject.Find(objName);
+                string nameStr = NAMESPACE + "." + objName;
+                Type type = ReflectionHelper.GetType(nameStr);
+                if (type == null)
+                {
+                    Log.e("#Not Find Type For" + nameStr);
+                    return;
+                }
+
+                var targetComponent = targetObj.GetComponent(type);
+                if (targetObj.GetComponent(type) == null)
+                {
+                    targetComponent = targetObj.AddComponent(type);
+                }
+                List<AttrInfo> attrInfos = GetAttrInfosInGameObjectByBind(targetObj);
+
+                BindProperties(targetComponent, targetObj, type, attrInfos);
+            }
+        }
+
+        static private List<AttrInfo> GetAttrInfosInGameObjectByBind(GameObject obj)
+        {
+            AutoBind[] uiBinds = obj.GetComponentsInChildren<AutoBind>();
+            List<AttrInfo> attrInfos = new List<AttrInfo>();
+            foreach (AutoBind uiBind in uiBinds)
+            {
+                Transform targetTrans = uiBind.transform;
+                string path = "";
+                while (targetTrans.parent != obj.transform)
+                {
+                    targetTrans = targetTrans.parent;
+                    path = targetTrans.name + "/" + path;
+                }
+                path += uiBind.transform.name;
+
+                AttrInfo attrInfo = new AttrInfo();
+                if (!string.IsNullOrEmpty(uiBind.attrName))
+                    attrInfo.attrName = AutoBindHelper.AutoName(uiBind);
+                else
+                {
+                    string fieldName = uiBind.transform.name;
+                    fieldName = GetFieldName(fieldName);
+                    attrInfo.attrName = fieldName;
+                }
+                attrInfo.typeName = uiBind.type.ToString();
+                attrInfo.objName = uiBind.transform.name;
+                attrInfo.path = path.ToString();
+                attrInfos.Add(attrInfo);
+            }
+            return attrInfos;
         }
 
         #endregion
@@ -110,8 +136,16 @@ namespace GFrame
             List<AttrInfo> attrInfos = GetAttrInfosInGameObject(selectobj);
             if (attrInfos.Count == 0) return;
 
-            //var script = selectobj.GetComponent(name);
+            var script = selectobj.GetComponent(name);
             string path = Application.dataPath + "/";
+            if (script != null)
+            {
+                var monoScript = MonoScript.FromMonoBehaviour((MonoBehaviour)script);
+                path = AssetDatabase.GetAssetPath(monoScript.GetInstanceID());
+                path = PathHelper.GetParentDir(path) + "/";
+            }
+            Debug.LogError(path);
+            //string path = Application.dataPath + "/";
             string filePath = path + name + "_AutoBind.cs";
             string fileMonoPath = path + name + ".cs";
             if (!IO.IsFileExist(fileMonoPath))
@@ -123,54 +157,7 @@ namespace GFrame
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-
             EditorPrefs.SetString(EDITKEY, name);
-        }
-
-        static private List<AttrInfo> GetAttrInfosInGameObject(GameObject obj)
-        {
-            string name = obj.name;
-            Transform[] childs = obj.GetComponentsInChildren<Transform>();
-
-            List<AttrInfo> attrInfos = new List<AttrInfo>();
-            foreach (Transform child in childs)
-            {
-                if (child.name.Contains("_"))
-                {
-
-                    string key = child.name.Split('_')[0];
-                    string value;
-                    if (dicUIType.TryGetValue(key, out value))
-                    {
-                        string fieldName = child.name;
-                        fieldName = fieldName.Replace(" ", "");
-                        fieldName = fieldName.Replace("(", "");
-                        fieldName = fieldName.Replace(")", "");
-
-
-                        fieldName = fieldName.Replace("_", "");
-                        fieldName = fieldName[0].ToString().ToUpper() + fieldName.Substring(1);
-                        fieldName = "m_" + fieldName;
-
-                        Transform targetTrans = child;
-                        string path = "";
-                        while (targetTrans.parent != obj.transform)
-                        {
-                            targetTrans = targetTrans.parent;
-                            path = targetTrans.name + "/" + path;
-                        }
-                        path += child.name;
-                        AttrInfo attrInfo = new AttrInfo();
-                        attrInfo.attrName = fieldName;
-                        attrInfo.typeName = value;
-                        attrInfo.objName = child.name;
-                        attrInfo.path = path.ToString();
-                        attrInfos.Add(attrInfo);
-                    }
-                }
-            }
-
-            return attrInfos;
         }
 
         static private string WriteEmptyMono(string className)
@@ -218,27 +205,6 @@ namespace GFrame
             return code.ToString();
         }
 
-        // static private void ModifFile(string go, string path, List<AttrInfo> attrInfos)
-        // {
-        //     string insertTxt = "";
-        //     for (int i = 0; i < attrInfos.Count; i++)
-        //     {
-        //         insertTxt += "[SerializeField] private " + attrInfos[i].typeName + " " + attrInfos[i].attrName + ";\n";
-        //     }
-
-        //     string content = File.ReadAllText(path);
-        //     string findStr = "MonoBehaviour\n";
-        //     int startIndex = content.IndexOf(findStr, 100);
-        //     if (startIndex > 0)
-        //     {
-        //         Debug.LogError(startIndex);
-        //         content = content.Insert(startIndex + findStr.Length + 5, insertTxt);
-        //         File.WriteAllText(path, content);
-        //         EditorPrefs.SetString(EDITKEY, go);
-        //         AssetDatabase.Refresh();
-        //     }
-        // }
-
         [DidReloadScripts]
         static void BindScriptsToObj()
         {
@@ -247,24 +213,15 @@ namespace GFrame
             {
                 EditorPrefs.SetString(EDITKEY, "");
                 GameObject targetObj = GameObject.Find(objName);
+
                 string nameStr = NAMESPACE + "." + objName;
-
-                //knowledge point
-                //https://blog.csdn.net/u010153703/article/details/52136530
-                Type type = null;
-
-                foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+                Type type = ReflectionHelper.GetType(nameStr);
+                if (type == null)
                 {
-                    Type tt = asm.GetType(nameStr);
-                    if (tt != null)
-                    {
-                        type = tt;
-                        break;
-                    }
+                    Log.e("#Not Find Type For" + nameStr);
+                    return;
                 }
-                Debug.LogError(type);
 
-                if (type == null) return;
                 var targetComponent = targetObj.GetComponent(type);
                 if (targetObj.GetComponent(type) == null)
                 {
@@ -272,9 +229,59 @@ namespace GFrame
                 }
 
                 List<AttrInfo> attrInfos = GetAttrInfosInGameObject(targetObj);
-                //接下来进行模拟拖拽操作
                 BindProperties(targetComponent, targetObj, type, attrInfos);
             }
+        }
+
+        static private string GetFieldName(string fieldName)
+        {
+            fieldName = fieldName.Replace(" ", "");
+            fieldName = fieldName.Replace("(", "");
+            fieldName = fieldName.Replace(")", "");
+            fieldName = fieldName.Replace("_", "");
+            fieldName = fieldName[0].ToString().ToUpper() + fieldName.Substring(1);
+            fieldName = "m_" + fieldName;
+            return fieldName;
+        }
+
+
+
+        static private List<AttrInfo> GetAttrInfosInGameObject(GameObject obj)
+        {
+            string name = obj.name;
+            Transform[] childs = obj.GetComponentsInChildren<Transform>();
+
+            List<AttrInfo> attrInfos = new List<AttrInfo>();
+            foreach (Transform child in childs)
+            {
+                if (child.name.Contains("_"))
+                {
+                    string key = child.name.Split('_')[0];
+                    string value;
+                    if (dicType.TryGetValue(key, out value))
+                    {
+                        string fieldName = child.name;
+                        fieldName = GetFieldName(fieldName);
+
+                        Transform targetTrans = child;
+                        string path = "";
+                        while (targetTrans.parent != obj.transform)
+                        {
+                            targetTrans = targetTrans.parent;
+                            path = targetTrans.name + "/" + path;
+                        }
+                        path += child.name;
+                        AttrInfo attrInfo = new AttrInfo();
+                        attrInfo.attrName = fieldName;
+                        attrInfo.typeName = value;
+                        attrInfo.objName = child.name;
+                        attrInfo.path = path.ToString();
+                        attrInfos.Add(attrInfo);
+                    }
+                }
+            }
+
+            return attrInfos;
         }
 
         static private void BindProperties(object obj, GameObject go, Type type, List<AttrInfo> attrInfos)
@@ -283,7 +290,6 @@ namespace GFrame
             FieldInfo[] infos = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             for (int i = 0; i < infos.Length; i++)
             {
-
                 string attrName = infos[i].Name;
                 for (int x = tempChild.Count - 1; x >= 0; --x)
                 {
@@ -315,8 +321,6 @@ namespace GFrame
                     return trans.GetComponent(typeName);
             }
         }
-
-
 
         private class AttrInfo
         {

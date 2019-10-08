@@ -12,7 +12,7 @@ namespace GFrame
             string attrName = bind.attrName;
             if (!attrName.StartsWith("m_"))
             {
-                attrName += "m_";
+                attrName = "m_" + attrName;
             }
             return attrName;
         }

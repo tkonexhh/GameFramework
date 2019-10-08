@@ -44,6 +44,26 @@ namespace GFrame
             }
         }
 
+        public static bool IsAndroidSimulator
+        {
+            get
+            {
+                bool value = false;
+
+#if UNITY_ANDROID
+                AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                AndroidJavaObject sensorManager = currentActivity.Call<AndroidJavaObject>("getSystemService", "sensor");
+                AndroidJavaObject sensor = sensorManager.Call<AndroidJavaObject>("getDefaultSensor", 5);
+                if (sensor == null)
+                {
+                    value = true;
+                }
+#endif
+                return value;
+            }
+        }
+
 
         private static bool IsLinuxSystem()
         {

@@ -72,6 +72,29 @@ namespace GFrame
         }
 
         #endregion
+
+
+
+        // static private void ModifFile(string go, string path, List<AttrInfo> attrInfos)
+        // {
+        //     string insertTxt = "";
+        //     for (int i = 0; i < attrInfos.Count; i++)
+        //     {
+        //         insertTxt += "[SerializeField] private " + attrInfos[i].typeName + " " + attrInfos[i].attrName + ";\n";
+        //     }
+
+        //     string content = File.ReadAllText(path);
+        //     string findStr = "MonoBehaviour\n";
+        //     int startIndex = content.IndexOf(findStr, 100);
+        //     if (startIndex > 0)
+        //     {
+        //         Debug.LogError(startIndex);
+        //         content = content.Insert(startIndex + findStr.Length + 5, insertTxt);
+        //         File.WriteAllText(path, content);
+        //         EditorPrefs.SetString(EDITKEY, go);
+        //         AssetDatabase.Refresh();
+        //     }
+        // }
     }
 }
 

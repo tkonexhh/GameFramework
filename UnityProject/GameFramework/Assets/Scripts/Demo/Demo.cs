@@ -3,26 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using GFrame;
 
-public class Demo : MonoBehaviour
+namespace Main.Game
 {
-    // Start is called before the first frame update
-    void Start()
+
+
+    public class Demo : MonoBehaviour
     {
-        var type = ReflectionHelper.GetType(this.GetType().ToString());
-        Debug.LogError(type);
+        // Start is called before the first frame update
+        void Start()
+        {
+            var s = new GameDataMgr();
+            GameDataMgr.Save();
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
 
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-    public void DE()
-    {
-        Debug.LogError("asdasdasd");
+        public void DE()
+        {
+            Debug.LogError("asdasdasd");
+        }
     }
 }

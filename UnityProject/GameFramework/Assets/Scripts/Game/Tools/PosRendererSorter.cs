@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Qarth;
+using GFrame;
 
-namespace GameWish.Game
+namespace Main.Game
 {
     public class PosRendererSorter : MonoBehaviour
     {
