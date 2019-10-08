@@ -8,7 +8,8 @@ namespace Main.Game
     {
         Head,
         Eyebrows,
-        FacialHair
+        FacialHair,
+        Torso,
     }
 
     public class RoleAppearance : MonoBehaviour
@@ -17,20 +18,24 @@ namespace Main.Game
         [SerializeField] private RoleHead m_Head;
         [SerializeField] private RoleEyebrows m_Eyebrows;
         [SerializeField] private RoleFacialHair m_FacialHair;
+        [SerializeField] private RoleTorso m_Torso;
+
 
         [SerializeField] private Transform m_BoneNeck;
         [SerializeField] private Transform m_BoneEyebrows;
-        // public Transform BoneNeck
-        // {
-        //     get { return m_BoneNeck; }
-        // }
+        [SerializeField] private Transform m_BoneFcialHair;
+        [SerializeField] private Transform m_BoneTorso;
 
         private void Start()
         {
             m_Head.Init();
             m_Eyebrows.Init();
-            m_Head.SetTargetBone(m_BoneNeck);
-            m_Eyebrows.SetTargetBone(m_BoneEyebrows);
+            m_FacialHair.Init();
+            m_Torso.Init();
+            // m_Head.SetTargetBone(m_BoneNeck);
+            // m_Eyebrows.SetTargetBone(m_BoneEyebrows);
+            // m_FacialHair.SetTargetBone(m_BoneFcialHair);
+            // m_Torso.SetTargetBone(m_BoneTorso);
         }
 
 
@@ -50,6 +55,8 @@ namespace Main.Game
                     return m_Eyebrows;
                 case BodyPartEnum.FacialHair:
                     return m_FacialHair;
+                case BodyPartEnum.Torso:
+                    return m_Torso;
             }
 
             return null;

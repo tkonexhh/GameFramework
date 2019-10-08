@@ -15,13 +15,14 @@ namespace Main.Game
 
         public virtual void Init()
         {
-
+            m_ResLoader = ResLoader.Allocate("RoleAppearance");
+            m_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         }
 
-        public void SetTargetBone(Transform bone)
-        {
-            m_TargetBone = bone;
-        }
+        // public void SetTargetBone(Transform bone)
+        // {
+        //     m_TargetBone = bone;
+        // }
 
         public virtual void SetAppearance(int index)
         {

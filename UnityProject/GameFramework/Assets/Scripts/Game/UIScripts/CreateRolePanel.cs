@@ -18,10 +18,12 @@ namespace Main.Game
         [SerializeField] RoleAppearance m_MaleGo;
 
 
-        private RoleHead m_RoleHead;
-
         private int m_HeadIndex;
         private int m_EyebrowsIndex;
+        private int m_FacialHairIndex;
+        private int m_TorsoIndex;
+
+
         private int m_MaxHeadIndex;
         private int m_MaxEyebrowsIndex;
 
@@ -52,6 +54,29 @@ namespace Main.Game
                 m_EyebrowsIndex++;
                 RefeshEyebrows(m_EyebrowsIndex);
             });
+            m_BtnFacialHairAdd.onClick.AddListener(() =>
+            {
+                m_FacialHairIndex++;
+                RefeshFacialHair(m_FacialHairIndex);
+            });
+
+            m_BtnFacialHairReduce.onClick.AddListener(() =>
+           {
+               m_FacialHairIndex--;
+               RefeshFacialHair(m_FacialHairIndex);
+           });
+
+            m_BtnTorsoAdd.onClick.AddListener(() =>
+            {
+                m_TorsoIndex++;
+                RefeshBody(BodyPartEnum.Torso, m_TorsoIndex);
+            });
+
+            m_BtnTorsoReduce.onClick.AddListener(() =>
+           {
+               m_TorsoIndex--;
+               RefeshBody(BodyPartEnum.Torso, m_TorsoIndex);
+           });
         }
 
 
@@ -67,14 +92,24 @@ namespace Main.Game
             }
         }
 
+        private void RefeshBody(BodyPartEnum partEnum, int index)
+        {
+            m_MaleGo.ChangeBodyPart(partEnum, index);
+        }
+
         private void RefeshHead(int index)
         {
-            m_MaleGo.ChangeBodyPart(BodyPartEnum.Head, m_HeadIndex);
+            m_MaleGo.ChangeBodyPart(BodyPartEnum.Head, index);
         }
 
         private void RefeshEyebrows(int index)
         {
+            m_MaleGo.ChangeBodyPart(BodyPartEnum.Eyebrows, index);
+        }
 
+        private void RefeshFacialHair(int index)
+        {
+            m_MaleGo.ChangeBodyPart(BodyPartEnum.FacialHair, index);
         }
 
     }

@@ -10,27 +10,27 @@ namespace Main.Game
 
     public class RoleAppearResPath
     {
-
-        static GameObject m_MeshHolder = null;
-        public static GameObject MeshHolder
-        {
-            get
-            {
-                if (m_MeshHolder == null)
-                {
-                    IRes res = ResFactory.Create("Resources/ModularCharacters");
-                    m_MeshHolder = res.asset as GameObject;
-                }
-
-                return m_MeshHolder;
-            }
-        }
+        private const string m_RoleRes = "Resources/Role";
 
         public static string GetMaleHeadMeshNameByIndex(int index)
         {
-            var s = MeshHolder.transform.Find("Chr_Head_Male_00_Static_Mesh");
-            Debug.LogError(s);
-            string path = "Resources/Role/Male/Head/Prefeb/" + string.Format("Chr_Head_Male_{0}_Static_Mesh", index.ToString().PadLeft(2, '0'));
+            string path = m_RoleRes + "/Male/Head/Prefab/" + string.Format("Chr_Head_Male_{0}_Static_Prefeb", index.ToString().PadLeft(2, '0'));
+            return path;
+        }
+        public static string GetMaleEyebrowMeshNameByIndex(int index)
+        {
+            string path = m_RoleRes + "/Male/Eyebrow/Prefab/" + string.Format("Chr_Eyebrow_Male_{0}_Static", index.ToString().PadLeft(2, '0'));
+            return path;
+        }
+        public static string GetMaleFacialHairMeshNameByIndex(int index)
+        {
+            string path = m_RoleRes + "/Male/FacialHair/Prefab/" + string.Format("Chr_FacialHair_Male_{0}_Static", index.ToString().PadLeft(2, '0'));
+            return path;
+        }
+
+        public static string GetMaleTorsoMeshNameByIndex(int index)
+        {
+            string path = m_RoleRes + "/Male/Torso/Prefab/" + string.Format("Chr_Torso_Male_{0}_Static", index.ToString().PadLeft(2, '0'));
             return path;
         }
     }
