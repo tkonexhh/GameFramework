@@ -8,9 +8,10 @@ namespace Main.Game
     {
         public override void SetAppearance(int index)
         {
-            string resPath = RoleAppearResPath.GetMaleEyebrowMeshNameByIndex(index);
-            GameObject prefeb = m_ResLoader.LoadSync(resPath) as GameObject;
-            m_SkinnedMeshRenderer.sharedMesh = prefeb.GetComponent<MeshFilter>().sharedMesh;
+            base.SetAppearance(index);
+            // string resPath = RoleAppearResPath.GetMaleEyebrowMeshNameByIndex(index);
+            // GameObject prefeb = m_ResLoader.LoadSync(resPath) as GameObject;
+            // m_SkinnedMeshRenderer.sharedMesh = prefeb.GetComponent<MeshFilter>().sharedMesh;
         }
     }
 }

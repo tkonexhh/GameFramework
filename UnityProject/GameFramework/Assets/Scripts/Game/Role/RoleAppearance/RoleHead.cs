@@ -7,12 +7,10 @@ namespace Main.Game
 {
     public class RoleHead : RoleBaseAppearance
     {
-
         public override void SetAppearance(int index)
         {
-            string resPath = RoleAppearResPath.GetMaleHeadMeshNameByIndex(index);
-            GameObject prefeb = m_ResLoader.LoadSync(resPath) as GameObject;
-            m_SkinnedMeshRenderer.sharedMesh = prefeb.GetComponent<MeshFilter>().sharedMesh;
+            base.SetAppearance(index);
+            m_SkinnedMeshRenderer.sharedMesh = m_SourceMesh.GetMaleMeshByType(RoleMeshPart.Male_Head_All_Elements, index).sharedMesh;//prefeb.GetComponent<MeshFilter>().sharedMesh;
         }
     }
 }

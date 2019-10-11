@@ -14,6 +14,7 @@ namespace Main.Game
 
     public class RoleAppearance : MonoBehaviour
     {
+        [SerializeField] private RoleSourceMesh m_SourceMesh;
 
         [SerializeField] private RoleHead m_Head;
         [SerializeField] private RoleEyebrows m_Eyebrows;
@@ -21,21 +22,12 @@ namespace Main.Game
         [SerializeField] private RoleTorso m_Torso;
 
 
-        [SerializeField] private Transform m_BoneNeck;
-        [SerializeField] private Transform m_BoneEyebrows;
-        [SerializeField] private Transform m_BoneFcialHair;
-        [SerializeField] private Transform m_BoneTorso;
-
         private void Start()
         {
-            m_Head.Init();
-            m_Eyebrows.Init();
-            m_FacialHair.Init();
-            m_Torso.Init();
-            // m_Head.SetTargetBone(m_BoneNeck);
-            // m_Eyebrows.SetTargetBone(m_BoneEyebrows);
-            // m_FacialHair.SetTargetBone(m_BoneFcialHair);
-            // m_Torso.SetTargetBone(m_BoneTorso);
+            m_Head.Init(m_SourceMesh);
+            m_Eyebrows.Init(m_SourceMesh);
+            // m_FacialHair.Init();
+            // m_Torso.Init();
         }
 
 

@@ -7,26 +7,23 @@ namespace Main.Game
 {
     public class RoleBaseAppearance : MonoBehaviour
     {
-        protected GameObject m_ObjAppearance;
-        protected ResLoader m_ResLoader;
-        protected Transform m_TargetBone;
         [SerializeField]
         protected SkinnedMeshRenderer m_SkinnedMeshRenderer;
+        [SerializeField]
+        protected int m_CurIndex;
+        protected RoleSourceMesh m_SourceMesh;
 
-        public virtual void Init()
+        public virtual void Init(RoleSourceMesh sourceMesh, int index = 0)
         {
-            m_ResLoader = ResLoader.Allocate("RoleAppearance");
             m_SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            m_SourceMesh = sourceMesh;
+            SetAppearance(m_CurIndex);
         }
 
-        // public void SetTargetBone(Transform bone)
-        // {
-        //     m_TargetBone = bone;
-        // }
 
         public virtual void SetAppearance(int index)
         {
-
+            m_CurIndex = index;
         }
     }
 }

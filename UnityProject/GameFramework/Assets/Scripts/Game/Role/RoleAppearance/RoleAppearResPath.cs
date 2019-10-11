@@ -11,6 +11,7 @@ namespace Main.Game
     public class RoleAppearResPath
     {
         private const string m_RoleRes = "Resources/Role";
+        private const string m_SoureRes = "Resources/Model/ModularCharacters_Source_Prefeb";
 
         public static string GetMaleHeadMeshNameByIndex(int index)
         {
