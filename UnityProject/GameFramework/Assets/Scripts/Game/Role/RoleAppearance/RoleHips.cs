@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Main.Game
 {
-    public class RoleEyebrows : RoleBaseAppearance
+    public class RoleHips : RoleBaseAppearance
     {
         public override void SetAppearance(int index)
         {
             base.SetAppearance(index);
-            SkinnedMeshRenderer renderer = m_SourceMesh.GetRoleMeshByType(RoleMeshPart.Male_01_Eyebrows, index);
+            SkinnedMeshRenderer renderer = m_SourceMesh.GetRoleMeshByType(RoleMeshPart.Male_10_Hips, index);
             SetNewRenderer(renderer);
         }
     }

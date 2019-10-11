@@ -9,10 +9,9 @@ namespace Main.Game
     {
         public override void SetAppearance(int index)
         {
-            // string resPath = RoleAppearResPath.GetMaleTorsoMeshNameByIndex(index);
-            // GameObject prefeb = m_ResLoader.LoadSync(resPath) as GameObject;
-            // m_SkinnedMeshRenderer.sharedMesh = prefeb.GetComponent<MeshFilter>().sharedMesh;
-
+            base.SetAppearance(index);
+            SkinnedMeshRenderer renderer = m_SourceMesh.GetRoleMeshByType(RoleMeshPart.Male_03_Torso, index);
+            SetNewRenderer(renderer);
         }
     }
 }

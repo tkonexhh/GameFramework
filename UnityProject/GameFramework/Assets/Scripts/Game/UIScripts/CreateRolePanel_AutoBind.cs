@@ -18,5 +18,15 @@ namespace Main.Game
 		[SerializeField] private Button m_BtnFacialHairAdd;
 		[SerializeField] private Button m_BtnTorsoReduce;
 		[SerializeField] private Button m_BtnTorsoAdd;
+		[SerializeField] private Button m_BtnArmUpperReduce;
+		[SerializeField] private Button m_BtnArmUpperAdd;
+		[SerializeField] private Button m_BtnArmLowerReduce;
+		[SerializeField] private Button m_BtnArmLowerAdd;
+		[SerializeField] private Button m_BtnHandReduce;
+		[SerializeField] private Button m_BtnHandAdd;
+		[SerializeField] private Button m_BtnHipsReduce;
+		[SerializeField] private Button m_BtnHipsAdd;
+		[SerializeField] private Button m_BtnLegReduce;
+		[SerializeField] private Button m_BtnLegAdd;
 	}
 }

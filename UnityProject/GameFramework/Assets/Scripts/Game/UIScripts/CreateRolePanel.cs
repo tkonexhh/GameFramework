@@ -22,6 +22,11 @@ namespace Main.Game
         private int m_EyebrowsIndex;
         private int m_FacialHairIndex;
         private int m_TorsoIndex;
+        private int m_ArmUpperIndex;
+        private int m_ArmLowerIndex;
+        private int m_HandIndex;
+        private int m_HipsIndex;
+        private int m_LegIndex;
 
 
         private int m_MaxHeadIndex;
@@ -36,34 +41,34 @@ namespace Main.Game
             m_BtnHeadReduce.onClick.AddListener(() =>
             {
                 m_HeadIndex--;
-                RefeshHead(m_HeadIndex);
+                RefeshBody(BodyPartEnum.Head, m_HeadIndex);
             });
             m_BtnHeadAdd.onClick.AddListener(() =>
             {
                 m_HeadIndex++;
-                RefeshHead(m_HeadIndex);
+                RefeshBody(BodyPartEnum.Head, m_HeadIndex);
                 //if(m_HeadIndex>=)
             });
             m_BtnEyeBrowReduce.onClick.AddListener(() =>
             {
                 m_EyebrowsIndex--;
-                RefeshEyebrows(m_EyebrowsIndex);
+                RefeshBody(BodyPartEnum.Eyebrows, m_EyebrowsIndex);
             });
             m_BtnEyeBrowAdd.onClick.AddListener(() =>
             {
                 m_EyebrowsIndex++;
-                RefeshEyebrows(m_EyebrowsIndex);
+                RefeshBody(BodyPartEnum.Eyebrows, m_EyebrowsIndex);
             });
             m_BtnFacialHairAdd.onClick.AddListener(() =>
             {
                 m_FacialHairIndex++;
-                RefeshFacialHair(m_FacialHairIndex);
+                RefeshBody(BodyPartEnum.FacialHair, m_FacialHairIndex);
             });
 
             m_BtnFacialHairReduce.onClick.AddListener(() =>
            {
                m_FacialHairIndex--;
-               RefeshFacialHair(m_FacialHairIndex);
+               RefeshBody(BodyPartEnum.FacialHair, m_FacialHairIndex);
            });
 
             m_BtnTorsoAdd.onClick.AddListener(() =>
@@ -77,6 +82,68 @@ namespace Main.Game
                m_TorsoIndex--;
                RefeshBody(BodyPartEnum.Torso, m_TorsoIndex);
            });
+
+
+            m_BtnArmLowerAdd.onClick.AddListener(() =>
+            {
+                m_ArmLowerIndex++;
+                RefeshBody(BodyPartEnum.Arm_Lower, m_ArmLowerIndex);
+            });
+
+            m_BtnArmLowerReduce.onClick.AddListener(() =>
+            {
+                m_ArmLowerIndex--;
+                RefeshBody(BodyPartEnum.Arm_Lower, m_ArmLowerIndex);
+            });
+
+            m_BtnArmUpperAdd.onClick.AddListener(() =>
+            {
+                m_ArmUpperIndex++;
+                RefeshBody(BodyPartEnum.Arm_Upper, m_ArmUpperIndex);
+            });
+
+            m_BtnArmUpperReduce.onClick.AddListener(() =>
+            {
+                m_ArmUpperIndex--;
+                RefeshBody(BodyPartEnum.Arm_Upper, m_ArmUpperIndex);
+            });
+
+            m_BtnHandAdd.onClick.AddListener(() =>
+            {
+                m_HandIndex++;
+                RefeshBody(BodyPartEnum.Hand, m_HandIndex);
+            });
+
+            m_BtnHandReduce.onClick.AddListener(() =>
+            {
+                m_HandIndex--;
+                RefeshBody(BodyPartEnum.Hand, m_HandIndex);
+            });
+
+            m_BtnHipsAdd.onClick.AddListener(() =>
+            {
+                m_HipsIndex++;
+                RefeshBody(BodyPartEnum.Hips, m_HipsIndex);
+            });
+
+            m_BtnHipsReduce.onClick.AddListener(() =>
+            {
+                m_HipsIndex--;
+                RefeshBody(BodyPartEnum.Hips, m_HipsIndex);
+            });
+
+
+            m_BtnLegAdd.onClick.AddListener(() =>
+            {
+                m_LegIndex++;
+                RefeshBody(BodyPartEnum.Leg, m_LegIndex);
+            });
+
+            m_BtnLegReduce.onClick.AddListener(() =>
+            {
+                m_LegIndex--;
+                RefeshBody(BodyPartEnum.Leg, m_LegIndex);
+            });
         }
 
 
@@ -95,21 +162,6 @@ namespace Main.Game
         private void RefeshBody(BodyPartEnum partEnum, int index)
         {
             m_MaleGo.ChangeBodyPart(partEnum, index);
-        }
-
-        private void RefeshHead(int index)
-        {
-            m_MaleGo.ChangeBodyPart(BodyPartEnum.Head, index);
-        }
-
-        private void RefeshEyebrows(int index)
-        {
-            m_MaleGo.ChangeBodyPart(BodyPartEnum.Eyebrows, index);
-        }
-
-        private void RefeshFacialHair(int index)
-        {
-            m_MaleGo.ChangeBodyPart(BodyPartEnum.FacialHair, index);
         }
 
     }
