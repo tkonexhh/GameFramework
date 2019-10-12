@@ -16,9 +16,11 @@ namespace Main.Game
     public partial class CreateRolePanel : MonoBehaviour
     {
         [SerializeField] RoleAppearance m_MaleGo;
+        [SerializeField] RoleAppearance m_FemaleGo;
 
 
         private int m_HeadIndex;
+        private int m_HairIndex;
         private int m_EyebrowsIndex;
         private int m_FacialHairIndex;
         private int m_TorsoIndex;
@@ -27,10 +29,13 @@ namespace Main.Game
         private int m_HandIndex;
         private int m_HipsIndex;
         private int m_LegIndex;
+        private int m_ShoulderIndex;
+        private int m_ElbowIndex;
+        private int m_KneeIndex;
+        private int m_HipsAIndex;
+        private int m_EarIndex;
 
 
-        private int m_MaxHeadIndex;
-        private int m_MaxEyebrowsIndex;
 
         private void Awake()
         {
@@ -41,12 +46,22 @@ namespace Main.Game
             m_BtnHeadReduce.onClick.AddListener(() =>
             {
                 m_HeadIndex--;
-                RefeshBody(BodyPartEnum.Head, m_HeadIndex);
+                RefeshBody(BodyPartEnum.Face, m_HeadIndex);
             });
             m_BtnHeadAdd.onClick.AddListener(() =>
             {
                 m_HeadIndex++;
-                RefeshBody(BodyPartEnum.Head, m_HeadIndex);
+                RefeshBody(BodyPartEnum.Face, m_HeadIndex);
+            });
+            m_BtnHairReduce.onClick.AddListener(() =>
+            {
+                m_HairIndex--;
+                RefeshBody(BodyPartEnum.Hair, m_HairIndex);
+            });
+            m_BtnHairAdd.onClick.AddListener(() =>
+            {
+                m_HairIndex++;
+                RefeshBody(BodyPartEnum.Hair, m_HairIndex);
                 //if(m_HeadIndex>=)
             });
             m_BtnEyeBrowReduce.onClick.AddListener(() =>
@@ -144,24 +159,87 @@ namespace Main.Game
                 m_LegIndex--;
                 RefeshBody(BodyPartEnum.Leg, m_LegIndex);
             });
+
+
+            m_BtnShoulderAdd.onClick.AddListener(() =>
+            {
+                m_ShoulderIndex++;
+                RefeshBody(BodyPartEnum.ShoulderAttachment, m_ShoulderIndex);
+            });
+
+            m_BtnShoulderReduce.onClick.AddListener(() =>
+            {
+                m_ShoulderIndex--;
+                RefeshBody(BodyPartEnum.ShoulderAttachment, m_ShoulderIndex);
+            });
+
+            m_BtnElbowAdd.onClick.AddListener(() =>
+           {
+               m_ElbowIndex++;
+               RefeshBody(BodyPartEnum.ElbowAttachment, m_ElbowIndex);
+           });
+
+            m_BtnElbowReduce.onClick.AddListener(() =>
+            {
+                m_ElbowIndex--;
+                RefeshBody(BodyPartEnum.ElbowAttachment, m_ElbowIndex);
+            });
+
+            m_BtnKneeAdd.onClick.AddListener(() =>
+            {
+                m_KneeIndex++;
+                RefeshBody(BodyPartEnum.KneeAttachment, m_KneeIndex);
+            });
+
+            m_BtnKneeReduce.onClick.AddListener(() =>
+            {
+                m_KneeIndex--;
+                RefeshBody(BodyPartEnum.KneeAttachment, m_KneeIndex);
+            });
+
+            m_BtnHipsAAdd.onClick.AddListener(() =>
+           {
+               m_HipsAIndex++;
+               RefeshBody(BodyPartEnum.HipsAttachment, m_HipsAIndex);
+           });
+
+            m_BtnHipsAReduce.onClick.AddListener(() =>
+            {
+                m_HipsAIndex--;
+                RefeshBody(BodyPartEnum.HipsAttachment, m_HipsAIndex);
+            });
+
+            m_BtnEarAdd.onClick.AddListener(() =>
+            {
+                m_EarIndex++;
+                RefeshBody(BodyPartEnum.Ear, m_EarIndex);
+            });
+
+            m_BtnEarReduce.onClick.AddListener(() =>
+            {
+                m_EarIndex--;
+                RefeshBody(BodyPartEnum.Ear, m_EarIndex);
+            });
         }
 
 
         private void ShowRole(SexType sex)
         {
-            if (sex == SexType.Male)
-            {
-                m_MaleGo.gameObject.SetActive(true);
-            }
-            else
-            {
-                m_MaleGo.gameObject.SetActive(false);
-            }
+            // if (sex == SexType.Male)
+            // {
+            //     m_MaleGo.gameObject.SetActive(true);
+            // }
+            // else
+            // {
+            //     m_MaleGo.gameObject.SetActive(false);
+            // }
         }
 
         private void RefeshBody(BodyPartEnum partEnum, int index)
         {
+            //m_MaleGo.
             m_MaleGo.ChangeBodyPart(partEnum, index);
+            m_FemaleGo.ChangeBodyPart(partEnum, index);
         }
 
     }

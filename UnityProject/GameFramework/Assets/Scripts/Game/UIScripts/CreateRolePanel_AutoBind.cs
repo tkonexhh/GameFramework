@@ -12,6 +12,8 @@ namespace Main.Game
 		[SerializeField] private Toggle m_ToggleFemale;
 		[SerializeField] private Button m_BtnHeadReduce;
 		[SerializeField] private Button m_BtnHeadAdd;
+		[SerializeField] private Button m_BtnHairReduce;
+		[SerializeField] private Button m_BtnHairAdd;
 		[SerializeField] private Button m_BtnEyeBrowReduce;
 		[SerializeField] private Button m_BtnEyeBrowAdd;
 		[SerializeField] private Button m_BtnFacialHairReduce;
@@ -28,5 +30,15 @@ namespace Main.Game
 		[SerializeField] private Button m_BtnHipsAdd;
 		[SerializeField] private Button m_BtnLegReduce;
 		[SerializeField] private Button m_BtnLegAdd;
+		[SerializeField] private Button m_BtnShoulderReduce;
+		[SerializeField] private Button m_BtnShoulderAdd;
+		[SerializeField] private Button m_BtnElbowReduce;
+		[SerializeField] private Button m_BtnElbowAdd;
+		[SerializeField] private Button m_BtnKneeReduce;
+		[SerializeField] private Button m_BtnKneeAdd;
+		[SerializeField] private Button m_BtnHipsAReduce;
+		[SerializeField] private Button m_BtnHipsAAdd;
+		[SerializeField] private Button m_BtnEarReduce;
+		[SerializeField] private Button m_BtnEarAdd;
 	}
 }

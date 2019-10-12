@@ -110,6 +110,17 @@ namespace GFrame
             return comp;
         }
 
+        public static T AddMissingComponent<T>(this Transform trans) where T : Component
+        {
+            T comp = trans.GetComponent<T>();
+            if (comp == null)
+            {
+                comp = trans.gameObject.AddComponent<T>();
+            }
+
+            return comp;
+        }
+
     }
 }
 
