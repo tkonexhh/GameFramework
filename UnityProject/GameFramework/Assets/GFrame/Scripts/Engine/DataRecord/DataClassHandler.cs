@@ -84,7 +84,7 @@ namespace GFrame
             if (m_Data != null)
             {
                 m_Data.OnDataLoadFinish();
-                return;
+                // /return;
             }
 
             // m_Data = new T();

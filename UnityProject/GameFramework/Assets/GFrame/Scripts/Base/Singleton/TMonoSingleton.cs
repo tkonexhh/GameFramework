@@ -7,7 +7,7 @@ namespace GFrame
 
 
 
-    public class TMonoSingleton<T> : MonoBehaviour, ISingleton where T : TMonoSingleton<T>, new()
+    public abstract class TMonoSingleton<T> : MonoBehaviour, ISingleton where T : TMonoSingleton<T>, new()
     {
 
         protected static T instance = null;
@@ -51,16 +51,16 @@ namespace GFrame
 
             return instance;
         }
-        // Start is called before the first frame update
-        void Start()
-        {
+        // // Start is called before the first frame update
+        // void Start()
+        // {
 
-        }
+        // }
 
-        // Update is called once per frame
-        void Update()
-        {
+        // // Update is called once per frame
+        // void Update()
+        // {
 
-        }
+        // }
     }
 }

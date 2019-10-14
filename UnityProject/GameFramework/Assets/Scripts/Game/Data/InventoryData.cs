@@ -5,13 +5,13 @@ using GFrame;
 
 namespace Main.Game
 {
-    public class GameData : IDataClass
-    {
-        public int m_Score;
 
-        public GameData()
+    public class InventoryData : IDataClass
+    {
+        public int id;
+        public InventoryData()
         {
-            SetDirtyRecorder(PlayerDataMgr.dataDirtyRecorder);
+            SetDirtyRecorder(InventoryDataMgr.dataDirtyRecorder);
         }
 
         public override void InitWithEmptyData()

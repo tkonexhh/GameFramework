@@ -12,18 +12,17 @@ namespace GFrame
             AppConfig.S.InitAppConfig();
             ResMgr.S.InitResMgr();
             UIMgr.S.Init();
-            StartApp();
-        }
-
-        void StartApp()
-        {
             StartGame();
         }
 
         void StartGame()
         {
 
+            //Game
+            //StartGame();
         }
+
+
     }
 }
 

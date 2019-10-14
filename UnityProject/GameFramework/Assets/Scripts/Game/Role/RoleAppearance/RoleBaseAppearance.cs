@@ -44,18 +44,18 @@ namespace Main.Game
                 return;
 
             m_SkinnedMeshRenderer.localBounds = renderer.localBounds;
-            Debug.LogError(m_SkinnedMeshRenderer.rootBone.name + "----" + renderer.rootBone.name);
-            if (m_SkinnedMeshRenderer.rootBone.name != renderer.rootBone.name)
-            {
-                //m_SkinnedMeshRenderer.BakeMesh(renderer.sharedMesh);
-                // for (int i = 0; i < m_SkinnedMeshRenderer.bones.Length; i++)
-                // {
-                //     Debug.LogError(m_SkinnedMeshRenderer.bones[i]);
-                // }
-                //m_SkinnedMeshRenderer.bones = renderer.bones;
-                // m_SkinnedMeshRenderer.rootBone=re
-                m_SkinnedMeshRenderer.rootBone = m_Appearance.Bones.GetTargetBones(renderer.rootBone.name);
-            }
+            //Debug.LogError(m_SkinnedMeshRenderer.rootBone.name + "----" + renderer.rootBone.name);
+            // if (m_SkinnedMeshRenderer.rootBone.name != renderer.rootBone.name)
+            // {
+            //     //m_SkinnedMeshRenderer.BakeMesh(renderer.sharedMesh);
+            //     // for (int i = 0; i < m_SkinnedMeshRenderer.bones.Length; i++)
+            //     // {
+            //     //     Debug.LogError(m_SkinnedMeshRenderer.bones[i]);
+            //     // }
+            //     //m_SkinnedMeshRenderer.bones = renderer.bones;
+            //     // m_SkinnedMeshRenderer.rootBone=re
+            //     m_SkinnedMeshRenderer.rootBone = m_Appearance.Bones.GetTargetBones(renderer.rootBone.name);
+            // }
             m_SkinnedMeshRenderer.sharedMesh = renderer.sharedMesh;
         }
 
