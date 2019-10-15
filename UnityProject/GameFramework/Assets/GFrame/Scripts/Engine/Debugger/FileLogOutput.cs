@@ -23,8 +23,8 @@ namespace GFrame
             if (LogMgr.S.fileLogLevel == LogLevel.None)
                 return;
             System.DateTime now = System.DateTime.Now;
-            string logName = string.Format("Log_{0}{1}{2}{3}{4}{5}",
-                now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+            string logName = string.Format("Log_{0}_{1}_{2}_{3}_{4}_{5}",
+                now.Year, now.Month.ToString().PadLeft(2, '0'), now.Day.ToString().PadLeft(2, '0'), now.Hour.ToString().PadLeft(2, '0'), now.Minute.ToString().PadLeft(2, '0'), now.Second).ToString().PadLeft(2, '0');
             string logPath = string.Format("{0}{1}/{2}.txt", FilePath.persistentDataPath, LogPath, logName);
             if (File.Exists(logPath))
                 File.Delete(logPath);
@@ -35,10 +35,9 @@ namespace GFrame
             m_LogWriter.AutoFlush = true;
             m_WritingLogQueue = new Queue<LogData>();
             m_WaitingLogQueue = new Queue<LogData>();
-            m_IsRunning = true;
             m_FileLogThread = new Thread(new ThreadStart(WriteLog));
             m_FileLogThread.Start();
-
+            m_IsRunning = true;
         }
 
         void WriteLog()
@@ -75,6 +74,10 @@ namespace GFrame
 
         public void FileLog(LogData logData)
         {
+            if (!m_IsRunning)
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(logData.log))
             {
                 return;

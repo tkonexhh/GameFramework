@@ -4168,9 +4168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67e26941e2c84c07afdc811d73a00c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ImgIcon: {fileID: 0}
-  m_TxtNum: {fileID: 0}
-  m_TxtValue: {fileID: 0}
+  m_ImgIcon: {fileID: 8482055745562988929}
+  m_TxtNum: {fileID: 1088165433716472405}
+  m_TxtValue: {fileID: 4295453364037229776}
 --- !u!222 &8150827483609730188
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4220,7 +4220,7 @@ GameObject:
   - component: {fileID: 6510532267587390004}
   - component: {fileID: 1088165433716472405}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Txt_Num
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4530,6 +4530,7 @@ MonoBehaviour:
   - {fileID: 582393792}
   - {fileID: 344038321}
   - {fileID: 1083184131}
+  m_InventoryItemPrefab: {fileID: 1404649090666076674}
 --- !u!1 &6069241748493482951
 GameObject:
   m_ObjectHideFlags: 0

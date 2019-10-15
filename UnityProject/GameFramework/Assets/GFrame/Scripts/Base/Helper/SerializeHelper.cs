@@ -55,7 +55,7 @@ namespace GFrame
             return true;
         }
 
-        public static bool SerializeJson(string path, object obj, bool encry)
+        public static bool SerializeJson(string path, object obj, bool encry = false)
         {
             string jsonValue = GetJson(obj, encry);
             if (string.IsNullOrEmpty(jsonValue))
@@ -67,7 +67,7 @@ namespace GFrame
             return true;
         }
 
-        public static T DeserializeJson<T>(string path, bool encry)
+        public static T DeserializeJson<T>(string path, bool encry = false)
         {
             if (string.IsNullOrEmpty(path))
             {

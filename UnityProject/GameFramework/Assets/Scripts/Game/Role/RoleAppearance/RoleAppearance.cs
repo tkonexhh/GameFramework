@@ -30,10 +30,10 @@ namespace Main.Game
     {
         [SerializeField] protected RoleSourceMesh m_SourceMesh;
         [SerializeField] protected RoleBones m_Bones;
-        public RoleBones Bones
-        {
-            get { return m_Bones; }
-        }
+        // public RoleBones Bones
+        // {
+        //     get { return m_Bones; }
+        // }
 
         [SerializeField] protected RoleFace m_Head;
         [SerializeField] protected RoleHair m_Hair;
@@ -115,6 +115,11 @@ namespace Main.Game
             }
         }
 
+        public void ChangeBodyPart(EquipAppearanceAttachment attachment)
+        {
+            ChangeBodyPart(attachment.part, attachment.id);
+        }
+
         private List<RoleBaseAppearance> GetRoleAppearanceByPart(BodyPartEnum body)
         {
             List<RoleBaseAppearance> appearances = new List<RoleBaseAppearance>();
@@ -179,6 +184,18 @@ namespace Main.Game
             }
 
             return appearances;
+        }
+
+        //穿装备
+        public void Equip(Equip equip)
+        {
+            Debug.LogError("Equip");
+            List<EquipAppearanceAttachment> attachments = equip.Appearance.attachments;
+            List<RoleBaseAppearance> appearances = new List<RoleBaseAppearance>();
+            for (int i = 0; i < attachments.Count; i++)
+            {
+                ChangeBodyPart(attachments[i]);
+            }
         }
     }
 }

@@ -55,7 +55,8 @@ namespace GFrame
 
             if (!m_PoolMap.TryGetValue(poolName, out pool))
             {
-                Log.e("Allocate No Pool");
+                Log.e("Allocate No Pool at:" + poolName);
+                return null;
             }
 
             return pool.Allocate();

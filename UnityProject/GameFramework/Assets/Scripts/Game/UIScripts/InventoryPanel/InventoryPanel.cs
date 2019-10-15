@@ -27,6 +27,7 @@ namespace Main.Game
         private void Awake()
         {
 
+            GameObjectPoolMgr.S.AddPool("InventoryItem", m_InventoryItemPrefab.gameObject, 50, 20);
             for (int i = 0; i < m_NavIcons.Count; i++)
             {
                 m_NavIcons[i].Init((InventoryType)i);
@@ -39,7 +40,7 @@ namespace Main.Game
             }
 
             Showpage(InventoryType.Weapon);
-            GameObjectPoolMgr.S.AddPool("InventoryItem", m_InventoryItemPrefab.gameObject, 50, 20);
+
         }
 
         private void Showpage(InventoryType type)
@@ -56,6 +57,13 @@ namespace Main.Game
                     m_NavIcons[i].SetSelect(false);
                 }
             }
+
+            // for (int i = 0; i < 10; i++)
+            // {
+            //     var go = GameObjectPoolMgr.S.Allocate("InventoryItem");
+            //     go.transform.SetParent(transform);
+            // }
+
         }
 
 

@@ -24,7 +24,7 @@ namespace GFrame
             {
                 Log.e("#Not Find Type at:" + name);
             }
-
+            #region 
             // Type type = null;
             // foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             // {
@@ -35,6 +35,7 @@ namespace GFrame
             //         break;
             //     }
             // }
+            #endregion
 
             return type;
         }

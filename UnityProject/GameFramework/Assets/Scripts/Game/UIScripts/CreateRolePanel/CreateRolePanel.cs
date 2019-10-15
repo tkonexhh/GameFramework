@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GFrame;
@@ -220,6 +221,9 @@ namespace Main.Game
                 m_EarIndex--;
                 RefeshBody(BodyPartEnum.Ear, m_EarIndex);
             });
+
+
+
         }
 
 
@@ -241,6 +245,25 @@ namespace Main.Game
             m_MaleGo.ChangeBodyPart(partEnum, index);
             m_FemaleGo.ChangeBodyPart(partEnum, index);
         }
+
+        // private void Update()
+        // {
+        //     if (Input.GetKeyDown(KeyCode.M))
+        //     {
+        //         EquipAppearance appearance = new EquipAppearance();
+        //         appearance.attachments = new List<EquipAppearanceAttachment>();
+        //         EquipAppearanceAttachment a1 = new EquipAppearanceAttachment();
+        //         a1.part = BodyPartEnum.Leg;
+        //         a1.id = 1;
+        //         EquipAppearanceAttachment a2 = new EquipAppearanceAttachment();
+        //         a2.part = BodyPartEnum.KneeAttachment;
+        //         a2.id = 1;
+        //         appearance.attachments.Add(a1);
+        //         appearance.attachments.Add(a2);
+        //         Equip equip = new Equip(null, appearance);
+        //         m_MaleGo.Equip(equip);
+        //     }
+        // }
 
     }
 }
