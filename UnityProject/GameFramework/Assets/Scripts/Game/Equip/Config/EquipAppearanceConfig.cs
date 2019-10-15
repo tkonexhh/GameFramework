@@ -33,19 +33,7 @@ namespace Main.Game
         [Description("手部")]
         Hand,
     }
-    // public enum EquipAppearancePartType
-    // {
-    //     //Head
-    //     Head,
-    //     Chest,
-    //     Back,
-    //     Hand,
-    //     Shoulders,
-    //     Elbow,
-    //     Leg,
-    //     Knee,
-    //     Extra
-    // }
+
     [Serializable]
     public class EquipAppearanceConfig : ScriptableObject
     {

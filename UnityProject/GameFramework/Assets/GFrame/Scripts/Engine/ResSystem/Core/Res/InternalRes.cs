@@ -26,14 +26,12 @@ namespace GFrame
 
         public override bool LoadSync()//同步加载
         {
-
             if (string.IsNullOrEmpty(m_Name))
             {
                 return false;
             }
 
             m_Asset = Resources.Load(Name2Path(m_Name));
-            m_Asset = asset;
             if (m_Asset != null)
             {
                 return true;

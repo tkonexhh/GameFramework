@@ -12,3 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f2e3b87f8d3745f4aebf9510ffb8b8f, type: 3}
   m_Name: EquipAppearanceConfig
   m_EditorClassIdentifier: 
+  m_Female:
+    m_HeadAppearances:
+    - name: "\u86EE\u65CF-\u5934\u76D4"
+      attachments: []
+    - name: 
+      attachments: []
+    - name: 
+      attachments: []
+    m_TorsoAppearances: []
+    m_ShouldersAppearances: []
+    m_HandAppearances: []
+    m_HipsAppearances: []
+    m_LegAppearances: []
+  m_Male:
+    m_HeadAppearances:
+    - name: 
+      attachments: []
+    - name: 
+      attachments: []
+    m_TorsoAppearances: []
+    m_ShouldersAppearances: []
+    m_HandAppearances: []
+    m_HipsAppearances: []
+    m_LegAppearances: []
+  m_Common:
+    m_HeadAttachement: []
+    m_ShoulderAttachement: []
+    m_ChestAttachement: []
+    m_BackAttachement: []
+    m_HipAttachement: []
+    m_KneeAttachement: []
+    m_Extra: []
