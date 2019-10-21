@@ -81,15 +81,13 @@ namespace GFrame
         public static List<FieldInfo> GetFields(Type type)
         {
             List<FieldInfo> list = new List<FieldInfo>();
-            list.AddRange(type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static));
+            list.AddRange(type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static));
             while ((type = type.BaseType) != typeof(Object))
             {
-                list.AddRange(type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static));
+                list.AddRange(type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static));
             }
             return list;
         }
-
-
     }
 }
 

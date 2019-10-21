@@ -18,5 +18,5 @@ MonoBehaviour:
   m_ABTableFileName: ABTableConfig.bin
   m_RESTableFileName: ResTableConfig.bin
   m_ExternalToolsPath: /../../../Tools/
-  m_ExternalTablePath: /../../../Tables/
+  m_ExternalTablePath: /../../../Tables/Sources/
   m_TableScriptOutPutPath: /Scripts/Game/Table

@@ -11,7 +11,7 @@ namespace Main.Game
         // Start is called before the first frame update
         void Start()
         {
-            GameDataMgr.S.Init();
+            //GameDataMgr.S.Init();
             // gameObject.get
             // for (int i = 0; i < types.Length; i++)
             // {

@@ -28,8 +28,9 @@ namespace GFrame
         [SerializeField] private string m_ABTableFileName = "ABTableConfig.bin";
         [SerializeField] private string m_RESTableFileName = "ResTableConfig.bin";
         [SerializeField] private string m_ExternalToolsPath = "/../../../Tools/";
-        [SerializeField] private string m_ExternalTablePath = "/../../../Tables/";
+        [SerializeField] private string m_ExternalTablePath = "/../../../Tables/Sources/";
         [SerializeField] private string m_TableScriptOutPutPath = "/Scripts/Game/Table";
+
         #endregion
 
 

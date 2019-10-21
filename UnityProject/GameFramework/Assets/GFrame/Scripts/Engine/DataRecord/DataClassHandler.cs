@@ -11,15 +11,71 @@ namespace GFrame
     {
         //是否加密
         private static bool ENCRY = false;
-
         protected static T m_Data;
         protected static bool m_AutoSave = false;
+        protected static int m_AutoSaveTimer;
         protected static string m_FileName;
         protected static string m_FileNameKey;
 
         public static T data
         {
             get { return m_Data; }
+        }
+
+        private bool autoSave
+        {
+            get { return m_AutoSave; }
+            set
+            {
+                if (m_AutoSave == value)
+                {
+                    return;
+                }
+
+                m_AutoSave = value;
+
+                if (m_AutoSave)
+                {
+                    EventSystem.S.Register(EngineEventID.OnAfterApplicationPauseChange, OnAutoSaveChecker);
+                    EventSystem.S.Register(EngineEventID.OnApplicationQuit, OnApplicationQuit);
+
+                    if (m_AutoSaveTimer <= 0)
+                    {
+                        m_AutoSaveTimer = Timer.S.Post2Really(OnAutoSaveTimer, 180, -1);
+                    }
+                }
+                else
+                {
+                    EventSystem.S.UnRegister(EngineEventID.OnAfterApplicationPauseChange, OnAutoSaveChecker);
+                    EventSystem.S.UnRegister(EngineEventID.OnApplicationQuit, OnApplicationQuit);
+
+                    if (m_AutoSaveTimer > 0)
+                    {
+                        Timer.S.Cancel(m_AutoSaveTimer);
+                        m_AutoSaveTimer = -1;
+                    }
+                }
+            }
+        }
+
+
+        protected void OnAutoSaveTimer(int count)
+        {
+            Save();
+        }
+
+        protected void OnAutoSaveChecker(int key, params object[] args)
+        {
+            bool pause = (bool)args[0];
+            if (pause)
+            {
+                Save();
+            }
+        }
+
+        protected void OnApplicationQuit(int key, params object[] args)
+        {
+            Save();
         }
 
         protected static string dataFilePath
@@ -51,12 +107,12 @@ namespace GFrame
 
         public void EnableAutoSave()
         {
-            m_AutoSave = true;
+            autoSave = true;
         }
 
         public void DisableAutoSave()
         {
-            m_AutoSave = false;
+            autoSave = false;
         }
 
         public static void SetFileNameKey(string key)
@@ -91,7 +147,6 @@ namespace GFrame
             // m_Data.InitWithEmptyData();
             // m_Data.SetDataDirty();
             // m_Data.OnDataLoadFinish();
-
         }
 
         public static void Save()

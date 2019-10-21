@@ -57,13 +57,22 @@ namespace Main.Game
                     m_NavIcons[i].SetSelect(false);
                 }
             }
-
+            SqliteMgr.S.Init();
             // for (int i = 0; i < 10; i++)
             // {
             //     var go = GameObjectPoolMgr.S.Allocate("InventoryItem");
             //     go.transform.SetParent(transform);
             // }
 
+        }
+
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                InventoryDataMgr.AddItem(100001, 1);
+            }
         }
 
 

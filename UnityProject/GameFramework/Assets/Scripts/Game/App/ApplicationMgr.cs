@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GFrame;
 
-namespace GFrame
+namespace Main.Game
 {
 
     public class ApplicationMgr : TMonoSingleton<ApplicationMgr>
@@ -13,12 +14,12 @@ namespace GFrame
             ResMgr.S.InitResMgr();
             UIMgr.S.Init();
             StartGame();
+
         }
 
         void StartGame()
         {
-
-            //Game
+            GameMgr.S.Init();
             //StartGame();
         }
 

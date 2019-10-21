@@ -12,7 +12,7 @@ namespace GFrame.UnityEditor
     //添加数据
     public class TableCreater : EditorWindow
     {
-        [MenuItem("Custom/Window/TableCreaterWindow")]
+        [MenuItem("Custom/Window/表格创建工具")]//TableCreaterWindow
         public static void CreateTable()
         {
             EditorWindow.GetWindow<TableCreater>(true, "创建配置表", true);

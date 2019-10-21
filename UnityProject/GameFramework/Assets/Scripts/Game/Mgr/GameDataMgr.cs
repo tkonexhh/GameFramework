@@ -43,5 +43,15 @@ namespace Main.Game
             Load();
         }
 
+
+        public static void AddItem(int id, int num)
+        {
+            ItemData item = new ItemData();
+            item.ID = id;
+            item.Num = num;
+            data.AddItem(item);
+            InventoryDataMgr.Save();
+        }
+
     }
 }

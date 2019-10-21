@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 namespace GFrame
@@ -45,7 +46,6 @@ namespace GFrame
                     }
                 }
 
-
                 return true;
             }
 
@@ -79,32 +79,31 @@ namespace GFrame
 
         #region func
 
-        public bool Register(int key, OnEvent func)
+        public bool Register<T>(T key, OnEvent func) where T : IConvertible
         {
+            int kv = key.ToInt32(null);
             ListenerWarp warp;
-            if (!m_ListenerMap.TryGetValue(key, out warp))
+            if (!m_ListenerMap.TryGetValue(kv, out warp))
             {
                 warp = new ListenerWarp();
-                m_ListenerMap.Add(key, warp);
+                m_ListenerMap.Add(kv, warp);
             }
 
             if (warp.Add(func))
             {
                 return true;
             }
-
-
             return false;
         }
 
-        public void UnRegister(int key, OnEvent func)
+        public void UnRegister<T>(T key, OnEvent func) where T : IConvertible
         {
+            int kv = key.ToInt32(null);
             ListenerWarp warp;
-            if (m_ListenerMap.TryGetValue(key, out warp))
+            if (m_ListenerMap.TryGetValue(kv, out warp))
             {
                 warp.Remove(func);
             }
-
         }
 
         public bool Send(int key, params object[] param)
@@ -114,7 +113,6 @@ namespace GFrame
             {
                 return warp.Send(key, param);
             }
-
             return false;
         }
         #endregion

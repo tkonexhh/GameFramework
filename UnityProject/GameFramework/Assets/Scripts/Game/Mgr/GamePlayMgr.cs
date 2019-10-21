@@ -1,18 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GFrame;
 
-public class GamePlayMgr : MonoBehaviour
+public class GamePlayMgr : TMonoSingleton<GamePlayMgr>
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

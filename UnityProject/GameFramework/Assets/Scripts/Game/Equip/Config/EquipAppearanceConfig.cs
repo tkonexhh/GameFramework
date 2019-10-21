@@ -16,10 +16,10 @@ namespace Main.Game
     }
     public enum EquipPartType
     {
-        // [Description("主手武器")]
-        // Mainhand_Weapons = 0,
-        // [Description("副手武器")]
-        // Offhand_Weapons,
+        [Description("主手武器")]
+        Mainhand_Weapons = 0,
+        [Description("副手武器")]
+        Offhand_Weapons,
         [Description("头部")]
         Head,
         [Description("躯干部")]

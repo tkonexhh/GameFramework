@@ -11,7 +11,9 @@ namespace Main.Game
     {
         public void Init()
         {
+            GameDataMgr.S.Init();
 
+            GamePlayMgr.S.Init();
         }
     }
 }
