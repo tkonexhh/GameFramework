@@ -3,10 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using GFrame;
 
-public class GamePlayMgr : TMonoSingleton<GamePlayMgr>
+namespace Main.Game
 {
-    public void Init()
+
+    public class GamePlayMgr : TMonoSingleton<GamePlayMgr>
     {
-        UIMgr.S.OpenPanel("Resources/UI/Panel/InventoryPanel");
+        public override void OnSingletonInit()
+        {
+            gameObject.AddMissingComponent<ModuleMgr>();
+        }
+
+
+        public void Init()
+        {
+            // UIMgr.S.OpenPanel("Resources/UI/Panel/InventoryPanel");
+            UIMgr.S.OpenPanel(UIID.InventoryPanel);
+        }
     }
 }

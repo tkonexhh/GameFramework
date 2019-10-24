@@ -8,10 +8,11 @@ namespace Main.Game
     public class ModuleMgr : AbstractActor
     {
 
-        private void Start()
+        protected override void OnActorAwake()
         {
             AddComponent<InputModule>();
             AddComponent<TableModule>();
+            AddComponent<UIDataModule>();
         }
 
 
