@@ -15,7 +15,8 @@ namespace Main.Game
             {
                 if (m_SourceMesh == null)
                 {
-                    GameObject pre = ResLoader.Allocate("asd").LoadSync("Resources/Model/ModularCharactersFBX_Source_Prefeb") as GameObject;
+                    GameObject prefab = ResLoader.Allocate("asd").LoadSync("Resources/Model/ModularCharactersFBX_Source_Prefeb") as GameObject;
+                    GameObject pre = GameObject.Instantiate(prefab);
                     pre.SetLocalPos(Vector3.one * 5000);
                     m_SourceMesh = pre.GetComponent<RoleSourceMesh>();
                 }

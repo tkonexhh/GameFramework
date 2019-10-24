@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using CircularScrollView;
+using GFrame;
 
 namespace Main.Game
 {
@@ -14,8 +14,8 @@ namespace Main.Game
 
         private void Awake()
         {
-            m_ScrollView.Init(CellRender);
-            m_ScrollView.ShowList(50);
+            // m_ScrollView.Init(CellRender);
+            // m_ScrollView.ShowList(50);
         }
 
         private void CellRender(GameObject gameObject, int index)

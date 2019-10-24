@@ -12,7 +12,7 @@ namespace Main.Game
         public void Init()
         {
             GameDataMgr.S.Init();
-
+            SqliteMgr.S.Init();
             GamePlayMgr.S.Init();
         }
     }

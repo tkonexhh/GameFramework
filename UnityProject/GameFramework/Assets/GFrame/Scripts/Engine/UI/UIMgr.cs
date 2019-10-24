@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace GFrame
 {
@@ -9,12 +10,22 @@ namespace GFrame
     {
         private const string UIROOTPATH = "Resources/UI/UIRoot";
 
+        private EventSystem m_UIEventSystem = ObjectPool<EventSystem>.S.Allocate();
         private UIRoot m_UIRoot;
+
         public UIRoot uiRoot
         {
             get
             {
                 return m_UIRoot;
+            }
+        }
+
+        public EventSystem uiEventSystem
+        {
+            get
+            {
+                return m_UIEventSystem;
             }
         }
         public override void OnSingletonInit()
@@ -38,10 +49,10 @@ namespace GFrame
         private UIRoot LoadUIRoot()
         {
             ResLoader loader = ResLoader.Allocate("UIMgr");
-            // loader.Add2Load("Resources/UI/UIRoot");
+            // loader.Add2Load(UIROOTPATH);
             // loader.LoadSync();
 
-            Object uiRootObj = loader.LoadSync("Resources/UI/UIRoot");
+            UnityEngine.Object uiRootObj = loader.LoadSync(UIROOTPATH);
             if (uiRootObj == null)
             {
                 Log.e("Failed To Load UIRoot at" + UIROOTPATH);
@@ -49,6 +60,37 @@ namespace GFrame
             }
             GameObject uiRootGo = GameObject.Instantiate(uiRootObj as GameObject);
             return uiRootGo.GetComponent<UIRoot>();
+        }
+
+
+        public void OpenPanel<T>(T uiID, params object[] args) where T : IConvertible
+        {
+
+        }
+
+        public void OpenPanel<T>(T uiID, PanelType panelType, Action<AbstractPanel> listener, params object[] args) where T : IConvertible
+        {
+
+        }
+
+        ResLoader m_Loader;
+        public void OpenPanel(string name)
+        {
+            if (m_Loader == null)
+                m_Loader = ResLoader.Allocate("UIMGR");
+
+            GameObject prefab = m_Loader.LoadSync(name) as GameObject;
+            GameObject obj = GameObject.Instantiate(prefab);
+            var panel = obj.GetComponent<AbstractPanel>();
+            if (panel == null) return;
+
+            obj.transform.SetParent(uiRoot.panelRoot);
+            obj.transform.Reset();
+
+            RectTransform rect = obj.GetComponent<RectTransform>();
+            rect.SetAnchor(AnchorPresets.StretchAll);
+            rect.SetSize(new Vector2(uiRoot.rootCanvas.pixelRect.width, uiRoot.rootCanvas.pixelRect.height));
+            //rect.SetAnchors
         }
     }
 }

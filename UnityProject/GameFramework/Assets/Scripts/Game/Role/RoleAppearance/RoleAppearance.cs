@@ -83,7 +83,7 @@ namespace Main.Game
             m_KneeAttachmentLeft = GetComponentInChildren<RoleKneeAttachmentLeft>();
             m_HipsAttachment = GetComponentInChildren<RoleHipsAttachment>();
             m_Ear = GetComponentInChildren<RoleEar>();
-
+            m_SourceMesh = RoleMgr.S.SourceMesh;
             m_Hair.Init(this, m_SourceMesh, RoleMeshPart.All_01_Hair);
             m_ShoulderAttachmentRight.Init(this, m_SourceMesh, RoleMeshPart.All_05_Shoulder_Attachment_Right);
             m_ShoulderAttachmentLeft.Init(this, m_SourceMesh, RoleMeshPart.All_06_Shoulder_Attachment_Left);

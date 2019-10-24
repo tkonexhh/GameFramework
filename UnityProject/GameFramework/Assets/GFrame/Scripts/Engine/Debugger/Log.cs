@@ -64,6 +64,12 @@ namespace GFrame
             if (CheckLogLevel(LogLevel.Normal))
                 Debug.LogFormat(msg, args);
         }
+
+        public static void Assert(bool condition, object msg)
+        {
+            if (CheckLogLevel(LogLevel.Assert))
+                Debug.Assert(condition, msg);
+        }
     }
 
 

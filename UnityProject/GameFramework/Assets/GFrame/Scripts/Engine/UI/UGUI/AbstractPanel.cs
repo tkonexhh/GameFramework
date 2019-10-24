@@ -4,8 +4,16 @@ using UnityEngine;
 
 namespace GFrame
 {
+    public enum PanelType : byte
+    {
+        Bottom,
+        Auto,
+        Top,
+    }
+
+
     [RequireComponent(typeof(Canvas))]
-    public class AbstractPanel : MonoBehaviour
+    public class AbstractPanel : AbstractPage
     {
 
     }

@@ -7,6 +7,6 @@ public class GamePlayMgr : TMonoSingleton<GamePlayMgr>
 {
     public void Init()
     {
-
+        UIMgr.S.OpenPanel("Resources/UI/Panel/InventoryPanel");
     }
 }

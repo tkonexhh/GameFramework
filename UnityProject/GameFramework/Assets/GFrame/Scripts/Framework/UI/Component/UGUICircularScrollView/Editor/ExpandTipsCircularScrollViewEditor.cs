@@ -2,17 +2,17 @@
 using System.Collections;
 using UnityEditor;
 
-namespace CircularScrollView
+namespace GFrame.UnityEditor
 {
 
-    [CustomEditor(typeof(CircularScrollView.ExpandTipsCircularScrollView))]
+    [CustomEditor(typeof(ExpandTipsCircularScrollView))]
     public class ExpandTipsCircularScrollViewEditor : Editor
     {
 
         ExpandTipsCircularScrollView list;
         public override void OnInspectorGUI()
         {
-            list = (CircularScrollView.ExpandTipsCircularScrollView)target;
+            list = (ExpandTipsCircularScrollView)target;
             list.m_Direction = (e_Direction)EditorGUILayout.EnumPopup("Direction: ", list.m_Direction);
 
             list.m_Row = EditorGUILayout.IntField("Row Or Column: ", list.m_Row);

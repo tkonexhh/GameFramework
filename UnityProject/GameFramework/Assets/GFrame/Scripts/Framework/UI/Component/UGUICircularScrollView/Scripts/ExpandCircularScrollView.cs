@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CircularScrollView
+namespace GFrame
 {
     public class ExpandCircularScrollView : UICircularScrollView
     {
@@ -33,9 +33,9 @@ namespace CircularScrollView
         struct ExpandInfo
         {
             public GameObject button;
-            public bool isExpand; 
-            public CellInfo[] cellInfos; 
-            public float size; 
+            public bool isExpand;
+            public CellInfo[] cellInfos;
+            public float size;
             public int cellCount;
         }
         private ExpandInfo[] m_ExpandInfos = null;
@@ -50,7 +50,7 @@ namespace CircularScrollView
             Init(callBack, null);
         }
 
-        public void Init(Action<GameObject, GameObject, int, int> callBack, Action<GameObject, GameObject, int, int> onClickCallBack, Action<int,bool,GameObject> onButtonClickCallBack)
+        public void Init(Action<GameObject, GameObject, int, int> callBack, Action<GameObject, GameObject, int, int> onClickCallBack, Action<int, bool, GameObject> onButtonClickCallBack)
         {
             m_FuncOnButtonClickCallBack = onButtonClickCallBack;
             Init(callBack, onClickCallBack);
@@ -96,13 +96,13 @@ namespace CircularScrollView
 
             int totalCount = 0;
 
-            int beforeCellCount = 0; 
+            int beforeCellCount = 0;
 
             string[] numArray = numStr.Split('|');
             int buttonCount = numArray.Length;
 
             bool isReset;
-            if(m_IsInited && m_ExpandInfos.Length == buttonCount)
+            if (m_IsInited && m_ExpandInfos.Length == buttonCount)
             {
                 isReset = false;
             }
@@ -128,16 +128,16 @@ namespace CircularScrollView
                 float pos = 0;  //坐标( isVertical ? 记录Y : 记录X )
 
                 //-> 计算 Button 坐标
-                if(m_Direction == e_Direction.Vertical)
+                if (m_Direction == e_Direction.Vertical)
                 {
                     pos = m_ExpandButtonHeight * k + m_Spacing * (k + 1);
-                    pos += k > 0 ? (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt( (float)beforeCellCount / m_Row ) : 0;
+                    pos += k > 0 ? (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt((float)beforeCellCount / m_Row) : 0;
                     button.transform.GetComponent<RectTransform>().anchoredPosition = new Vector3(m_ExpandButtonX, -pos, 0);
                 }
                 else
                 {
                     pos = m_ExpandButtonWidth * k + m_Spacing * (k + 1);
-                    pos += k > 0 ? (m_CellObjectWidth + m_Spacing) * Mathf.CeilToInt( (float)beforeCellCount / m_Row ) : 0;
+                    pos += k > 0 ? (m_CellObjectWidth + m_Spacing) * Mathf.CeilToInt((float)beforeCellCount / m_Row) : 0;
                     button.transform.GetComponent<RectTransform>().anchoredPosition = new Vector3(pos, m_ExpandButtonY, 0);
                 }
 
@@ -149,7 +149,7 @@ namespace CircularScrollView
                 expandInfo.button = button;
                 expandInfo.cellCount = count;
                 expandInfo.cellInfos = new CellInfo[count];
-  
+
                 expandInfo.isExpand = isReset ? m_IsExpand : expandInfo.isExpand;
                 expandInfo.size = m_Direction == e_Direction.Vertical ? (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt((float)count / m_Row) : (m_CellObjectWidth + m_Spacing) * Mathf.CeilToInt((float)count / m_Row); //计算 需展开的尺寸
 
@@ -163,19 +163,19 @@ namespace CircularScrollView
                     float rowPos = 0; //计算每排里面的cell 坐标
 
                     //-> 计算Cell坐标
-                    if(m_Direction == e_Direction.Vertical)
+                    if (m_Direction == e_Direction.Vertical)
                     {
-                        pos = m_CellObjectHeight * Mathf.FloorToInt( i / m_Row ) + m_Spacing * ( Mathf.FloorToInt(i / m_Row) + 1 );
+                        pos = m_CellObjectHeight * Mathf.FloorToInt(i / m_Row) + m_Spacing * (Mathf.FloorToInt(i / m_Row) + 1);
                         pos += (m_ExpandButtonHeight + m_Spacing) * (k + 1);
-                        pos += (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt((float)beforeCellCount /m_Row);
-                        rowPos = m_CellObjectWidth * ( i % m_Row ) + m_Spacing * ( i % m_Row);
+                        pos += (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt((float)beforeCellCount / m_Row);
+                        rowPos = m_CellObjectWidth * (i % m_Row) + m_Spacing * (i % m_Row);
                         cellInfo.pos = new Vector3(rowPos, -pos, 0);
                     }
                     else
                     {
-                        pos = m_CellObjectWidth * Mathf.FloorToInt(i / m_Row) + m_Spacing * ( Mathf.FloorToInt(i / m_Row) + 1 );
+                        pos = m_CellObjectWidth * Mathf.FloorToInt(i / m_Row) + m_Spacing * (Mathf.FloorToInt(i / m_Row) + 1);
                         pos += (m_ExpandButtonWidth + m_Spacing) * (k + 1);
-                        pos += (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt( (float)beforeCellCount /m_Row );
+                        pos += (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt((float)beforeCellCount / m_Row);
                         rowPos = m_CellObjectHeight * (i % m_Row) + m_Spacing * (i % m_Row);
                         cellInfo.pos = new Vector3(pos, -rowPos, 0);
                     }
@@ -219,7 +219,7 @@ namespace CircularScrollView
             if (!m_IsInited)
             {
                 //-> 计算 Content 尺寸
-                if(m_Direction == e_Direction.Vertical)
+                if (m_Direction == e_Direction.Vertical)
                 {
                     float contentSize = m_IsExpand ? (m_Spacing + m_CellObjectHeight) * Mathf.CeilToInt((float)totalCount / m_Row) : 0;
                     contentSize += (m_Spacing + m_ExpandButtonHeight) * buttonCount;
@@ -272,7 +272,7 @@ namespace CircularScrollView
             OnClickExpand(index);
             if (m_FuncOnButtonClickCallBack != null)
             {
-				m_FuncOnButtonClickCallBack(index, m_ExpandInfos[index - 1].isExpand, button);
+                m_FuncOnButtonClickCallBack(index, m_ExpandInfos[index - 1].isExpand, button);
             }
         }
         public override void OnClickExpand(int index)
@@ -282,7 +282,7 @@ namespace CircularScrollView
 
             //-> 计算 Contant Size
             Vector2 size = m_ContentRectTrans.sizeDelta;
-            if(m_Direction == e_Direction.Vertical)
+            if (m_Direction == e_Direction.Vertical)
             {
                 float height = m_ExpandInfos[index].isExpand ? size.y + m_ExpandInfos[index].size : size.y - m_ExpandInfos[index].size;
                 m_ContentRectTrans.sizeDelta = new Vector2(size.x, height);
@@ -306,7 +306,7 @@ namespace CircularScrollView
                 {
                     //-> 计算 按钮位置
                     GameObject button = m_ExpandInfos[k].button;
-                    if(m_Direction == e_Direction.Vertical)
+                    if (m_Direction == e_Direction.Vertical)
                     {
                         pos = m_ExpandButtonHeight * k + m_Spacing * (k + 1);
                         pos += (m_CellObjectHeight + m_Spacing) * Mathf.CeilToInt((float)beforeCellCount / m_Row);
@@ -320,10 +320,10 @@ namespace CircularScrollView
                     }
 
                     ExpandInfo expandInfo = m_ExpandInfos[k];
-                    for (int i = 0; i < count; i++) 
+                    for (int i = 0; i < count; i++)
                     {
                         //-> 按钮 收 状态时
-                        if(!expandInfo.isExpand)
+                        if (!expandInfo.isExpand)
                         {
                             if (expandInfo.cellInfos[i].obj != null)
                             {
@@ -336,7 +336,7 @@ namespace CircularScrollView
                         CellInfo cellInfo = expandInfo.cellInfos[i];
 
                         // * -> 计算每个Cell坐标
-                        if(m_Direction == e_Direction.Vertical)
+                        if (m_Direction == e_Direction.Vertical)
                         {
                             pos = m_CellObjectHeight * Mathf.FloorToInt(i / m_Row) + m_Spacing * (Mathf.FloorToInt(i / m_Row) + 1);
                             pos += (m_ExpandButtonHeight + m_Spacing) * (k + 1);
@@ -368,7 +368,7 @@ namespace CircularScrollView
                         cell.gameObject.name = k + "-" + i.ToString();
 
                         //-> 回调
-                        if(cellInfo.obj == null)
+                        if (cellInfo.obj == null)
                         {
                             Func(m_FuncCallBackFunc, button, cell, expandInfo.isExpand);
                         }
@@ -418,7 +418,7 @@ namespace CircularScrollView
                 {
                     RectTransform backgroundTransform = background.GetComponent<RectTransform>();
                     float total_h = expandInfo.size;
-                    if(m_Direction == e_Direction.Vertical)
+                    if (m_Direction == e_Direction.Vertical)
                     {
                         if (total_h > 3)
                         {
@@ -443,20 +443,20 @@ namespace CircularScrollView
 
             if (m_ExpandInfos == null) return;
 
-            for(int k = 0, length = m_ExpandInfos.Length; k < length; k++)
+            for (int k = 0, length = m_ExpandInfos.Length; k < length; k++)
             {
                 ExpandInfo expandInfo = m_ExpandInfos[k];
-                if(!expandInfo.isExpand)
+                if (!expandInfo.isExpand)
                 {
                     continue;
                 }
 
                 int count = expandInfo.cellCount;
-                for(int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
                     CellInfo cellInfo = expandInfo.cellInfos[i];
                     float rangePos = m_Direction == e_Direction.Vertical ? cellInfo.pos.y : cellInfo.pos.x;
-                    if(IsOutRange(rangePos))
+                    if (IsOutRange(rangePos))
                     {
                         SetPoolsObj(cellInfo.obj);
                         m_ExpandInfos[k].cellInfos[i].obj = null;

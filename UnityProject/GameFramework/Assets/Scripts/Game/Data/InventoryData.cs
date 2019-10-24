@@ -43,6 +43,13 @@ namespace Main.Game
             }
             SetDataDirty();
         }
+
+        public List<ItemData> GetItemsByType(InventoryType type)
+        {
+            //List<ItemData> lst = new List<ItemData>();
+
+            return m_Items;
+        }
     }
 
     public class ItemData

@@ -18747,7 +18747,7 @@ GameObject:
   - component: {fileID: 1664099770069298580}
   - component: {fileID: 3863149073743547201}
   m_Layer: 0
-  m_Name: ModularCharactersFBX 1
+  m_Name: ModularCharactersFBX_Source_Prefeb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18761,7 +18761,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664099770062033556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5000, y: 5000, z: 5000}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1664099770062141450}

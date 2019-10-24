@@ -8,7 +8,7 @@ namespace GFrame
 {
 
     public delegate void OnEvent(int key, params object[] param);
-    public class EventSystem : TSingleton<EventSystem>
+    public class EventSystem : TSingleton<EventSystem>, IPoolAble
     {
 
         private Dictionary<int, ListenerWarp> m_ListenerMap = new Dictionary<int, ListenerWarp>();
@@ -116,5 +116,10 @@ namespace GFrame
             return false;
         }
         #endregion
+
+        public void OnCacheReset()
+        {
+            m_ListenerMap.Clear();
+        }
     }
 }

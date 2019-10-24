@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CircularScrollView
+namespace GFrame
 {
     public class ExpandTipsCircularScrollView : UICircularScrollView
     {
@@ -40,7 +40,7 @@ namespace CircularScrollView
 
             m_ExpandTipsHeight = m_ExpandTips.GetComponent<RectTransform>().rect.height;
 
-           if( m_Arrow != null)
+            if (m_Arrow != null)
             {
                 var arrowRectTrams = m_Arrow.GetComponent<RectTransform>();
                 arrowRectTrams.pivot = new Vector2(0.5f, 0.5f);
@@ -49,9 +49,9 @@ namespace CircularScrollView
             }
         }
 
-        public override void ShowList(int num)
+        public override void SetCount(int num)
         {
-            base.ShowList(num);
+            base.SetCount(num);
 
             m_IsExpand = false;
             m_IsClearList = true;
@@ -63,7 +63,7 @@ namespace CircularScrollView
         private string lastClickCellName = null;
         public override void OnClickCell(GameObject cell)
         {
-            if(lastClickCellName == null || cell.name == lastClickCellName || !m_IsExpand)
+            if (lastClickCellName == null || cell.name == lastClickCellName || !m_IsExpand)
             {
                 m_IsExpand = !m_IsExpand;
             }
@@ -85,7 +85,7 @@ namespace CircularScrollView
 
             m_MinIndex = -1;
 
-            for(int i = 0, length = m_CellInfos.Length ; i < length; i++)
+            for (int i = 0, length = m_CellInfos.Length; i < length; i++)
             {
                 CellInfo cellInfo = m_CellInfos[i];
 
@@ -95,13 +95,13 @@ namespace CircularScrollView
                 pos = m_CellObjectHeight * Mathf.FloorToInt(i / m_Row) + m_Spacing * (Mathf.FloorToInt(i / m_Row) + 1);
                 rowPos = m_CellObjectWidth * (i % m_Row) + m_Spacing * (i % m_Row);
 
-                pos += (i/m_Row >= curRow && m_IsExpand) ? m_ExpandTipsHeight + m_TipsSpacing*2 - m_Spacing : 0; //往下移 Tips框高 和 距离
+                pos += (i / m_Row >= curRow && m_IsExpand) ? m_ExpandTipsHeight + m_TipsSpacing * 2 - m_Spacing : 0; //往下移 Tips框高 和 距离
 
                 cellInfo.pos = new Vector3(rowPos, -pos, 0);
 
-                if(IsOutRange(-pos))
+                if (IsOutRange(-pos))
                 {
-                    if(cellInfo.obj != null)
+                    if (cellInfo.obj != null)
                     {
                         SetPoolsObj(cellInfo.obj);
                         cellInfo.obj = null;

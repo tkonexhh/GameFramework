@@ -16,17 +16,19 @@ namespace Main.Game
         Material,
         Key,
     }
-    public class InventoryPanel : MonoBehaviour
+    public class InventoryPanel : AbstractPanel
     {
         [SerializeField] private List<InventoryNavIcon> m_NavIcons;
         [SerializeField] private InventoryItem m_InventoryItemPrefab;
-
+        [SerializeField] private IUListView m_Scroll;
+        [SerializeField] private InventoryRoleRoot m_RoleRoot;
         private InventoryType m_CurInventoryType;
 
 
-        private void Awake()
-        {
 
+        protected override void OnUIInit()
+        {
+            Debug.LogError("OnUIInit");
             GameObjectPoolMgr.S.AddPool("InventoryItem", m_InventoryItemPrefab.gameObject, 50, 20);
             for (int i = 0; i < m_NavIcons.Count; i++)
             {
@@ -38,6 +40,7 @@ namespace Main.Game
                     Showpage((InventoryType)index);
                 });
             }
+            m_Scroll.SetCellRenderer(OnCellRenderer);
 
             Showpage(InventoryType.Weapon);
 
@@ -57,12 +60,12 @@ namespace Main.Game
                     m_NavIcons[i].SetSelect(false);
                 }
             }
-            SqliteMgr.S.Init();
-            // for (int i = 0; i < 10; i++)
-            // {
-            //     var go = GameObjectPoolMgr.S.Allocate("InventoryItem");
-            //     go.transform.SetParent(transform);
-            // }
+
+            m_Scroll.SetDataCount(InventoryDataMgr.data.GetItemsByType(m_CurInventoryType).Count);
+        }
+
+        private void OnCellRenderer(Transform root, int index)
+        {
 
         }
 

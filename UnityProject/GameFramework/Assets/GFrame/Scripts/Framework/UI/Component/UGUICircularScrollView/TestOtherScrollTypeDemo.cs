@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using CircularScrollView;
+using GFrame;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TestOtherScrollTypeDemo : MonoBehaviour {
+public class TestOtherScrollTypeDemo : MonoBehaviour
+{
 
     public ExpandCircularScrollView expandScroll;
     public ExpandTipsCircularScrollView expandTipsScroll;
@@ -33,10 +34,10 @@ public class TestOtherScrollTypeDemo : MonoBehaviour {
         expandScroll.ShowList("3|2|5|8");
 
         expandTipsScroll.Init(ExpandTipsCallBack, OnClickExpandTipsCallBack);
-        expandTipsScroll.ShowList(30);
+        expandTipsScroll.SetCount(30);
 
         flipPageScroll.Init(FlipPageCallBack);
-        flipPageScroll.ShowList(10);
+        flipPageScroll.SetCount(10);
 
     }
 

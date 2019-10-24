@@ -130,7 +130,7 @@ namespace GFrame
                     }
                 }
             }
-            Log.e("#Not Find ResCreate For Res:" + name);
+            Log.e("#Not Find ResCreater For Res:" + name);
             return null;
         }
     }

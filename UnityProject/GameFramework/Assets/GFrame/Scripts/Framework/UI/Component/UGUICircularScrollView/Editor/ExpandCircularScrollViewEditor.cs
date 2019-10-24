@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using GFrame;
 
-namespace CircularScrollView
+namespace GFrame.UnityEditor
 {
 
-    [CustomEditor(typeof(CircularScrollView.ExpandCircularScrollView))]
+    [CustomEditor(typeof(ExpandCircularScrollView))]
     public class ExpandCircularScrollViewEditor : Editor
     {
 
         ExpandCircularScrollView list;
         public override void OnInspectorGUI()
         {
-            list = (CircularScrollView.ExpandCircularScrollView)target;
+            list = (ExpandCircularScrollView)target;
             list.m_Direction = (e_Direction)EditorGUILayout.EnumPopup("Direction: ", list.m_Direction);
 
             list.m_Row = EditorGUILayout.IntField("Row Or Column: ", list.m_Row);

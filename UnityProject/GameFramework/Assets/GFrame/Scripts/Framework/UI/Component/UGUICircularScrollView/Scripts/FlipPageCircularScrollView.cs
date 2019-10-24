@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace CircularScrollView
+namespace GFrame
 {
     public class FlipPageCircularScrollView : UICircularScrollView
     {
@@ -46,9 +46,9 @@ namespace CircularScrollView
 
         protected new Action<int> m_FuncOnClickCallBack;
 
-        public override void ShowList(int num)
+        public override void SetCount(int num)
         {
-            base.ShowList(num);
+            base.SetCount(num);
             ListPageValueInit();
         }
 
@@ -151,19 +151,19 @@ namespace CircularScrollView
 
         void Update()
         {
-                if (!m_IsDrag)
-                {
-                    if (m_ScrollRect == null) return;
+            if (!m_IsDrag)
+            {
+                if (m_ScrollRect == null) return;
 
-                    if(m_Direction == e_Direction.Vertical)
-                    {
-                        m_ScrollRect.verticalNormalizedPosition = Mathf.Lerp(m_ScrollRect.verticalNormalizedPosition, m_TargetPos, Time.deltaTime * m_SlideSpeed);
-                    }
-                    else
-                    {
-                        m_ScrollRect.horizontalNormalizedPosition = Mathf.Lerp(m_ScrollRect.horizontalNormalizedPosition, m_TargetPos, Time.deltaTime * m_SlideSpeed);
-                    }
+                if (m_Direction == e_Direction.Vertical)
+                {
+                    m_ScrollRect.verticalNormalizedPosition = Mathf.Lerp(m_ScrollRect.verticalNormalizedPosition, m_TargetPos, Time.deltaTime * m_SlideSpeed);
                 }
+                else
+                {
+                    m_ScrollRect.horizontalNormalizedPosition = Mathf.Lerp(m_ScrollRect.horizontalNormalizedPosition, m_TargetPos, Time.deltaTime * m_SlideSpeed);
+                }
+            }
         }
         /// 拖动开始   
         public override void OnBeginDrag(PointerEventData eventData)
@@ -182,7 +182,7 @@ namespace CircularScrollView
                 return;
             }
             float tempPos = 0;
-            if(m_Direction == e_Direction.Vertical)
+            if (m_Direction == e_Direction.Vertical)
             {
                 tempPos = m_ScrollRect.verticalNormalizedPosition;
             }

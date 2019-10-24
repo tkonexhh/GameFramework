@@ -2,16 +2,16 @@
 using System.Collections;
 using UnityEditor;
 
-namespace CircularScrollView
+namespace GFrame.UnityEditor
 {
 
-    [CustomEditor(typeof(CircularScrollView.FlipPageCircularScrollView))]
+    [CustomEditor(typeof(FlipPageCircularScrollView))]
     public class FlipPageCircularScrollViewEditor : Editor
     {
         FlipPageCircularScrollView list;
         public override void OnInspectorGUI()
         {
-            list = (CircularScrollView.FlipPageCircularScrollView)target;
+            list = (FlipPageCircularScrollView)target;
             list.m_Direction = (e_Direction)EditorGUILayout.EnumPopup("Direction: ", list.m_Direction);
 
             list.m_Row = EditorGUILayout.IntField("Row Or Column: ", list.m_Row);
