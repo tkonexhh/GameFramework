@@ -1,0 +1,3 @@
+[submodule "UnityProject/GameFramework/Assets/Submodule/GFrame"]
+	path = UnityProject/GameFramework/Assets/Submodule/GFrame
+	url = https://github.com/tkonexhh/GFrame
