@@ -17,10 +17,6 @@ namespace GFrame
         OnSortingLayerUpdate,
         DumpTest,
     }
-    // public class VideDefine
-    // {
-
-    // }
 }
 
 

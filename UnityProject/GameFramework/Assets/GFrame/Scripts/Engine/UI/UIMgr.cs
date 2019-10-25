@@ -65,6 +65,11 @@ namespace GFrame
 
         public void OpenPanel<T>(T uiID, params object[] args) where T : IConvertible
         {
+            OpenPanel(uiID, PanelType.Auto, null, args);
+        }
+
+        public void OpenPanel<T>(T uiID, PanelType panelType, Action<AbstractPanel> listener, params object[] args) where T : IConvertible
+        {
             UIData uIData = UIDataTable.Get(uiID);
             if (uIData == null)
             {
@@ -75,7 +80,7 @@ namespace GFrame
             if (m_Loader == null)
                 m_Loader = ResLoader.Allocate("UIMGR");
 
-            GameObject prefab = m_Loader.LoadSync(uIData.name) as GameObject;
+            GameObject prefab = m_Loader.LoadSync(uIData.fullPath) as GameObject;
             GameObject obj = GameObject.Instantiate(prefab);
             var panel = obj.GetComponent<AbstractPanel>();
             if (panel == null) return;
@@ -86,11 +91,6 @@ namespace GFrame
             RectTransform rect = obj.GetComponent<RectTransform>();
             rect.SetAnchor(AnchorPresets.StretchAll);
             rect.SetSize(new Vector2(uiRoot.rootCanvas.pixelRect.width, uiRoot.rootCanvas.pixelRect.height));
-
-        }
-
-        public void OpenPanel<T>(T uiID, PanelType panelType, Action<AbstractPanel> listener, params object[] args) where T : IConvertible
-        {
 
         }
 

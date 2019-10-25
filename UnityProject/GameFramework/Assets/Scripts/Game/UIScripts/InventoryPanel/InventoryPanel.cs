@@ -18,6 +18,7 @@ namespace Main.Game
     }
     public class InventoryPanel : AbstractPanel
     {
+        [SerializeField] private Button m_BtnClose;
         [SerializeField] private List<InventoryNavIcon> m_NavIcons;
         [SerializeField] private InventoryItem m_InventoryItemPrefab;
         [SerializeField] private IUListView m_Scroll;
@@ -29,6 +30,7 @@ namespace Main.Game
         protected override void OnUIInit()
         {
             Debug.LogError("OnUIInit");
+            m_BtnClose.onClick.AddListener(OnClickClose);
             GameObjectPoolMgr.S.AddPool("InventoryItem", m_InventoryItemPrefab.gameObject, 50, 20);
             for (int i = 0; i < m_NavIcons.Count; i++)
             {
@@ -69,6 +71,10 @@ namespace Main.Game
 
         }
 
+        private void OnClickClose()
+        {
+            CloseSelfPanel();
+        }
 
         private void Update()
         {

@@ -124,7 +124,7 @@ namespace GFrame
                         DrawSliced(output.uiVertex, count);
                         break;
                     case Image.Type.Tiled:
-
+                        DrawTiled(output.uiVertex, count);
                         break;
                     case Image.Type.Filled:
 

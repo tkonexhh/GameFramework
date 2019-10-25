@@ -16,7 +16,6 @@ namespace Main.Game
 
         private void RegisterPanel()
         {
-            Debug.LogError("RegisterPanel");
             UIDataTable.SetABMode(false);
 
             UIDataTable.AddPanelData(UIID.InventoryPanel, "Resources/UI/Panel/InventoryPanel");
