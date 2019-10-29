@@ -6,10 +6,22 @@ using GFrame;
 namespace Main.Game
 {
 
+    public enum InventoryType
+    {
+        Weapon,
+        Bow,
+        Shield,
+        Clouth,
+        Food,
+        Material,
+        Key,
+    }
+
     public class InventoryData : IDataClass
     {
-        public List<ItemData> m_Items;
-        private Dictionary<int, ItemData> m_ItemMap;
+        public List<InventoryEquipData> m_EquipItems;
+        public List<InventoryItemData> m_Items;
+        private Dictionary<int, InventoryItemData> m_ItemMap;
         public InventoryData()
         {
             SetDirtyRecorder(InventoryDataMgr.dataDirtyRecorder);
@@ -17,46 +29,83 @@ namespace Main.Game
 
         public override void InitWithEmptyData()
         {
-            m_Items = new List<ItemData>();
+            m_Items = new List<InventoryItemData>();
+            m_EquipItems = new List<InventoryEquipData>();
         }
 
         public override void OnDataLoadFinish()
         {
-            m_ItemMap = new Dictionary<int, ItemData>();
+            m_ItemMap = new Dictionary<int, InventoryItemData>();
             for (int i = 0; i < m_Items.Count; i++)
             {
                 m_ItemMap.Add(m_Items[i].ID, m_Items[i]);
             }
         }
 
-        public void AddItem(ItemData item)
+        public void AddItem(InventoryItemData item)
         {
-            ItemData itemData;
-            if (m_ItemMap.TryGetValue(item.ID, out itemData))
+            if (item is InventoryEquipData)
             {
-                itemData.Num += item.Num;
+                m_EquipItems.Add(item as InventoryEquipData);
             }
-            else
+            else //if (item is InventoryItemData)
             {
-                m_Items.Add(item);
-                m_ItemMap.Add(item.ID, item);
+                InventoryItemData itemData;
+                if (m_ItemMap.TryGetValue(item.ID, out itemData))
+                {
+                    itemData.Num += item.Num;
+                }
+                else
+                {
+                    m_Items.Add(item);
+                    m_ItemMap.Add(item.ID, item);
+                }
             }
+
             SetDataDirty();
         }
 
-        public List<ItemData> GetItemsByType(InventoryType type)
+        public void RemoveItem(InventoryItemData item)
         {
-            //List<ItemData> lst = new List<ItemData>();
+            if (item is InventoryEquipData)
+            {
+                m_EquipItems.Remove(item as InventoryEquipData);
+            }
+            else
+            {
+                InventoryItemData itemData;
+                if (m_ItemMap.TryGetValue(item.ID, out itemData))
+                {
+                    m_ItemMap.Remove(item.ID);
+                    m_Items.Remove(item);
+                }
+            }
+        }
 
-            return m_Items;
+        public List<InventoryItemData> GetItemsByType(InventoryType type)
+        {
+            if (type == InventoryType.Weapon)
+            {
+                return m_EquipItems.ConvertAll(s => s as InventoryItemData);
+            }
+            else
+            {
+                return m_Items;
+            }
         }
     }
 
-    public class ItemData
+    public class InventoryItemData
     {
         public int ID;
         public int Num;
-        private ItemSqliteData m_Config;
+        //private ItemSqliteData m_Config;
+    }
+
+
+    public class InventoryEquipData : InventoryItemData
+    {
+        public int Star;
     }
 
 

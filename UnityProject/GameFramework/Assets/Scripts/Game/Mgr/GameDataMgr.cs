@@ -46,11 +46,25 @@ namespace Main.Game
 
         public static void AddItem(int id, int num)
         {
-            ItemData item = new ItemData();
+            InventoryItemData item = new InventoryItemData();
             item.ID = id;
             item.Num = num;
             data.AddItem(item);
             InventoryDataMgr.Save();
+        }
+
+        public static void AddEquip(int id)
+        {
+            InventoryEquipData equipData = new InventoryEquipData();
+            equipData.ID = id;
+            equipData.Num = 1;
+            data.AddItem(equipData);
+            InventoryDataMgr.Save();
+        }
+
+        public static void RemoveEquip(InventoryEquipData equipData)
+        {
+            data.RemoveItem(equipData);
         }
 
     }
